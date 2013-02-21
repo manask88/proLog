@@ -2,9 +2,15 @@
 <resources>
 	<string name="contacts">Contacts</string>
     <string name="addNew">Add New</string>
-	<string name="viewList">View List</string>
+    <string name="skip">Skip</string>
+    <string name="sync">Sync</string>
+    <string name="syncWith">Sync with</string>
+    
+    <string name="viewList">View List</string>
 	<string name="interactions">Interactions</string>	
 	<string name="followUps">Follow Ups</string>	
+	<string name="welcomeText">Welcome Textblalblablablablablalbalbsdfsdfsdf</string>	
+	<string name="recommendText">We recommend you bring in your contacts</string>	
 	
 	<string name="viewGroups">View Groups</string>	
     <string name="app_name">proLog</string>
