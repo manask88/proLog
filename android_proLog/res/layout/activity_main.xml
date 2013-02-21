@@ -1,0 +1,198 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/mainLinearLayoutMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white" >
+        </SearchView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="164dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:gravity="center_horizontal"
+                android:text="@string/contacts"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey"
+                    android:orientation="vertical"
+                    android:layout_weight=".33" >
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@android:drawable/ic_input_add" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        
+                        android:text="@string/addNew"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" 
+                   
+                        />
+                </LinearLayout>
+
+              	<LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey"
+                    android:orientation="vertical"
+                    android:layout_weight=".33" >
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@android:drawable/ic_input_add" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/viewList"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+				
+				<LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey"
+                    android:orientation="vertical"
+                    android:layout_weight=".33" >
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@android:drawable/ic_input_add" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/viewGroups"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+             
+                
+            </LinearLayout>
+        </LinearLayout>
+        
+        
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="164dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:gravity="center_horizontal"
+                android:text="@string/interactions"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey"
+                    android:orientation="vertical"
+                    android:layout_weight=".5" >
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@android:drawable/ic_input_add" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        
+                        android:text="@string/addNew"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" 
+                   
+                        />
+                </LinearLayout>
+
+              	<LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey"
+                    android:orientation="vertical"
+                    android:layout_weight=".5" >
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:src="@android:drawable/ic_input_add" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/followUps"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+				
+		
+             
+                
+            </LinearLayout>
+        </LinearLayout>
+        
+        
+        
+        
+        
+        
+        
+    </LinearLayout>
+
+</RelativeLayout>
