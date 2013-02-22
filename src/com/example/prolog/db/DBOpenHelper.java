@@ -11,29 +11,29 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "prolog.db";
 	private static final int DATABASE_VERSION = 1; /* change it whenever making changes on db scheleton*/
 	
-	private static final String TABLE_CONTACTS = "contacts";
-	private static final String COLUMN_ID = "contactId";
-	private static final String COLUMN_NAME = "name";
-	private static final String COLUMN_TITLE = "title";
-	private static final String COLUMN_COMPANY = "company";
-	private static final String COLUMN_HOME_WORK = "home_phone";
-	private static final String COLUMN_WORK_PHONE = "work_phone";
-	private static final String COLUMN_EMAIL = "email";
-	private static final String COLUMN_LOCATION = "location";
+	public static final String TABLE_CONTACTS = "contacts";
+	public static final String COLUMN_ID = "contactId";
+	public static final String COLUMN_NAME = "name";
+	public static final String COLUMN_TITLE = "title";
+	public static final String COLUMN_COMPANY = "company";
+	public static final String COLUMN_HOME_PHONE = "home_phone";
+	public static final String COLUMN_WORK_PHONE = "work_phone";
+	public static final String COLUMN_EMAIL = "email";
+	public static final String COLUMN_LOCATION = "location";
 
 
 	
 	
 	private static final String TABLE_CREATE =
-			"CREATE TABLE IF NOT EXISTS" + TABLE_CONTACTS + " ( " +
+			"CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + " ( " +
 			COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COLUMN_NAME + " TEXT, " +
 			COLUMN_TITLE + " TEXT, " +
 			COLUMN_COMPANY + " TEXT, " +
-			COLUMN_HOME_WORK + " TEXT, " +
+			COLUMN_HOME_PHONE + " TEXT, " +
 			COLUMN_WORK_PHONE + " TEXT, " +
 			COLUMN_EMAIL + " TEXT, " +
-			COLUMN_LOCATION + " TEXT, " +
+			COLUMN_LOCATION + " TEXT" +
 			")";
 
 	
@@ -48,6 +48,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.i(LOGTAG, "testx");
 		db.execSQL(TABLE_CREATE);
 		Log.i(LOGTAG, "Table has been created");
 	}
