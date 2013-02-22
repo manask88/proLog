@@ -1,6 +1,7 @@
 package com.example.prolog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 import android.content.Context;
@@ -24,13 +25,13 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 			groups.add(group);
 		}
 		int index = groups.indexOf(group);
-		ArrayList<ExpandListChild> ch = groups.get(index).getItems();
+		List<ExpandListChild> ch = groups.get(index).getItems();
 		ch.add(item);
 		groups.get(index).setItems(ch);
 	}
 	public Object getChild(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
-		ArrayList<ExpandListChild> chList = groups.get(groupPosition).getItems();
+		List<ExpandListChild> chList = groups.get(groupPosition).getItems();
 		return chList.get(childPosition);
 	}
 
@@ -55,7 +56,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 
 	public int getChildrenCount(int groupPosition) {
 		// TODO Auto-generated method stub
-		ArrayList<ExpandListChild> chList = groups.get(groupPosition).getItems();
+		List<ExpandListChild> chList = groups.get(groupPosition).getItems();
 
 		return chList.size();
 
