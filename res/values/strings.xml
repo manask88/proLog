@@ -30,8 +30,9 @@
     <string name="title_activity_contact_view">ContactViewActivity</string>
     <string name="title_activity_contact_list">ContactListActivity</string>
     <string name="title_activity_new_contact">NewContactActivity</string>
-   
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+    <string name="title_activity_group_list">GroupListActivity</string>
+
 </resources>

@@ -53,22 +53,24 @@ public final class R {
     public static final class layout {
         public static final int activity_add_contact=0x7f030000;
         public static final int activity_contact_list=0x7f030001;
-        public static final int activity_main=0x7f030002;
-        public static final int activity_new_contact=0x7f030003;
-        public static final int activity_sync=0x7f030004;
-        public static final int activity_sync_loading=0x7f030005;
-        public static final int expandlist_child_item=0x7f030006;
-        public static final int expandlist_group_item=0x7f030007;
-        public static final int fragment_contact_view_dummy=0x7f030008;
-        public static final int fragment_new_contact_dummy=0x7f030009;
+        public static final int activity_group_list=0x7f030002;
+        public static final int activity_main=0x7f030003;
+        public static final int activity_new_contact=0x7f030004;
+        public static final int activity_sync=0x7f030005;
+        public static final int activity_sync_loading=0x7f030006;
+        public static final int expandlist_child_item=0x7f030007;
+        public static final int expandlist_group_item=0x7f030008;
+        public static final int fragment_contact_view_dummy=0x7f030009;
+        public static final int fragment_new_contact_dummy=0x7f03000a;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
         public static final int add_contact=0x7f080001;
         public static final int contact_list=0x7f080002;
         public static final int contact_view=0x7f080003;
-        public static final int new_contact=0x7f080004;
-        public static final int sync_loading=0x7f080005;
+        public static final int group_list=0x7f080004;
+        public static final int new_contact=0x7f080005;
+        public static final int sync_loading=0x7f080006;
     }
     public static final class string {
         public static final int action_settings=0x7f05000f;
@@ -89,6 +91,7 @@ public final class R {
         public static final int title_activity_add_contact=0x7f05000e;
         public static final int title_activity_contact_list=0x7f050016;
         public static final int title_activity_contact_view=0x7f050015;
+        public static final int title_activity_group_list=0x7f05001b;
         public static final int title_activity_new_contact=0x7f050017;
         public static final int title_activity_sync_loading=0x7f050013;
         public static final int title_section1=0x7f050018;
