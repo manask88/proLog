@@ -48,6 +48,7 @@
                     android:layout_weight=".33" >
 
                     <ImageButton
+                        android:id="@+id/add_new_contact"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -73,6 +74,7 @@
                     android:layout_weight=".33" >
 
                     <ImageButton
+                        android:id="@+id/view_contact_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -95,6 +97,7 @@
                     android:layout_weight=".33" >
 
                     <ImageButton
+                        android:id="@+id/view_group_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
