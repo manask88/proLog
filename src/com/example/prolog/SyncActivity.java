@@ -2,12 +2,15 @@ package com.example.prolog;
 
 import java.util.ArrayList;
 
+import com.example.prolog.db.ContactsDataSource;
+import com.example.prolog.model.Contact;
+
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +18,22 @@ import android.widget.ExpandableListView;
 
 public class SyncActivity extends Activity{
 
+	public static final String LOGTAG="EXPLORECA";
+
 	private ExpandListAdapter ExpAdapter;
 	private ArrayList<ExpandListGroup> ExpListItems;
 	private ExpandableListView ExpandList;
 	private Button buttonSkip;
+	private Button buttonSync;
+
 	private Context context = this;
-	
+	ContactsDataSource datasource;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sync);
+		datasource=new ContactsDataSource(this);
 		buttonSkip = (Button) findViewById(R.id.buttonSyncSkip);
 		buttonSkip.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
@@ -33,12 +41,42 @@ public class SyncActivity extends Activity{
 				}
 			});
 		    
+		buttonSync = (Button) findViewById(R.id.buttonSyncSync);
+		buttonSync.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					datasource.open();	
+					Contact contact=new Contact();
+					contact.setName("test");
+					createContact(contact);
+				}
+			});
+		
+		
 		ExpandList = (ExpandableListView) findViewById(R.id.ExpList);
 	    ExpListItems = SetStandardGroups();
 	    ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
 	    ExpandList.setAdapter(ExpAdapter);
 	    }
-	    
+	 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		datasource.open();
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		datasource.close();
+	}
+	
+	private void createContact(Contact contact) {
+		contact = datasource.create(contact);
+		Log.i(LOGTAG, "Contact created with id "+ contact.getId());
+	}
+	
 	    public ArrayList<ExpandListGroup> SetStandardGroups() {
 	    	ArrayList<ExpandListGroup> list = new ArrayList<ExpandListGroup>();
 	    	ArrayList<ExpandListChild> list2 = new ArrayList<ExpandListChild>();
@@ -80,4 +118,6 @@ public class SyncActivity extends Activity{
 	        return list;
 	    }
 
+	   
+	    
 	}
