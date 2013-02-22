@@ -19,32 +19,24 @@ public class SyncActivity extends Activity{
 	private ArrayList<ExpandListGroup> ExpListItems;
 	private ExpandableListView ExpandList;
 	private Button buttonSkip;
-	private Context context=this;
+	private Context context = this;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sync);
-		 buttonSkip = (Button) findViewById(R.id.buttonSyncSkip);
-		 buttonSkip.setOnClickListener(new View.OnClickListener() {
-				
+		buttonSkip = (Button) findViewById(R.id.buttonSyncSkip);
+		buttonSkip.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					
 					startActivity(new Intent(context,MainActivity.class));					
-
 				}
 			});
 		    
-		
-		
-		 
-		 
-		 
-		 ExpandList = (ExpandableListView) findViewById(R.id.ExpList);
-	        ExpListItems = SetStandardGroups();
-	        ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
-	        ExpandList.setAdapter(ExpAdapter);
+		ExpandList = (ExpandableListView) findViewById(R.id.ExpList);
+	    ExpListItems = SetStandardGroups();
+	    ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
+	    ExpandList.setAdapter(ExpAdapter);
 	    }
 	    
 	    public ArrayList<ExpandListGroup> SetStandardGroups() {
