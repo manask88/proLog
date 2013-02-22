@@ -28,8 +28,10 @@
     <string name="title_activity_sync_loading">SyncLoadingActivity</string>
     <string name="please_wait">Please wait while we sync your contacts</string>
     <string name="title_activity_contact_view">ContactViewActivity</string>
+    <string name="title_activity_contact_list">ContactListActivity</string>
+    <string name="title_activity_new_contact">NewContactActivity</string>
+   
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-
 </resources>

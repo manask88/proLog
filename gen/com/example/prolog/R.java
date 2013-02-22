@@ -29,36 +29,46 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int ExpList=0x7f090005;
+        public static final int ExpList=0x7f09000a;
+        public static final int ListView01=0x7f090005;
         public static final int TextView01=0x7f090002;
         public static final int TextView02=0x7f090001;
-        public static final int action_settings=0x7f09000e;
-        public static final int buttonSyncSkip=0x7f090007;
-        public static final int buttonSyncSync=0x7f090006;
-        public static final int frameLayout1=0x7f090008;
-        public static final int mainLinearLayoutMain=0x7f090003;
-        public static final int menu_settings=0x7f09000d;
-        public static final int progressBar1=0x7f090009;
-        public static final int searchView=0x7f090004;
-        public static final int section_label=0x7f09000c;
+        public static final int action_settings=0x7f090013;
+        public static final int button1=0x7f090004;
+        public static final int buttonSyncSkip=0x7f09000c;
+        public static final int buttonSyncSync=0x7f09000b;
+        public static final int followups=0x7f090009;
+        public static final int frameLayout1=0x7f09000d;
+        public static final int interactions=0x7f090008;
+        public static final int mainLinearLayoutMain=0x7f090006;
+        public static final int menu_settings=0x7f090012;
+        public static final int progressBar1=0x7f09000e;
+        public static final int searchView=0x7f090003;
+        public static final int section_label=0x7f090011;
+        public static final int tab1=0x7f090007;
         public static final int textView1=0x7f090000;
-        public static final int tvChild=0x7f09000a;
-        public static final int tvGroup=0x7f09000b;
+        public static final int tvChild=0x7f09000f;
+        public static final int tvGroup=0x7f090010;
     }
     public static final class layout {
         public static final int activity_add_contact=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_sync=0x7f030002;
-        public static final int activity_sync_loading=0x7f030003;
-        public static final int expandlist_child_item=0x7f030004;
-        public static final int expandlist_group_item=0x7f030005;
-        public static final int fragment_contact_view_dummy=0x7f030006;
+        public static final int activity_contact_list=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_new_contact=0x7f030003;
+        public static final int activity_sync=0x7f030004;
+        public static final int activity_sync_loading=0x7f030005;
+        public static final int expandlist_child_item=0x7f030006;
+        public static final int expandlist_group_item=0x7f030007;
+        public static final int fragment_contact_view_dummy=0x7f030008;
+        public static final int fragment_new_contact_dummy=0x7f030009;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
         public static final int add_contact=0x7f080001;
-        public static final int contact_view=0x7f080002;
-        public static final int sync_loading=0x7f080003;
+        public static final int contact_list=0x7f080002;
+        public static final int contact_view=0x7f080003;
+        public static final int new_contact=0x7f080004;
+        public static final int sync_loading=0x7f080005;
     }
     public static final class string {
         public static final int action_settings=0x7f05000f;
@@ -77,11 +87,13 @@ public final class R {
         public static final int syncWith=0x7f050004;
         public static final int take_photo_bcard=0x7f050011;
         public static final int title_activity_add_contact=0x7f05000e;
+        public static final int title_activity_contact_list=0x7f050016;
         public static final int title_activity_contact_view=0x7f050015;
+        public static final int title_activity_new_contact=0x7f050017;
         public static final int title_activity_sync_loading=0x7f050013;
-        public static final int title_section1=0x7f050016;
-        public static final int title_section2=0x7f050017;
-        public static final int title_section3=0x7f050018;
+        public static final int title_section1=0x7f050018;
+        public static final int title_section2=0x7f050019;
+        public static final int title_section3=0x7f05001a;
         public static final int type_contact=0x7f050010;
         public static final int viewGroups=0x7f05000a;
         public static final int viewList=0x7f050005;
