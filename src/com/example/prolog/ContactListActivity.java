@@ -34,7 +34,7 @@ public class ContactListActivity extends Activity {
 private Context context=this;
 private ContactsDataSource datasource;
 private ArrayList<Contact> contacts = new ArrayList<Contact>();
-private ArrayList<String> arr_sort= new ArrayList<String>();
+private ArrayList<Contact> arr_sort= new ArrayList<Contact>();
 private String[] lv_arr;
 private EditText ed;
 private ListView lv;
@@ -68,7 +68,7 @@ public static final String LOGTAG="EXPLORECA";
 					long id) {
 				// TODO Auto-generated method stub
 				 Toast.makeText(context, contacts.get(position).getName(), Toast.LENGTH_LONG).show();
-				 Intent i = new Intent(context, AddContactActivity.class);
+				 Intent i = new Intent(context, MyTabActivity.class);
 				 i.putExtra("contactId", contacts.get(position).getId());
 				 startActivity(i);
 			}
@@ -81,16 +81,13 @@ public static final String LOGTAG="EXPLORECA";
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				int textlength = ed.getText().length();
                 arr_sort.clear();
                 for (int i = 0; i < lv_arr.length; i++) {
-                    if (textlength <= lv_arr[i].length()) {
-                        if (ed.getText().toString().equalsIgnoreCase((String) lv_arr[i].subSequence(0, textlength))) {
-                            arr_sort.add(lv_arr[i]);
+                        if ((lv_arr[i].toLowerCase()).contains(ed.getText().toString().toLowerCase())) {
+                            arr_sort.add(contacts.get(i));
                         }
-                    }
                 }
-                lv.setAdapter(new ArrayAdapter < String > (ContactListActivity.this, android.R.layout.simple_list_item_1, arr_sort));
+        		lv.setAdapter(new ContactListAdapter(ContactListActivity.this, R.id.activityContactListTextView, arr_sort));
 			}
 			
 			@Override

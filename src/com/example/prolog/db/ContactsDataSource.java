@@ -65,12 +65,27 @@ public class ContactsDataSource {
 		
 	}
 	
-	public void findContactbyId(long id) {
+	public Contact findContactbyId(long id) {
 	
-
-		/*Cursor cursor = database.query(DBOpenHelper.TABLE_CONTACTS, allColumns, 
-				null, null, null, null, null);
-		return contact;*/
+		Contact contact=null;
+		Cursor cursor = database.query(DBOpenHelper.TABLE_CONTACTS, allColumns, 
+				DBOpenHelper.COLUMN_ID + "=?", new String[] {Long.toString(id)}, null, null, null);
+		
+		if (cursor != null)
+        {
+			
+			if (cursor.moveToFirst())
+            {
+			
+			contact=new Contact();
+			contact.setName(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME)));
+			
+			
+            }
+			cursor.close();
+        }
+			
+		return contact;
 		
 	}
 	

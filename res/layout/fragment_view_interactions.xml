@@ -7,17 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ContactListActivity" >
+    tools:context=".ContactInteractionsActivity" >
 
-<EditText
-        android:id="@+id/EditText01"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:hint="Search" >
-
-    </EditText>
-
+    
+        <EditText
+android:id="@+id/EditText01"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@color/white"
+android:hint="Search" >
+</EditText>
 
    <TextView
        android:id="@+id/textView1"
@@ -25,7 +24,8 @@
        android:layout_height="wrap_content"
        android:layout_alignLeft="@+id/EditText01"
        android:layout_below="@+id/EditText01"
-       android:text="Contacts"
+       android:layout_marginTop="@dimen/fivedp"
+       android:text="Interactions"
        android:textColor="@color/white"
        android:textSize="15dp" />
 

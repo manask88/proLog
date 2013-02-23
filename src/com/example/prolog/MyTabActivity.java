@@ -6,13 +6,22 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 public class MyTabActivity extends Activity {
 
+	
+	public static final String LOGTAG=MyTabActivity.class.getSimpleName();
+	public long contactId;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Bundle b = getIntent().getExtras();
+		contactId = b.getLong("contactId");
+		Log.i(LOGTAG,"Contact id: "+ contactId );
+		
 		ActionBar actionBar = getActionBar();
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -20,16 +29,16 @@ public class MyTabActivity extends Activity {
 		String label1 = getResources().getString(R.string.tab_label_1);
 		Tab tab = actionBar.newTab();
 		tab.setText(label1);
-		TabListener<InformationFragment> tl = new TabListener<InformationFragment>(this,
-				label1, InformationFragment.class);
+		TabListener<ViewContactFragment> tl = new TabListener<ViewContactFragment>(this,
+				label1, ViewContactFragment.class);
 		tab.setTabListener(tl);
 		actionBar.addTab(tab);
 
 		String label2 = getResources().getString(R.string.tab_label_2);
 		tab = actionBar.newTab();
 		tab.setText(label2);
-		TabListener<InteractionFragment> tl2 = new TabListener<InteractionFragment>(this,
-				label2, InteractionFragment.class);
+		TabListener<ViewInteractionFragment> tl2 = new TabListener<ViewInteractionFragment>(this,
+				label2, ViewInteractionFragment.class);
 		tab.setTabListener(tl2);
 		actionBar.addTab(tab);
 
@@ -62,7 +71,13 @@ public class MyTabActivity extends Activity {
 			// Check if the fragment is already initialized
 			if (mFragment == null) {
 				// If not, instantiate and add it to the activity
-				mFragment = Fragment.instantiate(mActivity, mClass.getName());
+				//tab.setTag(contactId);
+				Bundle b = new Bundle(); 
+				b.putLong("contactId", contactId); 
+		       // mFragment.setArguments(args); 
+				mFragment = Fragment.instantiate(mActivity, mClass.getName(),b);
+			
+			//mFragment = Fragment.instantiate(mActivity, mClass.getName(), (Bundle) tab.getTag());
 				ft.add(android.R.id.content, mFragment, mTag);
 			} else {
 				// If it exists, simply attach it in order to show it

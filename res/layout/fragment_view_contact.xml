@@ -85,7 +85,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/textViewTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/twentydp"
@@ -111,7 +111,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/textViewContactCompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/twentydp"
@@ -157,7 +157,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textViewPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"
@@ -181,7 +181,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/textViewEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"
@@ -204,7 +204,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/textViewLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"

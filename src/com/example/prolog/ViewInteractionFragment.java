@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-public class InteractionFragment extends Fragment {
+public class ViewInteractionFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		return (RelativeLayout) inflater.inflate(R.layout.activity_contact_interactions, container, false);
+		return (RelativeLayout) inflater.inflate(R.layout.fragment_view_interactions, container, false);
 	}
 
 }
