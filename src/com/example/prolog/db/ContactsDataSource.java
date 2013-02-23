@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.prolog.model.Contact;
+import com.example.prolog.model.Interaction;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +20,7 @@ public class ContactsDataSource {
 	SQLiteOpenHelper dbhelper;
 	SQLiteDatabase database;
 	
-	private static final String[] allColumns = {
+	private static final String[] allColumnsContacts = {
 		ContactsDBOpenHelper.COLUMN_ID,
 		ContactsDBOpenHelper.COLUMN_NAME,
 		ContactsDBOpenHelper.COLUMN_TITLE,
@@ -28,6 +29,16 @@ public class ContactsDataSource {
 		ContactsDBOpenHelper.COLUMN_WORK_PHONE,
 		ContactsDBOpenHelper.COLUMN_EMAIL,
 		ContactsDBOpenHelper.COLUMN_LOCATION
+	};
+	
+
+	private static final String[] allColumnsInteractions = {
+		ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
+		ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID,
+		ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
+		ContactsDBOpenHelper.COLUMN_INTERACTIONS_FOLLOW_UP, 
+		ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT, 
+		
 	};
 	
 	public ContactsDataSource(Context context) {
@@ -48,7 +59,7 @@ public class ContactsDataSource {
 		
 	}
 	
-	public Contact create(Contact contact) {
+	public Contact createContact(Contact contact) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
 		values.put(ContactsDBOpenHelper.COLUMN_TITLE, contact.getTitle());
@@ -65,10 +76,56 @@ public class ContactsDataSource {
 		
 	}
 	
+	public Interaction createInteraction(Interaction interaction) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID, interaction.getContactId());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE, interaction.getDate());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_FOLLOW_UP, (interaction.isFollowUp()?1:0));
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT, interaction.getText());
+	
+
+		
+		long insertid = database.insert(ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
+		interaction.setId(insertid);
+		return interaction;
+		
+	}
+	
+	public ArrayList<Interaction> findInteractionsbyContactId(long contactId) {
+		ArrayList<Interaction> interactions = new ArrayList<Interaction>();
+		Interaction interaction;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_INTERACTIONS, allColumnsInteractions, 
+				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?", new String[] {Long.toString(contactId)}, null, null, null);
+		
+Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows" );
+		
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				interaction = new Interaction();
+				interaction.setId(cursor.getLong(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID)));
+				interaction.setContactId(cursor.getLong(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID)));
+				interaction.setDate(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE)));				
+				interaction.setFollowUp((cursor.getInt(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_FOLLOW_UP))==1));
+				interaction.setText(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT)));				
+				interactions.add(interaction);
+	
+				
+			}
+			
+		}
+		cursor.close();
+		Log.i(LOGTAG, "Filled" + interactions.size() + " interactions in arraylist" );
+	
+		return interactions;
+		
+	}
+	
+	
+	
 	public Contact findContactbyId(long id) {
 	
 		Contact contact=null;
-		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS, allColumns, 
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS, allColumnsContacts, 
 				ContactsDBOpenHelper.COLUMN_ID + "=?", new String[] {Long.toString(id)}, null, null, null);
 		
 		if (cursor != null)
@@ -89,10 +146,10 @@ public class ContactsDataSource {
 		
 	}
 	
-	public ArrayList<Contact> findAll() {
+	public ArrayList<Contact> findAllContacts() {
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
 		
-		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS, allColumns, 
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS, allColumnsContacts, 
 				null, null, null, null, null);
 		
 		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows" );
@@ -102,11 +159,11 @@ public class ContactsDataSource {
 				Contact contact = new Contact();
 				contact.setId(cursor.getLong(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_ID)));
 				contact.setName(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
-				contact.setTitle(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));				contact.setName(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setTitle(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));				
 				contact.setCompany(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_COMPANY)));
-				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_HOME_PHONE)));				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_HOME_PHONE)));				
 				contact.setWork_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
-				contact.setLocation(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setLocation(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));				
 			
 				contacts.add(contact);
 

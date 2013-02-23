@@ -49,7 +49,7 @@ public static final String LOGTAG="EXPLORECA";
 		Log.i(LOGTAG,"started ContactListActivity");
 		datasource=new ContactsDataSource(this);
 		datasource.open();
-		contacts=(ArrayList<Contact>) datasource.findAll();
+		contacts=(ArrayList<Contact>) datasource.findAllContacts();
 		lv_arr = new String[contacts.size()];
 		Iterator i = contacts.iterator();
 		int j = 0;
@@ -57,7 +57,6 @@ public static final String LOGTAG="EXPLORECA";
 			lv_arr[j]=((Contact) i.next()).getName();
 			j++;
 		}
-		Log.i(LOGTAG,"there are numer" + contacts.size());
 		lv = (ListView)findViewById(android.R.id.list);
 		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, contacts));
 		lv.setOnItemClickListener(new OnItemClickListener() 
