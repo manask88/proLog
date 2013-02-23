@@ -56,10 +56,9 @@ public class SyncActivity extends Activity{
 		buttonSync.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					datasource.open();	
-					/*Contact contact=new Contact();
-					contact.setName("test");
-					createContact(contact);*/
+				
 					queryAllRawContacts();
+					startActivity(new Intent(context,MainActivity.class));	
 				}
 			});
 		
@@ -112,8 +111,7 @@ public class SyncActivity extends Activity{
 				final int contactId = rawContacts.getInt(contactIdColumnIndex);
 				final boolean deleted = (rawContacts.getInt(deletedColumnIndex) == 1);
 				if(!deleted) {
-					Log.i(LOGTAG, "Contact created with id "+ contactId);
-					
+				
 					  ExpandListChild ch2_1 = new ExpandListChild();
 				        ch2_1.setName(queryDetailsForContactEntry(contactId).getName());
 				        ch2_1.setTag(null);
@@ -121,7 +119,7 @@ public class SyncActivity extends Activity{
 					createContact(queryDetailsForContactEntry(contactId));
 				}
 				rawContacts.moveToNext();				// move to the next entry
-				if (cont==50) break; //hardcoded to get out of this loop if there are many contacts
+				if (cont==20) break; //hardcoded to get out of this loop if there are many contacts
 				cont++;
 			}
 		}
@@ -178,18 +176,7 @@ public class SyncActivity extends Activity{
 	    	ArrayList<ExpandListChild> list2 = new ArrayList<ExpandListChild>();
 	        ExpandListGroup gru1 = new ExpandListGroup();
 	        gru1.setName("Phone Contacts");
-	        /*ExpandListChild ch1_1 = new ExpandListChild();
-	        ch1_1.setName("contact1");
-	        ch1_1.setTag(null);
-	        list2.add(ch1_1);
-	        ExpandListChild ch1_2 = new ExpandListChild();
-	        ch1_2.setName("contact2");
-	        ch1_2.setTag(null);
-	        list2.add(ch1_2);
-	        ExpandListChild ch1_3 = new ExpandListChild();
-	        ch1_3.setName("contact3");
-	        ch1_3.setTag(null);
-	        list2.add(ch1_3);*/
+	   
 	        queryAllRawContacts();
 	        gru1.setItems(contacts);
 	        list2 = new ArrayList<ExpandListChild>();

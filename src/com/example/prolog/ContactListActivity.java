@@ -1,6 +1,7 @@
 package com.example.prolog;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,15 +24,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ContactListActivity extends Activity {
-Context context=this;
-ContactsDataSource datasource;
-ArrayList<Contact> contacts = new ArrayList<Contact>();
+private Context context=this;
+private ContactsDataSource datasource;
+private ArrayList<Contact> contacts = new ArrayList<Contact>();
+private ArrayList<Contact> arr_sort= new ArrayList<Contact>();
+private String[] lv_arr;
+private EditText ed;
+private ListView lv;
 public static final String LOGTAG="EXPLORECA";
 
 	
@@ -42,9 +50,16 @@ public static final String LOGTAG="EXPLORECA";
 		datasource=new ContactsDataSource(this);
 		datasource.open();
 		contacts=(ArrayList<Contact>) datasource.findAll();
+		lv_arr = new String[contacts.size()];
+		Iterator i = contacts.iterator();
+		int j = 0;
+		while(i.hasNext()) {
+			lv_arr[j]=((Contact) i.next()).getName();
+			j++;
+		}
 		Log.i(LOGTAG,"there are numer" + contacts.size());
-		ListView lv = (ListView)findViewById(android.R.id.list);
-		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, datasource.findAll()));
+		lv = (ListView)findViewById(android.R.id.list);
+		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, contacts));
 		lv.setOnItemClickListener(new OnItemClickListener() 
 		{
 
@@ -52,7 +67,6 @@ public static final String LOGTAG="EXPLORECA";
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				// TODO Auto-generated method stub
-				 Toast.makeText(context, contacts.get(position).getName(), Toast.LENGTH_LONG).show();
 				 Intent i = new Intent(context, MyTabActivity.class);
 				 i.putExtra("contactId", contacts.get(position).getId());
 				 startActivity(i);
@@ -60,7 +74,34 @@ public static final String LOGTAG="EXPLORECA";
 	
 		});
 		//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
-
+		ed = (EditText) findViewById(R.id.EditText01);
+		ed.addTextChangedListener( new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+                arr_sort.clear();
+                for (int i = 0; i < lv_arr.length; i++) {
+                        if ((lv_arr[i].toLowerCase()).contains(ed.getText().toString().toLowerCase())) {
+                            arr_sort.add(contacts.get(i));
+                        }
+                }
+        		lv.setAdapter(new ContactListAdapter(ContactListActivity.this, R.id.activityContactListTextView, arr_sort));
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override

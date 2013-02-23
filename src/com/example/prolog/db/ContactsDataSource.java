@@ -20,18 +20,18 @@ public class ContactsDataSource {
 	SQLiteDatabase database;
 	
 	private static final String[] allColumns = {
-		DBOpenHelper.COLUMN_ID,
-		DBOpenHelper.COLUMN_NAME,
-		DBOpenHelper.COLUMN_TITLE,
-		DBOpenHelper.COLUMN_COMPANY, 
-		DBOpenHelper.COLUMN_HOME_PHONE, 
-		DBOpenHelper.COLUMN_WORK_PHONE,
-		DBOpenHelper.COLUMN_EMAIL,
-		DBOpenHelper.COLUMN_LOCATION
+		ContactsDBOpenHelper.COLUMN_ID,
+		ContactsDBOpenHelper.COLUMN_NAME,
+		ContactsDBOpenHelper.COLUMN_TITLE,
+		ContactsDBOpenHelper.COLUMN_COMPANY, 
+		ContactsDBOpenHelper.COLUMN_HOME_PHONE, 
+		ContactsDBOpenHelper.COLUMN_WORK_PHONE,
+		ContactsDBOpenHelper.COLUMN_EMAIL,
+		ContactsDBOpenHelper.COLUMN_LOCATION
 	};
 	
 	public ContactsDataSource(Context context) {
-		dbhelper = new DBOpenHelper(context);
+		dbhelper = new ContactsDBOpenHelper(context);
 		
 	}
 	
@@ -50,16 +50,16 @@ public class ContactsDataSource {
 	
 	public Contact create(Contact contact) {
 		ContentValues values = new ContentValues();
-		values.put(DBOpenHelper.COLUMN_NAME, contact.getName());
-		values.put(DBOpenHelper.COLUMN_TITLE, contact.getTitle());
-		values.put(DBOpenHelper.COLUMN_COMPANY, contact.getEmail());
-		values.put(DBOpenHelper.COLUMN_HOME_PHONE, contact.getHome_phone());
-		values.put(DBOpenHelper.COLUMN_WORK_PHONE, contact.getWork_phone());
-		values.put(DBOpenHelper.COLUMN_EMAIL, contact.getEmail());
-		values.put(DBOpenHelper.COLUMN_LOCATION, contact.getLocation());
+		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
+		values.put(ContactsDBOpenHelper.COLUMN_TITLE, contact.getTitle());
+		values.put(ContactsDBOpenHelper.COLUMN_COMPANY, contact.getEmail());
+		values.put(ContactsDBOpenHelper.COLUMN_HOME_PHONE, contact.getHome_phone());
+		values.put(ContactsDBOpenHelper.COLUMN_WORK_PHONE, contact.getWork_phone());
+		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
+		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
 
-		long insertid = database.insert(DBOpenHelper.TABLE_CONTACTS, null, values);
+		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS, null, values);
 		contact.setId(insertid);
 		return contact;
 		
@@ -68,8 +68,8 @@ public class ContactsDataSource {
 	public Contact findContactbyId(long id) {
 	
 		Contact contact=null;
-		Cursor cursor = database.query(DBOpenHelper.TABLE_CONTACTS, allColumns, 
-				DBOpenHelper.COLUMN_ID + "=?", new String[] {Long.toString(id)}, null, null, null);
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS, allColumns, 
+				ContactsDBOpenHelper.COLUMN_ID + "=?", new String[] {Long.toString(id)}, null, null, null);
 		
 		if (cursor != null)
         {
@@ -78,7 +78,7 @@ public class ContactsDataSource {
             {
 			
 			contact=new Contact();
-			contact.setName(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME)));
+			contact.setName(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
 			
 			
             }
@@ -92,7 +92,7 @@ public class ContactsDataSource {
 	public ArrayList<Contact> findAll() {
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
 		
-		Cursor cursor = database.query(DBOpenHelper.TABLE_CONTACTS, allColumns, 
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS, allColumns, 
 				null, null, null, null, null);
 		
 		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows" );
@@ -100,13 +100,13 @@ public class ContactsDataSource {
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
 				Contact contact = new Contact();
-				contact.setId(cursor.getLong(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID)));
-				contact.setName(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME)));
-				contact.setTitle(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_TITLE)));				contact.setName(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME)));
-				contact.setCompany(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_COMPANY)));
-				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_HOME_PHONE)));				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME)));
-				contact.setWork_phone(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_WORK_PHONE)));
-				contact.setLocation(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LOCATION)));				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_NAME)));
+				contact.setId(cursor.getLong(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_ID)));
+				contact.setName(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setTitle(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));				contact.setName(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setCompany(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_COMPANY)));
+				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_HOME_PHONE)));				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setWork_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
+				contact.setLocation(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));				contact.setHome_phone(cursor.getString(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
 			
 				contacts.add(contact);
 
@@ -116,6 +116,7 @@ public class ContactsDataSource {
 			}
 			
 		}
+		cursor.close();
 		return contacts;
 		
 		
