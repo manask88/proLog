@@ -67,7 +67,6 @@ public static final String LOGTAG="EXPLORECA";
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				// TODO Auto-generated method stub
-				 Toast.makeText(context, contacts.get(position).getName(), Toast.LENGTH_LONG).show();
 				 Intent i = new Intent(context, MyTabActivity.class);
 				 i.putExtra("contactId", contacts.get(position).getId());
 				 startActivity(i);
