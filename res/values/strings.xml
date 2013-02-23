@@ -56,5 +56,11 @@
     <string name="addNote">Add notes about Interaction</string>
     <string name="save">Save</string>
     <string name="Cancel">Cancel</string>
+    <string name="title_activity_new_follow_up">New Follow Up</string>
+    <string name="newfollowup">New Follow Up</string>
+    <string name="oneday">One day</string>
+    <string name="oneweek">One Week</string>
+    <string name="onemonth">One Month</string>
+    <string name="addfollow">Add notes about follow up</string>
 
 </resources>
