@@ -116,6 +116,7 @@ public class ContactsDataSource {
 			}
 			
 		}
+		cursor.close();
 		return contacts;
 		
 		

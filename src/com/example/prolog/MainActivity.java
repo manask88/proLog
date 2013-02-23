@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
@@ -48,4 +49,13 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	
+	 @Override
+	 public boolean onKeyDown(int keyCode, KeyEvent event) {
+	        if (keyCode == KeyEvent.KEYCODE_BACK) {
+	            moveTaskToBack(true);
+	            return true;
+	        }
+	        return super.onKeyDown(keyCode, event);
+	 }
 }
