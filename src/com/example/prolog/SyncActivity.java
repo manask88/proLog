@@ -27,8 +27,9 @@ public class SyncActivity extends Activity{
 
 	public static final String LOGTAG="EXPLORECA";
 
-	private final ArrayList<Contact> spinnerContent = new ArrayList<Contact>();
 	ArrayList<ExpandListChild> contacts = new ArrayList<ExpandListChild>();
+	ArrayList<Contact> contactsList = new ArrayList<Contact>();
+
 	private ExpandListAdapter ExpAdapter;
 	private ArrayList<ExpandListGroup> ExpListItems;
 	private ExpandableListView ExpandList;
@@ -56,8 +57,12 @@ public class SyncActivity extends Activity{
 		buttonSync.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					datasource.open();	
-				
-					queryAllRawContacts();
+					
+
+					 for (Contact cont : contactsList)
+						 createContact(queryDetailsForContactEntry((int) cont.getId()));
+						 
+						 
 					startActivity(new Intent(context,MainActivity.class));	
 				}
 			});
@@ -104,22 +109,25 @@ public class SyncActivity extends Activity{
 
 		final int contactIdColumnIndex = rawContacts.getColumnIndex(RawContacts.CONTACT_ID);
 		final int deletedColumnIndex = rawContacts.getColumnIndex(RawContacts.DELETED);
-		
+		Contact contact;
 		int cont=0;
 		if(rawContacts.moveToFirst()) {					// move the cursor to the first entry
 			while(!rawContacts.isAfterLast()) {			// still a valid entry left?
 				final int contactId = rawContacts.getInt(contactIdColumnIndex);
 				final boolean deleted = (rawContacts.getInt(deletedColumnIndex) == 1);
+				
 				if(!deleted) {
 				
 					  ExpandListChild ch2_1 = new ExpandListChild();
 				        ch2_1.setName(queryDetailsForContactEntry(contactId).getName());
 				        ch2_1.setTag(null);
 					contacts.add(ch2_1);
-					createContact(queryDetailsForContactEntry(contactId));
+					contact= new Contact();
+					contact.setId(contactId);
+					contactsList.add(contact);
 				}
 				rawContacts.moveToNext();				// move to the next entry
-				if (cont==20) break; //hardcoded to get out of this loop if there are many contacts
+				if (cont==100) break; //hardcoded to get out of this loop if there are many contacts
 				cont++;
 			}
 		}
