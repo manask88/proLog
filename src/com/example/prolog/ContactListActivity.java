@@ -37,6 +37,7 @@ public static final String LOGTAG="EXPLORECA";
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_list);
+
 		Log.i(LOGTAG,"started ContactListActivity");
 		datasource=new ContactsDataSource(this);
 		datasource.open();
@@ -52,7 +53,7 @@ public static final String LOGTAG="EXPLORECA";
 					long id) {
 				// TODO Auto-generated method stub
 				 Toast.makeText(context, contacts.get(position).getName(), Toast.LENGTH_LONG).show();
-				 Intent i = new Intent(context, NewContactActivity.class);
+				 Intent i = new Intent(context, AddContactActivity.class);
 				 i.putExtra("contactId", contacts.get(position).getId());
 				 startActivity(i);
 			}

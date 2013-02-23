@@ -52,6 +52,13 @@
             android:name="com.example.prolog.GroupListActivity"
             android:label="@string/title_activity_group_list" >
         </activity>
+        <activity
+            android:name="com.example.prolog.ContactInteractionsActivity"
+            android:label="@string/title_activity_contact_interactions" >
+        </activity>
+        <activity
+            android:name="com.example.prolog.MyTabActivity"
+            android:label="@string/title_activity_my_tab" >
+        </activity>
     </application>
-
 </manifest>

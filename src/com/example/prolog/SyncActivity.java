@@ -118,7 +118,7 @@ public class SyncActivity extends Activity{
 				        ch2_1.setName(queryDetailsForContactEntry(contactId).getName());
 				        ch2_1.setTag(null);
 					contacts.add(ch2_1);
-					//createContact(queryDetailsForContactEntry(contactId));
+					createContact(queryDetailsForContactEntry(contactId));
 				}
 				rawContacts.moveToNext();				// move to the next entry
 				if (cont==50) break; //hardcoded to get out of this loop if there are many contacts

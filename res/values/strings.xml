@@ -41,5 +41,12 @@
     <string name="Phone">Phone</string>
     <string name="Email">Email</string>
     <string name="Location">Location</string>
+    <string name="title_activity_contact_interactions">ContactInteractionsActivity</string>
+    <string name="add_an_interaction">Add an interaction</string>
+    <string name="add">Add</string>
+    <string name="title_activity_my_tab">MyTabActivity</string>
+    <string name="title_activity_gg">GGActivity</string>
+    <string name="tab_label_1">Information</string>
+    <string name="tab_label_2">Interactions</string>
 
 </resources>
