@@ -12,18 +12,22 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactListActivity extends Activity {
-
+Context context=this;
 ContactsDataSource datasource;
 ArrayList<Contact> contacts = new ArrayList<Contact>();
 public static final String LOGTAG="EXPLORECA";
@@ -40,6 +44,20 @@ public static final String LOGTAG="EXPLORECA";
 		Log.i(LOGTAG,"there are numer" + contacts.size());
 		ListView lv = (ListView)findViewById(android.R.id.list);
 		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, datasource.findAll()));
+		lv.setOnItemClickListener(new OnItemClickListener() 
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				 Toast.makeText(context, contacts.get(position).getName(), Toast.LENGTH_LONG).show();
+				 Intent i = new Intent(this, TheNextActivity.class);
+				 i.putExtra("id", id);
+				 startActivity(i);
+			}
+	
+		});
 		//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
 
 	}
