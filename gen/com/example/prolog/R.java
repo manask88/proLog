@@ -30,16 +30,16 @@ public final class R {
     }
     public static final class id {
         public static final int ExpList=0x7f090021;
-        public static final int ListView01=0x7f090005;
+        public static final int ListView01=0x7f090006;
         public static final int TextView01=0x7f090002;
         public static final int TextView02=0x7f090001;
         public static final int action_settings=0x7f09002b;
-        public static final int add_new_contact=0x7f090007;
+        public static final int add_new_contact=0x7f090008;
         public static final int button1=0x7f090004;
         public static final int buttonSyncSkip=0x7f090023;
         public static final int buttonSyncSync=0x7f090022;
         public static final int checkBox=0x7f090027;
-        public static final int editText1=0x7f09000d;
+        public static final int editText1=0x7f090003;
         public static final int editText2=0x7f090010;
         public static final int editText3=0x7f090013;
         public static final int editText4=0x7f090016;
@@ -47,20 +47,20 @@ public final class R {
         public static final int editText6=0x7f09001c;
         public static final int editText7=0x7f09001f;
         public static final int frameLayout1=0x7f090024;
-        public static final int imageView1=0x7f09000b;
-        public static final int mainLinearLayoutMain=0x7f090006;
+        public static final int imageView1=0x7f09000c;
+        public static final int mainLinearLayoutMain=0x7f090007;
         public static final int menu_settings=0x7f09002a;
         public static final int progressBar1=0x7f090025;
-        public static final int searchView=0x7f090003;
+        public static final int searchView=0x7f090005;
         public static final int section_label=0x7f090029;
-        public static final int tableRow1=0x7f09000c;
+        public static final int tableRow1=0x7f09000d;
         public static final int tableRow2=0x7f09000e;
         public static final int tableRow3=0x7f090011;
         public static final int tableRow4=0x7f090014;
         public static final int tableRow5=0x7f090017;
         public static final int tableRow6=0x7f09001a;
         public static final int tableRow7=0x7f09001d;
-        public static final int tableRow8=0x7f09000a;
+        public static final int tableRow8=0x7f09000b;
         public static final int tableRow9=0x7f090020;
         public static final int textView1=0x7f090000;
         public static final int textView2=0x7f09000f;
@@ -71,30 +71,36 @@ public final class R {
         public static final int textView7=0x7f09001e;
         public static final int tvChild=0x7f090026;
         public static final int tvGroup=0x7f090028;
-        public static final int view_contact_list=0x7f090008;
-        public static final int view_group_list=0x7f090009;
+        public static final int view_contact_list=0x7f090009;
+        public static final int view_group_list=0x7f09000a;
     }
     public static final class layout {
         public static final int activity_add_contact=0x7f030000;
-        public static final int activity_contact_list=0x7f030001;
-        public static final int activity_group_list=0x7f030002;
-        public static final int activity_main=0x7f030003;
-        public static final int activity_new_contact=0x7f030004;
-        public static final int activity_sync=0x7f030005;
-        public static final int activity_sync_loading=0x7f030006;
-        public static final int expandlist_child_item=0x7f030007;
-        public static final int expandlist_group_item=0x7f030008;
-        public static final int fragment_contact_view_dummy=0x7f030009;
-        public static final int fragment_new_contact_dummy=0x7f03000a;
+        public static final int activity_contact_interactions=0x7f030001;
+        public static final int activity_contact_list=0x7f030002;
+        public static final int activity_group_list=0x7f030003;
+        public static final int activity_main=0x7f030004;
+        public static final int activity_my_tab=0x7f030005;
+        public static final int activity_new_contact=0x7f030006;
+        public static final int activity_sync=0x7f030007;
+        public static final int activity_sync_loading=0x7f030008;
+        public static final int expandlist_child_item=0x7f030009;
+        public static final int expandlist_group_item=0x7f03000a;
+        public static final int fragment_contact_view_dummy=0x7f03000b;
+        public static final int fragment_new_contact_dummy=0x7f03000c;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
         public static final int add_contact=0x7f080001;
-        public static final int contact_list=0x7f080002;
-        public static final int contact_view=0x7f080003;
-        public static final int group_list=0x7f080004;
-        public static final int new_contact=0x7f080005;
-        public static final int sync_loading=0x7f080006;
+        public static final int contact_interactions=0x7f080002;
+        public static final int contact_list=0x7f080003;
+        public static final int contact_view=0x7f080004;
+        public static final int gg=0x7f080005;
+        public static final int group_list=0x7f080006;
+        public static final int my_tab=0x7f080007;
+        public static final int new_contact=0x7f080008;
+        public static final int sync_loading=0x7f080009;
+        public static final int tab=0x7f08000a;
     }
     public static final class string {
         public static final int Company=0x7f05001f;
@@ -103,7 +109,9 @@ public final class R {
         public static final int Phone=0x7f050020;
         public static final int Title=0x7f05001e;
         public static final int action_settings=0x7f05000f;
+        public static final int add=0x7f050025;
         public static final int addNew=0x7f050001;
+        public static final int add_an_interaction=0x7f050024;
         public static final int app_name=0x7f05000b;
         public static final int contacts=0x7f050000;
         public static final int fname=0x7f05001c;
@@ -118,11 +126,16 @@ public final class R {
         public static final int skip=0x7f050002;
         public static final int sync=0x7f050003;
         public static final int syncWith=0x7f050004;
+        public static final int tab_label_1=0x7f050028;
+        public static final int tab_label_2=0x7f050029;
         public static final int take_photo_bcard=0x7f050011;
         public static final int title_activity_add_contact=0x7f05000e;
+        public static final int title_activity_contact_interactions=0x7f050023;
         public static final int title_activity_contact_list=0x7f050016;
         public static final int title_activity_contact_view=0x7f050015;
+        public static final int title_activity_gg=0x7f050027;
         public static final int title_activity_group_list=0x7f05001b;
+        public static final int title_activity_my_tab=0x7f050026;
         public static final int title_activity_new_contact=0x7f050017;
         public static final int title_activity_sync_loading=0x7f050013;
         public static final int title_section1=0x7f050018;

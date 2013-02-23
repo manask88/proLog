@@ -2,14 +2,29 @@ package com.example.prolog;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 public class ContactListActivity extends Activity {
+	
+	private Button addNewContactBtn;
+	private Context context = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_list);
+		
+		addNewContactBtn = (Button) findViewById(R.id.button1);
+		addNewContactBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(context,AddContactActivity.class));
+			}
+		});
 	}
 
 	@Override
