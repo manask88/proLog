@@ -48,5 +48,13 @@
     <string name="title_activity_gg">GGActivity</string>
     <string name="tab_label_1">Information</string>
     <string name="tab_label_2">Interactions</string>
+    <string name="title_activity_add_new_contact">AddNewContactActivity</string>
+    <string name="title_activity_new_interacion">NewInteracionActivity</string>
+    <string name="Date">Date</string>
+    <string name="Follow_up">Follow Up</string>
+    <string name="note">Notes</string>
+    <string name="addNote">Add notes about Interaction</string>
+    <string name="save">Save</string>
+    <string name="Cancel">Cancel</string>
 
 </resources>

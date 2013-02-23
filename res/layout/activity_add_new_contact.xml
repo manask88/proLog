@@ -16,13 +16,9 @@
 
         <QuickContactBadge
             android:id="@+id/quickContactBadge1"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_marginTop="@dimen/twentydp"
-            android:adjustViewBounds="true"
-            android:maxWidth="@dimen/eightydp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/face" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/twentydp" />
 
         <TableLayout
             android:layout_width="wrap_content"
@@ -53,16 +49,20 @@
 
                     <TextView
                         android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/fname"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/white" />
 
-                    <TextView
-                        android:id="@+id/textViewName"
+                    <EditText
+                        android:id="@+id/editText1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textColor="@color/white" />
+                        android:minWidth="120dp" >
+
+                        <requestFocus />
+                    </EditText>
 
                 </TableRow>
 
@@ -79,17 +79,19 @@
 
                     <TextView
                         android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Title"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/white" />
 
-                    <TextView
-                        android:id="@+id/textViewTitle"
+                   <EditText
+                        android:id="@+id/editText2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textColor="@color/white" />
+                        android:layout_height="wrap_content" >
+
+                        <requestFocus />
+                    </EditText>
 
                 </TableRow>
 
@@ -103,18 +105,19 @@
 
                     <TextView
                         android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Company"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/white" />
 
-                    <TextView
-                        android:id="@+id/textViewContactCompany"
+                    <EditText
+                        android:id="@+id/editText3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textColor="@color/white" />
+                        android:layout_height="wrap_content" >
 
+                        <requestFocus />
+					</EditText>
                 </TableRow>
 
 
@@ -153,13 +156,12 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/textViewPhone"
+        <EditText
+            android:id="@+id/editText4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/twentydp"
-            android:text="TextView"
-            android:textColor="@color/white" />
+            android:ems="10"
+            android:inputType="phone" />
 
     </TableRow>
     
@@ -177,13 +179,13 @@
             android:text="@string/Email"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/textViewEmail"
+
+        <EditText
+            android:id="@+id/editText5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/twentydp"
-            android:text="TextView"
-            android:textColor="@color/white" />
+            android:ems="10"
+            android:inputType="textEmailAddress" />
 
     </TableRow>
     <TableRow
@@ -200,13 +202,13 @@
             android:text="@string/Location"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/textViewLocation"
+
+        <EditText
+            android:id="@+id/editText6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/twentydp"
-            android:text="TextView"
-            android:textColor="@color/white" />
+            android:ems="10"
+            android:inputType="textPostalAddress" />
 
     </TableRow>
 
