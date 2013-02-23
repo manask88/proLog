@@ -27,8 +27,8 @@ public class SyncActivity extends Activity{
 
 	public static final String LOGTAG="EXPLORECA";
 
-	private final List<Contact> spinnerContent = new LinkedList<Contact>();
-	List<ExpandListChild> contacts = new LinkedList<ExpandListChild>();
+	private final ArrayList<Contact> spinnerContent = new ArrayList<Contact>();
+	ArrayList<ExpandListChild> contacts = new ArrayList<ExpandListChild>();
 	private ExpandListAdapter ExpAdapter;
 	private ArrayList<ExpandListGroup> ExpListItems;
 	private ExpandableListView ExpandList;
