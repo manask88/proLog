@@ -34,7 +34,7 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="title_activity_group_list">GroupListActivity</string>
-    <string name="fname">First Name</string>
+    <string name="fname">Name</string>
     <string name="lname">Last Name</string>
     <string name="Title">Title</string>
     <string name="Company">Company</string>

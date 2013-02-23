@@ -1,30 +1,66 @@
 package com.example.prolog;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.example.prolog.db.ContactsDataSource;
+import com.example.prolog.model.Contact;
+
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class ContactListActivity extends Activity {
-	
-	private Button addNewContactBtn;
-	private Context context = this;
+Context context=this;
+ContactsDataSource datasource;
+ArrayList<Contact> contacts = new ArrayList<Contact>();
+public static final String LOGTAG="EXPLORECA";
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_contact_list);
-		
-		addNewContactBtn = (Button) findViewById(R.id.button1);
-		addNewContactBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context,AddContactActivity.class));
+
+		Log.i(LOGTAG,"started ContactListActivity");
+		datasource=new ContactsDataSource(this);
+		datasource.open();
+		contacts=(ArrayList<Contact>) datasource.findAll();
+		Log.i(LOGTAG,"there are numer" + contacts.size());
+		ListView lv = (ListView)findViewById(android.R.id.list);
+		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, datasource.findAll()));
+		lv.setOnItemClickListener(new OnItemClickListener() 
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				 Toast.makeText(context, contacts.get(position).getName(), Toast.LENGTH_LONG).show();
+				 Intent i = new Intent(context, AddContactActivity.class);
+				 i.putExtra("contactId", contacts.get(position).getId());
+				 startActivity(i);
 			}
+	
 		});
+		//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
+
 	}
 
 	@Override
@@ -34,4 +70,30 @@ public class ContactListActivity extends Activity {
 		return true;
 	}
 
+	
+	private class ContactListAdapter extends ArrayAdapter<Contact> {
+
+		
+		private ArrayList<Contact> items;
+		
+		public ContactListAdapter(Context context, int textViewResourceId, ArrayList<Contact> contacts) {
+			super(context, textViewResourceId, contacts);
+			items=contacts;
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			
+			View row = inflater.inflate(R.layout.activity_contact_list_item, parent, false);
+			
+			ImageView iv = (ImageView) row.findViewById(R.id.activityContactListImageView);
+			TextView tv = (TextView) row.findViewById(R.id.activityContactListTextView);
+			Log.i(LOGTAG,"id :"+ items.get(position).getId());
+			tv.setText(items.get(position).getName());
+			iv.setImageResource(R.drawable.ic_launcher);
+			return row;
+		}
+	}
 }
