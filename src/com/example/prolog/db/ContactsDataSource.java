@@ -65,6 +65,15 @@ public class ContactsDataSource {
 		
 	}
 	
+	public void findContactbyId(long id) {
+	
+
+		/*Cursor cursor = database.query(DBOpenHelper.TABLE_CONTACTS, allColumns, 
+				null, null, null, null, null);
+		return contact;*/
+		
+	}
+	
 	public ArrayList<Contact> findAll() {
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
 		

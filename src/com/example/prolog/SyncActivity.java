@@ -59,7 +59,7 @@ public class SyncActivity extends Activity{
 					/*Contact contact=new Contact();
 					contact.setName("test");
 					createContact(contact);*/
-					/*queryAllRawContacts();*/
+					queryAllRawContacts();
 				}
 			});
 		

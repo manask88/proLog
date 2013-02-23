@@ -3,6 +3,8 @@ package com.example.prolog;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class NewContactActivity extends Activity {
 
@@ -10,6 +12,10 @@ public class NewContactActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_contact);
+		Bundle b = getIntent().getExtras();
+		long id = b.getLong("id");
+		TextView tv = (TextView)findViewById(R.id.textViewName);
+		/*tv.setText(text)*/
 	}
 
 	@Override
