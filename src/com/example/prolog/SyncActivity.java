@@ -84,7 +84,7 @@ public class SyncActivity extends Activity{
 	}
 	
 	private void createContact(Contact contact) {
-		contact = datasource.create(contact);
+		contact = datasource.createContact(contact);
 		Log.i(LOGTAG, "Contact created with id "+ contact.getId());
 	}
 	
