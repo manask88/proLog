@@ -65,8 +65,8 @@ public class ContactsDataSource {
 		
 	}
 	
-	public List<Contact> findAll() {
-		List<Contact> contacts = new ArrayList<Contact>();
+	public ArrayList<Contact> findAll() {
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
 		
 		Cursor cursor = database.query(DBOpenHelper.TABLE_CONTACTS, allColumns, 
 				null, null, null, null, null);
