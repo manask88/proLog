@@ -67,32 +67,20 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/Date"
-            android:inputType="date" />
+            android:inputType="date"
+            android:textColor="@color/white" />
 
     </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRow5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         >
 
-        <RadioButton
+
+ <RadioButton
             android:id="@+id/radioButton1"
             android:layout_height="wrap_content"
             android:maxWidth="@dimen/fifty"
             android:text="@string/oneday"
             android:textColor="@color/white"
             android:width="@dimen/twentydp" />
-
-
-    </TableRow>
-    <TableRow
-        android:id="@+id/tableRow6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         >
-
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_height="wrap_content"
@@ -100,16 +88,7 @@
             android:text="@string/oneweek"
             android:textColor="@color/white"
             android:width="@dimen/twentydp" />
-
-
-    </TableRow>
-    <TableRow
-        android:id="@+id/tableRow7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         >
-
-        <RadioButton
+         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_height="wrap_content"
             android:maxWidth="@dimen/fifty"
@@ -118,7 +97,7 @@
             android:width="@dimen/twentydp" />
 
 
-    </TableRow>
+    
 
     <TableRow
         android:id="@+id/tableRow8"
@@ -135,10 +114,7 @@
 
     </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRow9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+
 
         <EditText
             android:id="@+id/editTextCompany"
@@ -153,19 +129,15 @@
             android:minHeight="100dp"
             android:textAlignment="textStart" />
 
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
         <Button
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save" />
-
-    </TableRow>
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/fifty"
+            android:layout_marginTop="@dimen/fivedp"
+            android:text="@string/save"
+            android:textColor="@color/white" />
 
 </TableLayout>
