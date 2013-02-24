@@ -38,7 +38,7 @@
         android:layout_height="wrap_content" >
 
         <CheckBox
-            android:id="@+id/checkBox1"
+            android:id="@+id/checkBoxFollowUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Follow_up"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editTextTitle"
+            android:id="@+id/editTextText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -85,14 +85,14 @@
         android:layout_marginTop="@dimen/twentydp" >
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/save"
             style="@dimen/twentydp"
             android:layout_height="wrap_content"
             android:minWidth="@dimen/fifty"
             android:text="@string/save" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Cancel" />

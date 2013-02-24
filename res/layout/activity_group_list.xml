@@ -29,7 +29,7 @@
        android:textSize="15dp" />
 
    <Button
-       android:id="@+id/cancel"
+       android:id="@+id/save"
        style="?android:attr/buttonStyleSmall"
        android:layout_width="30dp"
        android:layout_height="30dp"

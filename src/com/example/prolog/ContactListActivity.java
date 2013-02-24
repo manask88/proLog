@@ -104,7 +104,7 @@ public static final String LOGTAG="EXPLORECA";
 				
 			}
 		});
-		button = (Button) findViewById(R.id.cancel);
+		button = (Button) findViewById(R.id.save);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(context,AddNewContactActivity.class));

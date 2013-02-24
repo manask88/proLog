@@ -24,7 +24,7 @@ public class ViewFollowUpFragment extends Fragment {
 		
 		super.onActivityCreated(savedInstanceState);
 		
-		button1 = (Button) getView().findViewById(R.id.cancel);
+		button1 = (Button) getView().findViewById(R.id.save);
 		button1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(getActivity().getBaseContext(),NewFollowUpActivity.class));

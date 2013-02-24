@@ -25,7 +25,6 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_INTERACTIONS_ID = "interactionId";
 	public static final String COLUMN_INTERACTIONS_CONTACT_ID = "contactid";
 	public static final String COLUMN_INTERACTIONS_DATE = "date";
-	public static final String COLUMN_INTERACTIONS_FOLLOW_UP = "followUp";
 	public static final String COLUMN_INTERACTIONS_TEXT = "text";
 
 
@@ -48,7 +47,6 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			COLUMN_INTERACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COLUMN_INTERACTIONS_CONTACT_ID + " INTEGER, " +
 			COLUMN_INTERACTIONS_DATE + " TEXT, " +
-			COLUMN_INTERACTIONS_FOLLOW_UP + " INTEGER, " +
 			COLUMN_INTERACTIONS_TEXT + " TEXT" +
 			")";
 	
