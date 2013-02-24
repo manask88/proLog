@@ -21,7 +21,7 @@ public class AddNewContactActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_contact);
 		
-		Button button = (Button) findViewById(R.id.saveButton);
+		Button button = (Button) findViewById(R.id.activityAddNewContactSaveButton);
 		
 		button.setOnClickListener( new View.OnClickListener() {
 			
@@ -47,6 +47,17 @@ public class AddNewContactActivity extends Activity {
 				c.setLocation(etLocation.getText().toString());
 				datasource.createContact(c);
 				datasource.close();
+			}
+		});
+		
+		Button button2 = (Button) findViewById(R.id.activityAddNewContactCancelButton);
+		
+		button2.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
 			}
 		});
 	}
