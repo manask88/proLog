@@ -115,7 +115,8 @@ public final class R {
         public static final int fragment_contact_view_dummy=0x7f03000d;
         public static final int fragment_new_contact_dummy=0x7f03000e;
         public static final int fragment_view_contact=0x7f03000f;
-        public static final int fragment_view_interactions=0x7f030010;
+        public static final int fragment_view_followups=0x7f030010;
+        public static final int fragment_view_interactions=0x7f030011;
     }
     public static final class menu {
         public static final int activity_main=0x7f090000;
