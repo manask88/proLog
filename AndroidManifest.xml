@@ -69,6 +69,10 @@
             android:name="com.example.prolog.NewInteracionActivity"
             android:label="@string/title_activity_new_interacion" >
         </activity>
+        <activity
+            android:name="com.example.prolog.NewFollowUpActivity"
+            android:label="@string/title_activity_new_follow_up" >
+        </activity>
     </application>
 
 </manifest>
