@@ -42,7 +42,7 @@ public class ViewInteractionFragment extends Fragment {
 		datasource=new ContactsDataSource(getActivity());
 		datasource.open();
 		/*Interaction interaction=new Interaction();
-		interaction.setText("some stuff");  
+		interaction.setText("some stuff");
 		datasource.createInteraction(interaction);
 		ArrayList<Interaction> list=new ArrayList<Interaction>();
 		list=datasource.findInteractionsbyContactId(0);

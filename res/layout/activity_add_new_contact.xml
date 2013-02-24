@@ -56,9 +56,10 @@
                         android:textColor="@color/white" />
 
                     <EditText
-                        android:id="@+id/editTextName"
+                        android:id="@+id/editTextDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/white"
                         android:minWidth="120dp" >
 
                         <requestFocus />
@@ -86,9 +87,10 @@
                         android:textColor="@color/white" />
 
                    <EditText
-                        android:id="@+id/editTextText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                       android:id="@+id/editTextText"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:background="@color/white" >
 
                         <requestFocus />
                     </EditText>
@@ -114,7 +116,8 @@
                     <EditText
                         android:id="@+id/editTextCompany"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        android:background="@color/white" >
 
                         <requestFocus />
 					</EditText>
@@ -160,6 +163,7 @@
             android:id="@+id/editTextPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:ems="10"
             android:inputType="phone" />
 
@@ -184,6 +188,7 @@
             android:id="@+id/editTextEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:ems="10"
             android:inputType="textEmailAddress" />
 
@@ -207,6 +212,7 @@
             android:id="@+id/editTextLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:ems="10"
             android:inputType="textPostalAddress" />
 
@@ -221,12 +227,16 @@
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twentydp"
+            android:minWidth="@dimen/eightydp"
             android:text="@string/save" />
 
         <Button
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/fifty"
             android:text="@string/Cancel" />
 
     </TableRow>

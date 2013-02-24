@@ -1,18 +1,27 @@
 package com.example.prolog;
 
+import com.example.prolog.db.ContactsDataSource;
+import com.example.prolog.model.Contact;
+import com.example.prolog.model.Interaction;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class NewInteracionActivity extends Activity {
 
 	private Button datePickerButton;
 	private EditText editText1;
+	private Button saveButton;
+	private ContactsDataSource datasource;
+	private Context context = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +31,30 @@ public class NewInteracionActivity extends Activity {
 		datePickerButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				editText1 = (EditText) findViewById(R.id.editTextName);
+				editText1 = (EditText) findViewById(R.id.editTextDate);
 			    DatePickerFragment newFragment = new DatePickerFragment().setEditText(editText1);
 			    newFragment.show(getFragmentManager(),"datePicker");
 			    }
 		});
 		
-		datePickerButton = (Button) findViewById(R.id.datePicker);
-		datePickerButton.setOnClickListener(new View.OnClickListener() {
+		saveButton = (Button) findViewById(R.id.save);
+		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				editText1 = (EditText) findViewById(R.id.editTextName);
-			    DatePickerFragment newFragment = new DatePickerFragment().setEditText(editText1);
-			    newFragment.show(getFragmentManager(),"datePicker");
-			    }
+				EditText etDate= (EditText) findViewById(R.id.editTextDate);
+				CheckBox cbFollowUp= (CheckBox) findViewById(R.id.checkBoxFollowUp);
+				EditText etText= (EditText) findViewById(R.id.editTextText);
+				
+				datasource=new ContactsDataSource(context);
+				datasource.open();
+				Interaction inter = new Interaction();
+				inter.setDate(etDate.getText().toString());
+				inter.setText(etText.getText().toString());
+				Bundle b = getIntent().getExtras();
+				inter.setContactId(b.getLong("contactId"));
+				datasource.createInteraction(inter);
+				datasource.close();
+			}
 		});
 	}
 

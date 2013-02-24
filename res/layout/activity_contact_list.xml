@@ -10,7 +10,7 @@
     tools:context=".ContactListActivity" >
 
 <EditText
-        android:id="@+id/EditText01"
+        android:id="@+id/editTextNewFollowUpActivityDate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -31,7 +31,7 @@
 
    <Button
        android:id="@+id/save"
-       style="?android:attr/buttonStyleSmall"
+       style="@drawable/plus"
        android:layout_width="30dp"
        android:layout_height="30dp"
        android:layout_alignRight="@+id/EditText01"
@@ -43,4 +43,7 @@
        android:layout_height="wrap_content"
        android:layout_below="@+id/save" >
    </ListView>
+
+
+
 </RelativeLayout>
