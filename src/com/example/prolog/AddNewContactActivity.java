@@ -42,6 +42,7 @@ public class AddNewContactActivity extends Activity {
 				c.setName(etName.getText().toString());
 				c.setTitle(etTitle.getText().toString());
 				c.setCompany(etCompany.getText().toString());
+				c.setHome_phone(etPhone.getText().toString());
 				c.setWork_phone(etPhone.getText().toString());
 				c.setEmail(etEmail.getText().toString());
 				c.setLocation(etLocation.getText().toString());

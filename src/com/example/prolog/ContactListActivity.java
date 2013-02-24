@@ -1,6 +1,7 @@
 package com.example.prolog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +54,8 @@ public static final String LOGTAG="EXPLORECA";
 		datasource=new ContactsDataSource(this);
 		datasource.open();
 		contacts=(ArrayList<Contact>) datasource.findAllContacts();
+		// TODO we shoyld be copyng this properly... this is nasty!!
+		arr_sort=(ArrayList<Contact>) datasource.findAllContacts();
 		lv_arr = new String[contacts.size()];
 		Iterator i = contacts.iterator();
 		int j = 0;
@@ -61,16 +64,17 @@ public static final String LOGTAG="EXPLORECA";
 			j++;
 		}
 		lv = (ListView)findViewById(android.R.id.list);
-		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, contacts));
+		
+		
+		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, arr_sort));
 		lv.setOnItemClickListener(new OnItemClickListener() 
 		{
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-				// TODO Auto-generated method stub
 				 Intent i = new Intent(context, MyTabActivity.class);
-				 i.putExtra("contactId", contacts.get(position).getId());
+				 i.putExtra("contactId", arr_sort.get(position).getId());
 				 startActivity(i);
 			}
 	
@@ -128,7 +132,7 @@ public static final String LOGTAG="EXPLORECA";
 		public ContactListAdapter(Context context, int textViewResourceId, ArrayList<Contact> contacts) {
 			super(context, textViewResourceId, contacts);
 			items=contacts;
-			// TODO Auto-generated constructor stub
+			
 		}
 		
 		@Override

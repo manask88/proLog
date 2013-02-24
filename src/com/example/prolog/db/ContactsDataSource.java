@@ -69,6 +69,7 @@ public class ContactsDataSource {
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
 				null, values);
 		contact.setId(insertid);
+		Log.i(LOGTAG, "Contact created with id "+ contact.getId());
 		return contact;
 
 	}
@@ -141,6 +142,21 @@ public class ContactsDataSource {
 				contact = new Contact();
 				contact.setName(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_NAME)));
+				contact.setEmail(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_EMAIL)));
+				contact.setWork_phone(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
+				contact.setHome_phone(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_HOME_PHONE)));
+				contact.setId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_ID)));
+				contact.setCompany(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_COMPANY)));
+				contact.setLocation(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
+				contact.setTitle(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));
+				
 
 			}
 			cursor.close();

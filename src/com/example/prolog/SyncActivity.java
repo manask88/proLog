@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
 
@@ -16,6 +17,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
 import android.util.Log;
 import android.view.Menu;
@@ -58,10 +60,16 @@ public class SyncActivity extends Activity{
 				public void onClick(View v) {
 					datasource.open();	
 					
-
+					Contact contact=null;
 					 for (Contact cont : contactsList)
-						 createContact(queryDetailsForContactEntry((int) cont.getId()));
 						 
+					 { 
+						 contact=queryDetailsForContactEntry( cont.getContactManagerId());
+						 contact.setHome_phone(	queryAllPhoneNumbersForContact(contact.getContactManagerId()));
+						 contact.setWork_phone("another test");	;
+							Log.i(LOGTAG, "got this phone number :"+contact.getHome_phone());
+						 createContact(contact);
+					 }	 
 						 
 					startActivity(new Intent(context,MainActivity.class));	
 				}
@@ -90,7 +98,7 @@ public class SyncActivity extends Activity{
 	
 	private void createContact(Contact contact) {
 		contact = datasource.createContact(contact);
-		Log.i(LOGTAG, "Contact created with id "+ contact.getId());
+		
 	}
 	
 	private void queryAllRawContacts() {
@@ -123,7 +131,7 @@ public class SyncActivity extends Activity{
 				        ch2_1.setTag(null);
 					contacts.add(ch2_1);
 					contact= new Contact();
-					contact.setId(contactId);
+					contact.setContactManagerId(contactId);
 					contactsList.add(contact);
 				}
 				rawContacts.moveToNext();				// move to the next entry
@@ -135,7 +143,37 @@ public class SyncActivity extends Activity{
 		rawContacts.close();
 	}
 
-	private Contact queryDetailsForContactEntry(int contactId) {
+	public String queryAllPhoneNumbersForContact(long contactId) {
+		final String[] projection = new String[] {
+				Phone.NUMBER,
+				Phone.TYPE,
+		};
+		String phonenumber="";
+		final Cursor phone = managedQuery(
+				Phone.CONTENT_URI,	
+				projection,
+				Data.CONTACT_ID + "=?",
+				new String[]{String.valueOf(contactId)},
+				null);
+		if(phone.moveToFirst()) {
+			final int contactNumberColumnIndex = phone.getColumnIndex(Phone.NUMBER);
+			final int contactTypeColumnIndex = phone.getColumnIndex(Phone.TYPE);
+			
+			while(!phone.isAfterLast()) {
+				final String number = phone.getString(contactNumberColumnIndex);
+				final int type = phone.getInt(contactTypeColumnIndex);
+
+				phonenumber=number;
+				phone.moveToNext();
+			}
+			
+		}
+		phone.close();
+		
+		return phonenumber;
+	}
+	
+	private Contact queryDetailsForContactEntry(long contactId) {
 		final String[] projection = new String[] {
 				Contacts.DISPLAY_NAME,					// the name of the contact
 				Contacts.PHOTO_ID/*,*/						// the id of the column in the data table for the image
@@ -155,8 +193,8 @@ public class SyncActivity extends Activity{
 			/*String photoId = contact.getString(
 					contact.getColumnIndex(Contacts.PHOTO_ID));*/
 			/*Bitmap photo;*/
-			/*String emailtype =  contact.getString(
-					contact.getColumnIndex(Email.TYPE));*/
+			/*String emailtype =  cursorContact.getString(
+					cursorContact.getColumnIndex(Email.TYPE));*/
 			/*String email =  cursorContact.getString(
 					cursorContact.getColumnIndex(Email.DATA));	*/
 			/*if(photoId != null) {
@@ -167,6 +205,7 @@ public class SyncActivity extends Activity{
 			cursorContact.close();
 			Contact contact=new Contact();
 			contact.setName(name);
+			contact.setContactManagerId(contactId);
 			/*contact.setEmail(email)*/
 ;			return contact;
 		}

@@ -9,6 +9,7 @@ public class Contact {
 	private String work_phone;
 	private String email;
 	private String location;
+	private long contactManagerId;
 	
 	public Contact ()
 	{
@@ -16,11 +17,18 @@ public class Contact {
 		name="";
 		title="";
 		company="";
-		home_phone="";
-		work_phone="";
+		
+		work_phone="pred2";
 		email="";
 		location="";
+		contactManagerId=0;
 		
+	}
+	public long getContactManagerId() {
+		return contactManagerId;
+	}
+	public void setContactManagerId(long contactManagerId) {
+		this.contactManagerId = contactManagerId;
 	}
 	public long getId() {
 		return id;
