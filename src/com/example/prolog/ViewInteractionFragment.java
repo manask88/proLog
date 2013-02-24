@@ -7,22 +7,34 @@ import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Interaction;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ViewInteractionFragment extends Fragment {
 
-	ContactsDataSource datasource;
+	private ContactsDataSource datasource;
+	private Button button1;
 	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		
 		super.onActivityCreated(savedInstanceState);
+		
+		button1 = (Button) getView().findViewById(R.id.button1);
+		button1.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(getActivity().getBaseContext(),NewInteracionActivity.class));
+			}
+		});
 		
 		datasource=new ContactsDataSource(getActivity());
 		datasource.open();

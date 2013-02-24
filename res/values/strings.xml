@@ -56,5 +56,6 @@
     <string name="addNote">Add notes about Interaction</string>
     <string name="save">Save</string>
     <string name="Cancel">Cancel</string>
+    <string name="pick_date">Pick date</string>
 
 </resources>
