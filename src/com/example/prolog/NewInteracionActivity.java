@@ -22,28 +22,29 @@ public class NewInteracionActivity extends Activity {
 	private Button saveButton;
 	private ContactsDataSource datasource;
 	private Context context = this;
+	private Button cancelButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_interacion);
-		datePickerButton = (Button) findViewById(R.id.datePicker);
+		datePickerButton = (Button) findViewById(R.id.newInteractionActivityDatePicker);
 		datePickerButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				editText1 = (EditText) findViewById(R.id.editTextDate);
+				editText1 = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
 			    DatePickerFragment newFragment = new DatePickerFragment().setEditText(editText1);
 			    newFragment.show(getFragmentManager(),"datePicker");
 			    }
 		});
 		
-		saveButton = (Button) findViewById(R.id.save);
+		saveButton = (Button) findViewById(R.id.newInteractionActivitySaveButton);
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				EditText etDate= (EditText) findViewById(R.id.editTextDate);
-				CheckBox cbFollowUp= (CheckBox) findViewById(R.id.checkBoxFollowUp);
-				EditText etText= (EditText) findViewById(R.id.editTextText);
+				EditText etDate= (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
+				CheckBox cbFollowUp= (CheckBox) findViewById(R.id.newInteractionActivityCheckBoxFollowUp);
+				EditText etText= (EditText) findViewById(R.id.newInteractionActivityEditTextText);
 				
 				datasource=new ContactsDataSource(context);
 				datasource.open();
@@ -54,6 +55,18 @@ public class NewInteracionActivity extends Activity {
 				inter.setContactId(b.getLong("contactId"));
 				datasource.createInteraction(inter);
 				datasource.close();
+				
+				Intent i = new Intent(context, MyTabActivity.class);
+				i.putExtra("contactId", b.getLong("contactId"));
+				startActivity(i);
+			}
+		});
+		
+		cancelButton = (Button) findViewById(R.id.newInteractionActivityCancelButton);
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				finish();
 			}
 		});
 	}
