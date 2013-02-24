@@ -50,9 +50,9 @@ public final class R {
         public static final int checkBoxFollowUp=0x7f0a002b;
         public static final int datePicker=0x7f0a002a;
         public static final int editTextCompany=0x7f0a000e;
+        public static final int editTextDate=0x7f0a0008;
         public static final int editTextEmail=0x7f0a0016;
         public static final int editTextLocation=0x7f0a0019;
-        public static final int editTextName=0x7f0a0008;
         public static final int editTextPhone=0x7f0a0013;
         public static final int editTextText=0x7f0a000b;
         public static final int frameLayout1=0x7f0a0030;

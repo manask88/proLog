@@ -29,7 +29,7 @@ public class AddNewContactActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				EditText etName= (EditText) findViewById(R.id.editTextName);
+				EditText etName= (EditText) findViewById(R.id.editTextDate);
 				EditText etTitle= (EditText) findViewById(R.id.editTextText);
 				EditText etCompany= (EditText) findViewById(R.id.editTextCompany);
 				EditText etPhone= (EditText) findViewById(R.id.editTextPhone);
