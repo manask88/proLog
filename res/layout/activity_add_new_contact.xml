@@ -56,7 +56,7 @@
                         android:textColor="@color/white" />
 
                     <EditText
-                        android:id="@+id/editText1"
+                        android:id="@+id/editTextName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minWidth="120dp" >
@@ -86,7 +86,7 @@
                         android:textColor="@color/white" />
 
                    <EditText
-                        android:id="@+id/editText2"
+                        android:id="@+id/editTextTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
@@ -112,7 +112,7 @@
                         android:textColor="@color/white" />
 
                     <EditText
-                        android:id="@+id/editText3"
+                        android:id="@+id/editTextCompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
@@ -157,7 +157,7 @@
             android:textColor="@color/white" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/editTextPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -181,7 +181,7 @@
             android:textColor="@color/white" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/editTextEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -204,11 +204,30 @@
             android:textColor="@color/white" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/editTextLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPostalAddress" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Cancel" />
 
     </TableRow>
 

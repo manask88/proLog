@@ -15,7 +15,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/editTextName"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="date"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -85,7 +85,7 @@
         android:layout_marginTop="@dimen/twentydp" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/cancel"
             style="@dimen/twentydp"
             android:layout_height="wrap_content"
             android:minWidth="@dimen/fifty"

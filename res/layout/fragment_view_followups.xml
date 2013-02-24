@@ -30,7 +30,7 @@ android:hint="Search" >
        android:textSize="15dp" />
 
    <Button
-       android:id="@+id/button1"
+       android:id="@+id/cancel"
        style="?android:attr/buttonStyleSmall"
        android:layout_width="30dp"
        android:layout_height="30dp"
@@ -41,6 +41,6 @@ android:hint="Search" >
        android:id="@android:id/list"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_below="@+id/button1" >
+       android:layout_below="@+id/cancel" >
    </ListView>
 </RelativeLayout>

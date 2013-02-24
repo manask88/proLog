@@ -22,7 +22,7 @@ public class NewInteracionActivity extends Activity {
 		datePickerButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				editText1 = (EditText) findViewById(R.id.editText1);
+				editText1 = (EditText) findViewById(R.id.editTextName);
 			    DatePickerFragment newFragment = new DatePickerFragment().setEditText(editText1);
 			    newFragment.show(getFragmentManager(),"datePicker");
 			    }
@@ -32,7 +32,7 @@ public class NewInteracionActivity extends Activity {
 		datePickerButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				editText1 = (EditText) findViewById(R.id.editText1);
+				editText1 = (EditText) findViewById(R.id.editTextName);
 			    DatePickerFragment newFragment = new DatePickerFragment().setEditText(editText1);
 			    newFragment.show(getFragmentManager(),"datePicker");
 			    }

@@ -30,7 +30,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/editTextName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -141,7 +141,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/editTextCompany"
             style="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save" />
