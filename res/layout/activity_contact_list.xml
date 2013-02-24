@@ -28,15 +28,7 @@
        android:text="Contacts"
        android:textColor="@color/white"
        android:textSize="15dp" />
-<ImageButton
-    android:id="@+id/imageButton1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/textView1"
-    android:cropToPadding="true"
-    android:maxHeight="@dimen/fivedp"
-    android:maxWidth="@dimen/fivedp"
-    android:src="@drawable/plus" />
+
    <Button
        android:id="@+id/save"
        style="@drawable/plus"

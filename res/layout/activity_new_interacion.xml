@@ -17,8 +17,10 @@
         <EditText
             android:id="@+id/editTextName"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:ems="10"
             android:gravity="left"
+            android:hint="@string/Date"
             android:inputType="date"
             android:maxWidth="@dimen/eightydp"
             android:minWidth="@dimen/eightydp"
@@ -33,7 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fifty"
             android:layout_marginRight="@dimen/twentydp"
-            android:text="@string/pick_date" />
+            android:text="@string/pick_date"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
     </TableRow>
 
@@ -83,12 +87,14 @@
             android:layout_marginTop="@dimen/twentydp"
             android:maxWidth="@dimen/fifty"
             android:minWidth="@dimen/fifty"
-            android:text="@string/save" />
+            android:text="@string/save"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Cancel" />
+            android:text="@string/Cancel"
+            android:textColor="@color/white" />
 
 </TableLayout>
