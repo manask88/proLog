@@ -19,7 +19,7 @@ public class AddContactActivity extends Activity {
 		textView1 = (TextView) findViewById(R.id.textView1);
 		textView1.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(context,MyTabActivity.class));
+				startActivity(new Intent(context,AddNewContactActivity.class));
 			}
 		});
 	}

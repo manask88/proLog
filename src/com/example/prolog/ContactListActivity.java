@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -38,6 +39,8 @@ private ArrayList<Contact> arr_sort= new ArrayList<Contact>();
 private String[] lv_arr;
 private EditText ed;
 private ListView lv;
+private Button button1;
+private Button button;
 public static final String LOGTAG="EXPLORECA";
 
 	
@@ -99,6 +102,12 @@ public static final String LOGTAG="EXPLORECA";
 			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
 				
+			}
+		});
+		button = (Button) findViewById(R.id.button1);
+		button.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(context,AddNewContactActivity.class));
 			}
 		});
 	}

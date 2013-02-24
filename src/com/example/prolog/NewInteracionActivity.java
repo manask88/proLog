@@ -27,6 +27,16 @@ public class NewInteracionActivity extends Activity {
 			    newFragment.show(getFragmentManager(),"datePicker");
 			    }
 		});
+		
+		datePickerButton = (Button) findViewById(R.id.datePicker);
+		datePickerButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				editText1 = (EditText) findViewById(R.id.editText1);
+			    DatePickerFragment newFragment = new DatePickerFragment().setEditText(editText1);
+			    newFragment.show(getFragmentManager(),"datePicker");
+			    }
+		});
 	}
 
 	@Override

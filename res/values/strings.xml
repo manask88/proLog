@@ -48,6 +48,7 @@
     <string name="title_activity_gg">GGActivity</string>
     <string name="tab_label_1">Information</string>
     <string name="tab_label_2">Interactions</string>
+    <string name="tab_label_3">Follow Ups</string>
     <string name="title_activity_add_new_contact">AddNewContactActivity</string>
     <string name="title_activity_new_interacion">NewInteracionActivity</string>
     <string name="Date">Date</string>

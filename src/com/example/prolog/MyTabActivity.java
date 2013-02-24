@@ -41,6 +41,14 @@ public class MyTabActivity extends Activity {
 				label2, ViewInteractionFragment.class);
 		tab.setTabListener(tl2);
 		actionBar.addTab(tab);
+		
+		String label3 = getResources().getString(R.string.tab_label_3);
+		tab = actionBar.newTab();
+		tab.setText(label3);
+		TabListener<ViewFollowUpFragment> tl3 = new TabListener<ViewFollowUpFragment>(this,
+				label2, ViewFollowUpFragment.class);
+		tab.setTabListener(tl3);
+		actionBar.addTab(tab);
 
 	}
 
