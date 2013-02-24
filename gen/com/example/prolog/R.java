@@ -32,11 +32,12 @@ public final class R {
     public static final class drawable {
         public static final int face=0x7f020000;
         public static final int ic_launcher=0x7f020001;
+        public static final int plus=0x7f020002;
     }
     public static final class id {
         public static final int EditText01=0x7f0a001d;
         public static final int ExpList=0x7f0a002d;
-        public static final int ListView01=0x7f0a0021;
+        public static final int ListView01=0x7f0a0020;
         public static final int TextView01=0x7f0a0002;
         public static final int TextView02=0x7f0a0001;
         public static final int action_settings=0x7f0a003d;
@@ -56,7 +57,7 @@ public final class R {
         public static final int editTextPhone=0x7f0a0013;
         public static final int editTextText=0x7f0a000b;
         public static final int frameLayout1=0x7f0a0030;
-        public static final int mainLinearLayoutMain=0x7f0a0022;
+        public static final int mainLinearLayoutMain=0x7f0a0021;
         public static final int menu_settings=0x7f0a003c;
         public static final int progressBar1=0x7f0a0031;
         public static final int quickContactBadge1=0x7f0a0004;
@@ -65,7 +66,7 @@ public final class R {
         public static final int radioButton3=0x7f0a0029;
         public static final int save=0x7f0a001c;
         public static final int saveButton=0x7f0a001b;
-        public static final int searchView=0x7f0a0020;
+        public static final int searchView=0x7f0a0022;
         public static final int section_label=0x7f0a0035;
         public static final int tableRow1=0x7f0a0007;
         public static final int tableRow10=0x7f0a001a;
