@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/activityContactListImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:src="@drawable/face" />
 
     <TextView
         android:id="@+id/activityContactListTextView"
