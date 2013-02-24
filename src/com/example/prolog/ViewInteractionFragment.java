@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class ViewInteractionFragment extends Fragment {
 
 	private ContactsDataSource datasource;
-	private Button button1;
+	private Button buttonAdd;
 	
 	
 	@Override
@@ -29,8 +29,8 @@ public class ViewInteractionFragment extends Fragment {
 		
 		super.onActivityCreated(savedInstanceState);
 		
-		button1 = (Button) getView().findViewById(R.id.save);
-		button1.setOnClickListener(new View.OnClickListener() {
+		buttonAdd = (Button) getView().findViewById(R.id.fragmentInteractionsAddButton);
+		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent i = new Intent(getActivity().getBaseContext(),NewInteracionActivity.class);
 				long contatcId =  getArguments().getLong("contactId");

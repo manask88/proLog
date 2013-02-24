@@ -40,7 +40,7 @@ public final class R {
         public static final int ListView01=0x7f0a0020;
         public static final int TextView01=0x7f0a0002;
         public static final int TextView02=0x7f0a0001;
-        public static final int action_settings=0x7f0a003e;
+        public static final int action_settings=0x7f0a003f;
         public static final int activityContactListImageView=0x7f0a001e;
         public static final int activityContactListTextView=0x7f0a001f;
         public static final int add_new_contact=0x7f0a0023;
@@ -57,10 +57,11 @@ public final class R {
         public static final int editTextNewFollowUpActivityDate=0x7f0a001d;
         public static final int editTextPhone=0x7f0a0013;
         public static final int editTextText=0x7f0a000b;
+        public static final int fragmentInteractionsAddButton=0x7f0a003d;
         public static final int frameLayout1=0x7f0a0031;
         public static final int grp=0x7f0a0028;
         public static final int mainLinearLayoutMain=0x7f0a0021;
-        public static final int menu_settings=0x7f0a003d;
+        public static final int menu_settings=0x7f0a003e;
         public static final int progressBar1=0x7f0a0032;
         public static final int quickContactBadge1=0x7f0a0004;
         public static final int radioButton1=0x7f0a0029;

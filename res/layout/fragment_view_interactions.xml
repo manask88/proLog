@@ -30,7 +30,7 @@ android:hint="Search" >
        android:textSize="15dp" />
 
    <Button
-       android:id="@+id/save"
+       android:id="@+id/fragmentInteractionsAddButton"
        style="?android:attr/buttonStyleSmall"
        android:layout_width="30dp"
        android:layout_height="30dp"
