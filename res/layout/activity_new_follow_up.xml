@@ -56,19 +56,34 @@
 
     </TableRow>
 
+    <LinearLayout >
+    
+        <EditText
+            android:id="@+id/editTextNewFollowUpActivityDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:ems="10"
+            android:gravity="left"
+            android:hint="@string/Date"
+            android:inputType="date"
+            android:width="@dimen/hundredten" />
+
+        <Button
+            android:id="@+id/datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/twentydp"
+            android:text="@string/pick_date"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+    
+</LinearLayout>
     <TableRow
         android:id="@+id/tableRow4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-
-        <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/Date"
-            android:inputType="date"
-            android:textColor="@color/white" />
 
     </TableRow>
 

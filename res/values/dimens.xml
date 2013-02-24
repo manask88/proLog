@@ -7,5 +7,6 @@
     <dimen name="twentydp">20dp</dimen>
     <dimen name="eightydp">80dp</dimen>
     <dimen name="fifty">50dp</dimen>
+    <dimen name="hundredten">110dp</dimen>
 
 </resources>

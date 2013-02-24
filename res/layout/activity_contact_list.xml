@@ -10,7 +10,7 @@
     tools:context=".ContactListActivity" >
 
 <EditText
-        android:id="@+id/EditText01"
+        android:id="@+id/editTextNewFollowUpActivityDate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
