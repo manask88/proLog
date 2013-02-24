@@ -23,8 +23,8 @@
        android:id="@+id/textView1"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_alignLeft="@+id/EditText01"
-       android:layout_below="@+id/EditText01"
+       android:layout_alignLeft="@+id/editTextNewFollowUpActivityDate"
+       android:layout_below="@+id/editTextNewFollowUpActivityDate"
        android:text="Contacts"
        android:textColor="@color/white"
        android:textSize="15dp" />
@@ -34,7 +34,7 @@
        style="@drawable/plus"
        android:layout_width="30dp"
        android:layout_height="30dp"
-       android:layout_alignRight="@+id/EditText01"
+       android:layout_alignRight="@+id/editTextNewFollowUpActivityDate"
        android:layout_alignTop="@+id/textView1"
        android:text="+" />
 <ListView

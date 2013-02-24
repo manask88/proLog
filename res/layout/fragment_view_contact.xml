@@ -158,6 +158,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"
+            android:autoLink="phone"
             android:text="TextView"
             android:textColor="@color/white" />
 
@@ -177,11 +178,13 @@
             android:text="@string/Email"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
+
         <TextView
             android:id="@+id/textViewEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"
+            android:autoLink="email"
             android:text="TextView"
             android:textColor="@color/white" />
 
@@ -200,11 +203,13 @@
             android:text="@string/Location"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/white" />
+
         <TextView
             android:id="@+id/textViewLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"
+            android:autoLink="map"
             android:text="TextView"
             android:textColor="@color/white" />
 
