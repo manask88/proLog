@@ -6,6 +6,7 @@ import com.example.prolog.model.Contact;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -46,8 +47,12 @@ public class AddNewContactActivity extends Activity {
 				c.setWork_phone(etPhone.getText().toString());
 				c.setEmail(etEmail.getText().toString());
 				c.setLocation(etLocation.getText().toString());
-				datasource.createContact(c);
+				c = datasource.createContact(c);
 				datasource.close();
+				
+				Intent i = new Intent(context, MyTabActivity.class);
+				i.putExtra("contactId", c.getId());
+				startActivity(i);
 			}
 		});
 		
