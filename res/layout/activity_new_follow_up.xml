@@ -73,30 +73,30 @@
     </TableRow>
 
 
-
+<TableRow>
+    <RadioGroup android:id="@+id/grp">
  <RadioButton
             android:id="@+id/radioButton1"
-            android:layout_height="wrap_content"
-            android:maxWidth="@dimen/fifty"
+            
+           
             android:text="@string/oneday"
             android:textColor="@color/white"
-            android:width="@dimen/twentydp" />
+           />
         <RadioButton
             android:id="@+id/radioButton2"
-            android:layout_height="wrap_content"
-            android:maxWidth="@dimen/fifty"
+           
+           
             android:text="@string/oneweek"
             android:textColor="@color/white"
-            android:width="@dimen/twentydp" />
+         />
          <RadioButton
             android:id="@+id/radioButton3"
-            android:layout_height="wrap_content"
-            android:maxWidth="@dimen/fifty"
+        
             android:text="@string/onemonth"
             android:textColor="@color/white"
-            android:width="@dimen/twentydp" />
-
-
+           />
+</RadioGroup>
+</TableRow>
     
 
     <TableRow
