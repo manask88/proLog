@@ -15,7 +15,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextDate"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:ems="10"

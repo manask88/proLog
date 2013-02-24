@@ -85,6 +85,7 @@ public class ContactsDataSource {
 		long insertid = database.insert(
 				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
 		interaction.setId(insertid);
+		Log.i(LOGTAG, "Returned Interaction- " + interaction.getContactId() + " text: " + interaction.getText());
 		return interaction;
 
 	}
