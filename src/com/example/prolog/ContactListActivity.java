@@ -76,7 +76,7 @@ public static final String LOGTAG="EXPLORECA";
 	
 		});
 		//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
-		ed = (EditText) findViewById(R.id.EditText01);
+		ed = (EditText) findViewById(R.id.editTextNewFollowUpActivityDate);
 		ed.addTextChangedListener( new TextWatcher() {
 			
 			@Override
