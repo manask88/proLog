@@ -16,6 +16,7 @@ public class MyTabActivity extends Activity {
 	public long contactId;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		setTitle("proLog");
 		super.onCreate(savedInstanceState);
 
 		Bundle b = getIntent().getExtras();

@@ -8,6 +8,7 @@ public class GroupListActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTitle("Groups");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_group_list);
 	}

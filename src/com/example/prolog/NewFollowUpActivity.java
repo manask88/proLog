@@ -8,6 +8,7 @@ public class NewFollowUpActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTitle("New Follow Up");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_follow_up);
 	}
