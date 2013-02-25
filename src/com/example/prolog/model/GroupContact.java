@@ -4,7 +4,7 @@ public class GroupContact {
 	long groupId;
 	long contactId;
 	
-	GroupContact () {
+	public GroupContact () {
 		groupId=0;
 		contactId=0;
 		

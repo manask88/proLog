@@ -36,11 +36,12 @@
        android:layout_alignRight="@+id/editTextNewFollowUpActivityDate"
        android:layout_alignTop="@+id/textView1"
        android:text="+" />
-<ListView
-       android:id="@+id/ListView01"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/textView1" >
-   </ListView>
+	 <ExpandableListView
+	       android:id="@+id/activityGroupListExpList"
+	       android:layout_width="wrap_content"
+	       android:layout_height="500dp"
+	       android:layout_alignRight="@+id/fragmentInteractionsAddButton"
+	       android:layout_below="@+id/fragmentInteractionsAddButton" >
+	   </ExpandableListView>
 
 </RelativeLayout>

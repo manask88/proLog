@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.prolog.model.Contact;
 import com.example.prolog.model.Group;
+import com.example.prolog.model.GroupContact;
 import com.example.prolog.model.Interaction;
 
 import android.content.ContentValues;
@@ -125,7 +126,7 @@ public class ContactsDataSource {
 
 	}
 
-	public ArrayList<Group> findGroups() {
+	public ArrayList<Group> findAllGroups() {
 		ArrayList<Group> groups = new ArrayList<Group>();
 		Group group;
 		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUPS,
@@ -192,6 +193,40 @@ public class ContactsDataSource {
 				+ " interactions in arraylist");
 
 		return interactions;
+
+	}
+
+	
+	public ArrayList<GroupContact> findContactsbyGroupId(long groupId) {
+		ArrayList<GroupContact> groupContacts = new ArrayList<GroupContact>();
+		GroupContact groupContact;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+				allColumnsGroupContacts,
+				ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID + "=?",
+				new String[] { Long.toString(groupId) }, null, null, null);
+
+		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
+
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				groupContact = new GroupContact();
+				groupContact
+						.setGroupId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID)));
+				groupContact
+						.setContactId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID)));
+		
+				groupContacts.add(groupContact);
+
+			}
+
+		}
+		cursor.close();
+		Log.i(LOGTAG, "Filled" + groupContacts.size()
+				+ " groupContacts in arraylist");
+
+		return groupContacts;
 
 	}
 
