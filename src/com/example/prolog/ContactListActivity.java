@@ -48,6 +48,7 @@ public static final String LOGTAG="EXPLORECA";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle("Contacts");
 		setContentView(R.layout.activity_contact_list);
 
 		Log.i(LOGTAG,"started ContactListActivity");

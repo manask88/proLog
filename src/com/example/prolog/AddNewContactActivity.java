@@ -19,6 +19,7 @@ public class AddNewContactActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTitle("Add New Contact");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_contact);
 		

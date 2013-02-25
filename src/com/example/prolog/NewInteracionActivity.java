@@ -26,6 +26,7 @@ public class NewInteracionActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setTitle("New Interaction");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_interacion);
 		datePickerButton = (Button) findViewById(R.id.newInteractionActivityDatePicker);
