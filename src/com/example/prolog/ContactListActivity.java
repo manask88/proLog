@@ -44,7 +44,81 @@ private Button button1;
 private Button button;
 public static final String LOGTAG="EXPLORECA";
 
-	
+	@Override
+		protected void onResume() {
+			super.onResume();
+			datasource.open();
+			contacts=(ArrayList<Contact>) datasource.findAllContacts();
+			Collections.sort(contacts,new ContactsCompareByName());
+			// TODO we shoyld be copyng this properly... this is nasty!!
+			arr_sort=(ArrayList<Contact>) datasource.findAllContacts();
+			Collections.sort(arr_sort,new ContactsCompareByName());
+
+			lv_arr = new String[contacts.size()];
+			Iterator i = contacts.iterator();
+			int j = 0;
+			while(i.hasNext()) {
+				lv_arr[j]=((Contact) i.next()).getName();
+				j++;
+			}
+			lv = (ListView)findViewById(android.R.id.list);
+			
+			
+			lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, arr_sort));
+			lv.setOnItemClickListener(new OnItemClickListener() 
+			{
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position,
+						long id) {
+					 Intent i = new Intent(context, MyTabActivity.class);
+					 i.putExtra("contactId", arr_sort.get(position).getId());
+					 startActivity(i);
+				}
+		
+			});
+			//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
+			
+			ed.addTextChangedListener( new TextWatcher() {
+				
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					// TODO Auto-generated method stub
+	                arr_sort.clear();
+	                for (int i = 0; i < lv_arr.length; i++) {
+	                        if ((lv_arr[i].toLowerCase()).contains(ed.getText().toString().toLowerCase())) {
+	                            arr_sort.add(contacts.get(i));
+	                        }
+	                }
+	        		lv.setAdapter(new ContactListAdapter(ContactListActivity.this, R.id.activityContactListTextView, arr_sort));
+				}
+				
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count,
+						int after) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			button.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					startActivity(new Intent(context,AddNewContactActivity.class));
+				}
+			});
+		}
+	@Override
+		protected void onPause() {
+			
+			super.onPause();
+			datasource.close();
+		}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,68 +127,13 @@ public static final String LOGTAG="EXPLORECA";
 
 		Log.i(LOGTAG,"started ContactListActivity");
 		datasource=new ContactsDataSource(this);
-		datasource.open();
-		contacts=(ArrayList<Contact>) datasource.findAllContacts();
-		// TODO we shoyld be copyng this properly... this is nasty!!
-		arr_sort=(ArrayList<Contact>) datasource.findAllContacts();
-		lv_arr = new String[contacts.size()];
-		Iterator i = contacts.iterator();
-		int j = 0;
-		while(i.hasNext()) {
-			lv_arr[j]=((Contact) i.next()).getName();
-			j++;
-		}
-		lv = (ListView)findViewById(android.R.id.list);
 		
-		
-		lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, arr_sort));
-		lv.setOnItemClickListener(new OnItemClickListener() 
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				 Intent i = new Intent(context, MyTabActivity.class);
-				 i.putExtra("contactId", arr_sort.get(position).getId());
-				 startActivity(i);
-			}
 	
-		});
-		//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
+		
 		ed = (EditText) findViewById(R.id.editTextNewFollowUpActivityDate);
-		ed.addTextChangedListener( new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-                arr_sort.clear();
-                for (int i = 0; i < lv_arr.length; i++) {
-                        if ((lv_arr[i].toLowerCase()).contains(ed.getText().toString().toLowerCase())) {
-                            arr_sort.add(contacts.get(i));
-                        }
-                }
-        		lv.setAdapter(new ContactListAdapter(ContactListActivity.this, R.id.activityContactListTextView, arr_sort));
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		
 		button = (Button) findViewById(R.id.save);
-		button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context,AddNewContactActivity.class));
-			}
-		});
+		
 	}
 
 	@Override

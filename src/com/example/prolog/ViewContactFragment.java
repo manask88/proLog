@@ -27,7 +27,6 @@ public class ViewContactFragment extends Fragment {
 		datasource=new ContactsDataSource(getActivity());
 		datasource.open();
 		contact=datasource.findContactbyId(contactId);
-		Toast.makeText(getActivity(), contact.getHome_phone(), Toast.LENGTH_LONG).show();
 		TextView tvName= (TextView) getActivity().findViewById(R.id.textViewName);
 		TextView tvTitle= (TextView) getActivity().findViewById(R.id.textViewTitle);
 		TextView tvCompany= (TextView) getActivity().findViewById(R.id.textViewContactCompany);

@@ -30,17 +30,20 @@ android:hint="Search" >
        android:textSize="15dp" />
 
    <Button
-       android:id="@+id/save"
+       android:id="@+id/fragmentInteractionsAddButton"
        style="?android:attr/buttonStyleSmall"
        android:layout_width="30dp"
        android:layout_height="30dp"
        android:layout_alignRight="@+id/editTextNewFollowUpActivityDate"
        android:layout_alignTop="@+id/textView1"
        android:text="+" />
-<ListView
-       android:id="@android:id/list"
+
+   <ExpandableListView
+       android:id="@+id/fragmentInteractionsExpList"
        android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/save" >
-   </ListView>
+       android:layout_height="500dp"
+       android:layout_alignRight="@+id/fragmentInteractionsAddButton"
+       android:layout_below="@+id/fragmentInteractionsAddButton" >
+   </ExpandableListView>
+   
 </RelativeLayout>
