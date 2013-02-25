@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
 	private ImageButton viewContactListBtn;
 	private ImageButton viewGroupListBtn;
 	private Context context = this;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -41,7 +41,7 @@ public final class R {
         public static final int NewFollowUpActivityDatePicker=0x7f0a002b;
         public static final int TextView01=0x7f0a0002;
         public static final int TextView02=0x7f0a0001;
-        public static final int action_settings=0x7f0a0049;
+        public static final int action_settings=0x7f0a004c;
         public static final int activityAddNewContactCancelButton=0x7f0a001c;
         public static final int activityAddNewContactSaveButton=0x7f0a001b;
         public static final int activityContactListImageView=0x7f0a001f;
@@ -57,9 +57,11 @@ public final class R {
         public static final int editTextNewFollowUpActivityDate=0x7f0a001d;
         public static final int editTextPhone=0x7f0a0013;
         public static final int editTextText=0x7f0a000b;
+        public static final int fragmentInteractionsAddButton=0x7f0a0049;
+        public static final int fragmentInteractionsExpList=0x7f0a004a;
         public static final int frameLayout1=0x7f0a003c;
         public static final int mainLinearLayoutMain=0x7f0a0022;
-        public static final int menu_settings=0x7f0a0048;
+        public static final int menu_settings=0x7f0a004b;
         public static final int newFollowUpActivityCancelButton=0x7f0a0031;
         public static final int newFollowUpActivityDateEditText=0x7f0a002a;
         public static final int newFollowUpActivityEditTextText=0x7f0a002f;
@@ -100,12 +102,13 @@ public final class R {
         public static final int textView5=0x7f0a0012;
         public static final int textView7=0x7f0a000d;
         public static final int textView9=0x7f0a0015;
-        public static final int textViewContactCompany=0x7f0a0044;
-        public static final int textViewEmail=0x7f0a0046;
-        public static final int textViewLocation=0x7f0a0047;
-        public static final int textViewName=0x7f0a0042;
-        public static final int textViewPhone=0x7f0a0045;
-        public static final int textViewTitle=0x7f0a0043;
+        public static final int textViewContactCompany=0x7f0a0045;
+        public static final int textViewEmail=0x7f0a0047;
+        public static final int textViewFragmentInteractionsNotes=0x7f0a0042;
+        public static final int textViewLocation=0x7f0a0048;
+        public static final int textViewName=0x7f0a0043;
+        public static final int textViewPhone=0x7f0a0046;
+        public static final int textViewTitle=0x7f0a0044;
         public static final int tvChild=0x7f0a003e;
         public static final int tvGroup=0x7f0a0040;
         public static final int view_contact_list=0x7f0a0025;
@@ -129,10 +132,12 @@ public final class R {
         public static final int expandlist_child_item=0x7f03000b;
         public static final int expandlist_group_item=0x7f03000c;
         public static final int fragment_contact_view_dummy=0x7f03000d;
-        public static final int fragment_new_contact_dummy=0x7f03000e;
-        public static final int fragment_view_contact=0x7f03000f;
-        public static final int fragment_view_followups=0x7f030010;
-        public static final int fragment_view_interactions=0x7f030011;
+        public static final int fragment_interactions_expandlist_child_item=0x7f03000e;
+        public static final int fragment_interactions_expandlist_group_item=0x7f03000f;
+        public static final int fragment_new_contact_dummy=0x7f030010;
+        public static final int fragment_view_contact=0x7f030011;
+        public static final int fragment_view_followups=0x7f030012;
+        public static final int fragment_view_interactions=0x7f030013;
     }
     public static final class menu {
         public static final int activity_main=0x7f090000;
