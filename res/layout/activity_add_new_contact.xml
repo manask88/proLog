@@ -224,7 +224,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/saveButton"
+            android:id="@+id/activityAddNewContactSaveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/twentydp"
@@ -232,7 +232,7 @@
             android:text="@string/save" />
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/activityAddNewContactCancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fifty"

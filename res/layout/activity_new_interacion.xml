@@ -15,7 +15,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/newInteractionActivityEditTextDate"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:ems="10"
@@ -30,7 +30,7 @@
         </EditText>
         
         <Button
-            android:id="@+id/datePicker"
+            android:id="@+id/newInteractionActivityDatePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fifty"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content" >
 
         <CheckBox
-            android:id="@+id/checkBoxFollowUp"
+            android:id="@+id/newInteractionActivityCheckBoxFollowUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Follow_up"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/newInteractionActivityTextViewNote"
             style="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
 
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/newInteractionActivityEditTextText"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:ems="10"
@@ -82,7 +82,7 @@
             android:minLines="@integer/min_lines" />
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/newInteractionActivitySaveButton"
             style="@dimen/twentydp"
             android:layout_marginTop="@dimen/twentydp"
             android:maxWidth="@dimen/fifty"
@@ -91,7 +91,7 @@
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/newInteractionActivityCancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Cancel"
