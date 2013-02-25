@@ -15,7 +15,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/newFollowUpActivityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/newfollowup"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/newFollowUpActivityEditTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/newFollowUpActivityTextViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Date"
@@ -59,7 +59,7 @@
     <LinearLayout >
     
         <EditText
-            android:id="@+id/editTextNewFollowUpActivityDate"
+            android:id="@+id/newFollowUpActivityDateEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -70,7 +70,7 @@
             android:width="@dimen/hundredten" />
 
         <Button
-            android:id="@+id/datePicker"
+            android:id="@+id/NewFollowUpActivityDatePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/fifty"
@@ -89,26 +89,17 @@
 
 
 <TableRow>
-    <RadioGroup android:id="@+id/grp">
- <RadioButton
-            android:id="@+id/radioButton1"
-            
-           
-            android:text="@string/oneday"
-            android:textColor="@color/white"
-           />
+   <RadioGroup android:id="@+id/newFollowUpActivityGrp">
         <RadioButton
-            android:id="@+id/radioButton2"
-           
-           
+            android:id="@+id/newFollowUpActivityRadioButton2"
             android:text="@string/oneweek"
             android:textColor="@color/white"
-         />
+           	android:onClick="onRadioButtonClicked"/>
          <RadioButton
-            android:id="@+id/radioButton3"
-        
+            android:id="@+id/newFollowUpActivityRadioButton3"  
             android:text="@string/onemonth"
             android:textColor="@color/white"
+            android:onClick="onRadioButtonClicked"
            />
 </RadioGroup>
 </TableRow>
@@ -129,10 +120,8 @@
 
     </TableRow>
 
-
-
         <EditText
-            android:id="@+id/editTextCompany"
+            android:id="@+id/newFollowUpActivityEditTextText"
             style="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -141,11 +130,11 @@
             android:ems="10"
             android:hint="@string/addfollow"
             android:inputType="textMultiLine"
-            android:minHeight="100dp"
+            android:minHeight="70dp"
             android:textAlignment="textStart" />
 
         <Button
-            android:id="@+id/save"
+            android:id="@+id/newFollowUpActivitySaveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -153,6 +142,17 @@
             android:layout_marginRight="@dimen/fifty"
             android:layout_marginTop="@dimen/fivedp"
             android:text="@string/save"
+            android:textColor="@color/white" />
+        
+        <Button
+            android:id="@+id/newFollowUpActivityCancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/fifty"
+            android:layout_marginTop="@dimen/fivedp"
+            android:text="@string/Cancel"
             android:textColor="@color/white" />
 
 </TableLayout>

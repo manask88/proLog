@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.app.DialogFragment;
 import android.app.DatePickerDialog;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -21,6 +22,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 	public DatePickerFragment setEditText(EditText editText1) {
 		// TODO Auto-generated constructor stub
     	this.editText1 = editText1;
+    	if(this.editText1 == null)
+    		Log.i("malav","null1");
     	return this;
 	}
 
@@ -39,6 +42,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 	@Override
 	public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
-		editText1.setText(Integer.toString(arg2)+"/"+Integer.toString(arg1)+"/"+Integer.toString(arg3));
+		if(editText1 == null)
+			Log.i("malav","null");
+		editText1.setText(Integer.toString(arg2)+"/"+Integer.toString(arg3)+"/"+Integer.toString(arg1));
 	}
 }
