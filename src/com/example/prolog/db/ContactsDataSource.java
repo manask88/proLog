@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.prolog.model.Contact;
+import com.example.prolog.model.Group;
 import com.example.prolog.model.Interaction;
 
 import android.content.ContentValues;
@@ -34,9 +35,17 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
-			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT,
+			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT
 	};
 
+	private static final String[] allColumnsGroups = {
+		ContactsDBOpenHelper.COLUMN_GROUPS_ID,
+		ContactsDBOpenHelper.COLUMN_GROUPS_NAME };
+
+	private static final String[] allColumnsGroupContacts = {
+		ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID,
+		ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID };
+	
 	public ContactsDataSource(Context context) {
 		dbhelper = new ContactsDBOpenHelper(context);
 
@@ -54,6 +63,31 @@ public class ContactsDataSource {
 
 	}
 
+	public long createGroup(String  name) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, name);
+
+
+		long insertid = database.insert(ContactsDBOpenHelper.TABLE_GROUPS,
+				null, values);
+		
+		Log.i(LOGTAG, "group created with id "+ insertid);
+		return insertid;
+
+	}
+	
+	public void createGroupContacts(long groupId, long contactId) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID, contactId);
+		values.put(ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID, groupId);
+
+		database.insert(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+				null, values);
+		
+		Log.i(LOGTAG, "groupid "+groupId +" and contact id entry created "+ contactId);
+		
+	}
+	
 	public Contact createContact(Contact contact) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
@@ -91,6 +125,38 @@ public class ContactsDataSource {
 
 	}
 
+	public ArrayList<Group> findGroups() {
+		ArrayList<Group> groups = new ArrayList<Group>();
+		Group group;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUPS,
+				allColumnsGroups,
+				null,
+				null, null, null, null);
+
+		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
+
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				group = new Group();
+				group
+						.setId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_ID)));
+				group
+						.setName(cursor.getString(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_NAME)));
+				
+				groups.add(group);
+
+			}
+
+		}
+		cursor.close();
+		Log.i(LOGTAG, "Filled" + groups.size()
+				+ " groups in arraylist");
+
+		return groups;
+
+	}
 	public ArrayList<Interaction> findInteractionsbyContactId(long contactId) {
 		ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 		Interaction interaction;

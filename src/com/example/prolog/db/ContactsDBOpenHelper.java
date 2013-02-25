@@ -21,15 +21,22 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_WORK_PHONE = "work_phone";
 	public static final String COLUMN_EMAIL = "email";
 	public static final String COLUMN_LOCATION = "location";
+	
 	public static final String TABLE_INTERACTIONS = "interactions";
 	public static final String COLUMN_INTERACTIONS_ID = "interactionId";
 	public static final String COLUMN_INTERACTIONS_CONTACT_ID = "contactid";
 	public static final String COLUMN_INTERACTIONS_DATE = "date";
 	public static final String COLUMN_INTERACTIONS_TEXT = "text";
 
-
-
+	public static final String TABLE_GROUPS = "groups";
+	public static final String COLUMN_GROUPS_ID = "groupId";
+	public static final String COLUMN_GROUPS_NAME = "name";
 	
+	public static final String TABLE_GROUP_CONTACTS = "group_contacts";
+	public static final String COLUMN_GROUP_CONTACT_ID = "contactId";
+	public static final String COLUMN_GROUP_GROUP_ID = "groupId";
+
+
 	
 	private static final String TABLE_CREATE =
 			"CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + " ( " +
@@ -50,6 +57,17 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			COLUMN_INTERACTIONS_TEXT + " TEXT" +
 			")";
 	
+	private static final String TABLE_CREATE_GROUPS =
+			"CREATE TABLE IF NOT EXISTS " + TABLE_GROUPS + " ( " +
+			COLUMN_GROUPS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			COLUMN_GROUPS_NAME + " TEXT " +
+			")";
+	
+	private static final String TABLE_CREATE_GROUP_CONTACTS =
+			"CREATE TABLE IF NOT EXISTS " + TABLE_GROUPS + " ( " +
+			COLUMN_GROUP_CONTACT_ID + " INTEGER, " +
+			COLUMN_GROUP_GROUP_ID + " INTEGER " +
+			")";
 	
 	
 	
@@ -71,7 +89,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERACTIONS);
-
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CREATE_GROUPS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CREATE_GROUP_CONTACTS);
 		onCreate(db);
 
 	}
