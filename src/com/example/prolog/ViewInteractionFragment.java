@@ -34,9 +34,7 @@ public class ViewInteractionFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		datasource=new ContactsDataSource(getActivity());
 		expandList = (ExpandableListView) getView().findViewById(R.id.fragmentInteractionsExpList);
-		expListItems = SetStandardGroups();
-	    expAdapter = new ExpandListAdapterFragmentInteractions(getActivity(), expListItems);
-	    expandList.setAdapter(expAdapter);
+		
 	    
 		buttonAdd = (Button) getView().findViewById(R.id.fragmentInteractionsAddButton);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -67,10 +65,14 @@ public class ViewInteractionFragment extends Fragment {
 	}
 	
 	@Override
+	
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		datasource.open();
+		expListItems = SetStandardGroups();
+	    expAdapter = new ExpandListAdapterFragmentInteractions(getActivity(), expListItems);
+	    expandList.setAdapter(expAdapter);
 	}
 	
 	@Override
