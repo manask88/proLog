@@ -4,10 +4,14 @@ import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +37,7 @@ public class ViewContactFragment extends Fragment {
 		TextView tvPhone= (TextView) getActivity().findViewById(R.id.textViewPhone);
 		TextView tvEmail= (TextView) getActivity().findViewById(R.id.textViewEmail);
 		TextView tvLocation= (TextView) getActivity().findViewById(R.id.textViewLocation);
-
+		ImageButton imagebuttonEdit=(ImageButton) getActivity().findViewById(R.id.imageButtonEdit);
 		tvName.setText(contact.getName());
 		tvTitle.setText(contact.getTitle());
 		tvCompany.setText(contact.getCompany());
@@ -41,6 +45,16 @@ public class ViewContactFragment extends Fragment {
 		tvEmail.setText(contact.getEmail());
 		tvLocation.setText(contact.getLocation());
 
+		imagebuttonEdit.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Bundle b = new Bundle(); 
+				b.putLong("contactId", contactId);
+				EditContactFragment editContactFragment = new EditContactFragment();
+				editContactFragment.setArguments(b);
+		        FragmentManager fmi = getFragmentManager();
+		        FragmentTransaction ftu = fmi.beginTransaction();
+		        ftu.replace(android.R.id.content, editContactFragment).addToBackStack(null).commit();			}
+		});
 
 	}
 	

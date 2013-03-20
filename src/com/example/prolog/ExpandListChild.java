@@ -5,7 +5,21 @@ public class ExpandListChild {
 	
 	private String Name;
 	private String Tag;
+	private long id;
+	private boolean isChecked;
 	
+	public boolean isChecked() {
+		return isChecked;
+	}
+	public void setChecked(boolean isChecked) {
+		this.isChecked = isChecked;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return Name;
 	}

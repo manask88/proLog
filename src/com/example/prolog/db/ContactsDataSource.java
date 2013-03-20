@@ -23,8 +23,7 @@ public class ContactsDataSource {
 	SQLiteDatabase database;
 
 	private static final String[] allColumnsContacts = {
-			ContactsDBOpenHelper.COLUMN_ID, 
-			ContactsDBOpenHelper.COLUMN_NAME,
+			ContactsDBOpenHelper.COLUMN_ID, ContactsDBOpenHelper.COLUMN_NAME,
 			ContactsDBOpenHelper.COLUMN_TITLE,
 			ContactsDBOpenHelper.COLUMN_COMPANY,
 			ContactsDBOpenHelper.COLUMN_HOME_PHONE,
@@ -36,17 +35,16 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
-			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT
-	};
+			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT };
 
 	private static final String[] allColumnsGroups = {
-		ContactsDBOpenHelper.COLUMN_GROUPS_ID,
-		ContactsDBOpenHelper.COLUMN_GROUPS_NAME };
+			ContactsDBOpenHelper.COLUMN_GROUPS_ID,
+			ContactsDBOpenHelper.COLUMN_GROUPS_NAME };
 
 	private static final String[] allColumnsGroupContacts = {
-		ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID,
-		ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID };
-	
+			ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID,
+			ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID };
+
 	public ContactsDataSource(Context context) {
 		dbhelper = new ContactsDBOpenHelper(context);
 
@@ -64,31 +62,30 @@ public class ContactsDataSource {
 
 	}
 
-	public long createGroup(String  name) {
+	public long createGroup(String name) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, name);
 
-
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_GROUPS,
 				null, values);
-		
-		Log.i(LOGTAG, "group created with id "+ insertid);
+
+		Log.i(LOGTAG, "group created with id " + insertid);
 		return insertid;
 
 	}
-	
+
 	public void createGroupContacts(long groupId, long contactId) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID, contactId);
 		values.put(ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID, groupId);
 
-		database.insert(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
-				null, values);
-		
-		Log.i(LOGTAG, "groupid "+groupId +" and contact id entry created "+ contactId);
-		
+		database.insert(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS, null, values);
+
+		Log.i(LOGTAG, "groupid " + groupId + " and contact id entry created "
+				+ contactId);
+
 	}
-	
+
 	public Contact createContact(Contact contact) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
@@ -104,7 +101,27 @@ public class ContactsDataSource {
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
 				null, values);
 		contact.setId(insertid);
-		Log.i(LOGTAG, "Contact created with id "+ contact.getId());
+		Log.i(LOGTAG, "Contact created with id " + contact.getId());
+		return contact;
+
+	}
+
+	public Contact updateContact(Contact contact) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
+		values.put(ContactsDBOpenHelper.COLUMN_TITLE, contact.getTitle());
+		values.put(ContactsDBOpenHelper.COLUMN_COMPANY, contact.getEmail());
+		values.put(ContactsDBOpenHelper.COLUMN_HOME_PHONE,
+				contact.getHome_phone());
+		values.put(ContactsDBOpenHelper.COLUMN_WORK_PHONE,
+				contact.getWork_phone());
+		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
+		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
+		database.update(ContactsDBOpenHelper.TABLE_CONTACTS, values,
+				ContactsDBOpenHelper.COLUMN_ID + "=?",
+				new String[] { Long.toString(contact.getId()) });
+		
+		Log.i(LOGTAG, "Contact  with id " + contact.getId()+" updated");
 		return contact;
 
 	}
@@ -121,7 +138,8 @@ public class ContactsDataSource {
 		long insertid = database.insert(
 				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
 		interaction.setId(insertid);
-		Log.i(LOGTAG, "Returned Interaction- " + interaction.getContactId() + " text: " + interaction.getText());
+		Log.i(LOGTAG, "Returned Interaction- " + interaction.getContactId()
+				+ " text: " + interaction.getText());
 		return interaction;
 
 	}
@@ -130,34 +148,30 @@ public class ContactsDataSource {
 		ArrayList<Group> groups = new ArrayList<Group>();
 		Group group;
 		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUPS,
-				allColumnsGroups,
-				null,
-				null, null, null, null);
+				allColumnsGroups, null, null, null, null, null);
 
 		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
 
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
 				group = new Group();
-				group
-						.setId(cursor.getLong(cursor
-								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_ID)));
-				group
-						.setName(cursor.getString(cursor
-								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_NAME)));
-				
+				group.setId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_ID)));
+				group.setName(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_NAME)));
+
 				groups.add(group);
 
 			}
 
 		}
 		cursor.close();
-		Log.i(LOGTAG, "Filled" + groups.size()
-				+ " groups in arraylist");
+		Log.i(LOGTAG, "Filled" + groups.size() + " groups in arraylist");
 
 		return groups;
 
 	}
+
 	public ArrayList<Interaction> findInteractionsbyContactId(long contactId) {
 		ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 		Interaction interaction;
@@ -196,11 +210,11 @@ public class ContactsDataSource {
 
 	}
 
-	
 	public ArrayList<GroupContact> findContactsbyGroupId(long groupId) {
 		ArrayList<GroupContact> groupContacts = new ArrayList<GroupContact>();
 		GroupContact groupContact;
-		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+		Cursor cursor = database.query(
+				ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
 				allColumnsGroupContacts,
 				ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID + "=?",
 				new String[] { Long.toString(groupId) }, null, null, null);
@@ -216,7 +230,7 @@ public class ContactsDataSource {
 				groupContact
 						.setContactId(cursor.getLong(cursor
 								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID)));
-		
+
 				groupContacts.add(groupContact);
 
 			}
@@ -258,7 +272,6 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
 				contact.setTitle(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));
-				
 
 			}
 			cursor.close();

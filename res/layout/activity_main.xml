@@ -147,6 +147,7 @@
                     android:layout_weight=".5" >
 
                     <ImageButton
+                        android:id="@+id/addNewIteraction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"

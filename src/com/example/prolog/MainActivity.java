@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
-	private ImageButton addNewContactBtn;
+	private ImageButton addNewContactBtn, addNewInteractionBtn;
 	private ImageButton viewContactListBtn;
 	private ImageButton viewGroupListBtn;
 	private Context context = this;
@@ -19,7 +19,13 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		addNewInteractionBtn = (ImageButton) findViewById(R.id.addNewIteraction);
 		
+		addNewInteractionBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(context,ContactListNewInteractionActivity.class));
+			}
+		});
 		addNewContactBtn = (ImageButton) findViewById(R.id.add_new_contact);
 		addNewContactBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
