@@ -1,5 +1,7 @@
 package com.example.prolog.model;
 
+import android.graphics.Bitmap;
+
 public class Contact {
 	private long id;
 	private String name;
@@ -10,7 +12,15 @@ public class Contact {
 	private String email;
 	private String location;
 	private long contactManagerId;
+	private Bitmap photo;
+
 	
+	public Bitmap getPhoto() {
+		return photo;
+	}
+	public void setPhoto(Bitmap photo) {
+		this.photo = photo;
+	}
 	public Contact ()
 	{
 		id=0;
@@ -22,7 +32,7 @@ public class Contact {
 		email="";
 		location="";
 		contactManagerId=0;
-		
+		photo=null;
 	}
 	public long getContactManagerId() {
 		return contactManagerId;

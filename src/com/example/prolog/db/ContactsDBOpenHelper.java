@@ -9,7 +9,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = "EXPLORECA";
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 2; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 5; /* change it whenever making changes on db scheleton*/
 	
 	public static final String TABLE_CONTACTS = "contacts";
 	
@@ -21,7 +21,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_WORK_PHONE = "work_phone";
 	public static final String COLUMN_EMAIL = "email";
 	public static final String COLUMN_LOCATION = "location";
-	
+	public static final String COLUMN_PHOTO = "photo";
+
 	public static final String TABLE_INTERACTIONS = "interactions";
 	public static final String COLUMN_INTERACTIONS_ID = "interactionId";
 	public static final String COLUMN_INTERACTIONS_CONTACT_ID = "contactid";
@@ -47,7 +48,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			COLUMN_HOME_PHONE + " TEXT, " +
 			COLUMN_WORK_PHONE + " TEXT, " +
 			COLUMN_EMAIL + " TEXT, " +
-			COLUMN_LOCATION + " TEXT" +
+			COLUMN_LOCATION + " TEXT," +
+			COLUMN_PHOTO + " BLOB" +
 			")";
 	private static final String TABLE_CREATE_INTERACTIONS =
 			"CREATE TABLE IF NOT EXISTS " + TABLE_INTERACTIONS + " ( " +
@@ -89,8 +91,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONTACTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERACTIONS);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CREATE_GROUPS);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CREATE_GROUP_CONTACTS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUP_CONTACTS);
 		onCreate(db);
 
 	}

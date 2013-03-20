@@ -1,5 +1,6 @@
 package com.example.prolog.db;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.graphics.Bitmap;
 
 public class ContactsDataSource {
 
@@ -90,7 +92,7 @@ public class ContactsDataSource {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
 		values.put(ContactsDBOpenHelper.COLUMN_TITLE, contact.getTitle());
-		values.put(ContactsDBOpenHelper.COLUMN_COMPANY, contact.getEmail());
+		values.put(ContactsDBOpenHelper.COLUMN_COMPANY, contact.getCompany());
 		values.put(ContactsDBOpenHelper.COLUMN_HOME_PHONE,
 				contact.getHome_phone());
 		values.put(ContactsDBOpenHelper.COLUMN_WORK_PHONE,
@@ -98,12 +100,32 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
+		if (contact.getPhoto() != null) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+			contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
+
+			values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());
+		}
+
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
 				null, values);
 		contact.setId(insertid);
 		Log.i(LOGTAG, "Contact created with id " + contact.getId());
 		return contact;
 
+	}
+
+	public void deleteContactById(long id) {
+		database.delete(ContactsDBOpenHelper.TABLE_CONTACTS,
+				ContactsDBOpenHelper.COLUMN_ID + "=?",
+				new String[] { Long.toString(id) });
+	}
+
+	public void deleteInteractionsByContactId(long id) {
+		database.delete(ContactsDBOpenHelper.TABLE_INTERACTIONS,
+				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?",
+				new String[] { Long.toString(id) });
 	}
 
 	public Contact updateContact(Contact contact) {
@@ -120,8 +142,8 @@ public class ContactsDataSource {
 		database.update(ContactsDBOpenHelper.TABLE_CONTACTS, values,
 				ContactsDBOpenHelper.COLUMN_ID + "=?",
 				new String[] { Long.toString(contact.getId()) });
-		
-		Log.i(LOGTAG, "Contact  with id " + contact.getId()+" updated");
+
+		Log.i(LOGTAG, "Contact  with id " + contact.getId() + " updated");
 		return contact;
 
 	}

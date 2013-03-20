@@ -18,11 +18,14 @@ import com.google.code.linkedinapi.schema.Person;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
@@ -62,12 +65,14 @@ public class SyncActivity extends Activity {
 	final LinkedInOAuthService oAuthService = LinkedInOAuthServiceFactory
 			.getInstance().createLinkedInOAuthService(CONSUMER_KEY,
 					CONSUMER_SECRET, scopeParams);
-	final LinkedInApiClientFactory factory = LinkedInApiClientFactory
+	public static final LinkedInApiClientFactory factory = LinkedInApiClientFactory
 			.newInstance(CONSUMER_KEY, CONSUMER_SECRET);
 	LinkedInRequestToken liToken;
 	public static final String LOGTAG = SyncActivity.class.getSimpleName();
 
 	ArrayList<ExpandListChild> contacts = new ArrayList<ExpandListChild>();
+	ArrayList<ExpandListChild> contactsLinkedIn = new ArrayList<ExpandListChild>();
+
 	ArrayList<Contact> contactsList = new ArrayList<Contact>();
 
 	private ExpandListAdapter ExpAdapter;
@@ -75,9 +80,11 @@ public class SyncActivity extends Activity {
 	private ExpandableListView ExpandList;
 	private Button buttonSkip;
 	private Button buttonSync;
-
+	Activity activity = this;
+	LinkedInAccessToken accessToken;
 	private Context context = this;
 	ContactsDataSource datasource;
+	Contact contactTemp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +107,25 @@ public class SyncActivity extends Activity {
 		ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
 
 		ExpandList.setAdapter(ExpAdapter);
+
+		// linkedIn begins
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		Log.i(LOGTAG, "1 is checked");
+
+		final SharedPreferences pref = getSharedPreferences(OAUTH_PREF,
+				MODE_PRIVATE);
+		final String token = pref.getString(PREF_TOKEN, null);
+		final String tokenSecret = pref.getString(PREF_TOKENSECRET, null);
+		if (token == null || tokenSecret == null) {
+			authenticationStart();
+		} else {
+			accessToken = new LinkedInAccessToken(token, tokenSecret);
+			// showCurrentUser(accessToken);
+			showConnections(accessToken);
+		}
+		// linkedIn ends
 
 		buttonSync = (Button) findViewById(R.id.buttonSyncSync);
 		buttonSync.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +154,10 @@ public class SyncActivity extends Activity {
 									.getId());
 							contact.setHome_phone(queryAllPhoneNumbersForContact(contactChild
 									.getId()));
-							ArrayList<TypeValue> mails=queryAllEmailsForContact(contactChild.getId());
-							if (mails!=null)
-							contact.setEmail(mails.get(0).getValue());
+							ArrayList<TypeValue> mails = queryAllEmailsForContact(contactChild
+									.getId());
+							if (mails != null)
+								contact.setEmail(mails.get(0).getValue());
 							contact.setWork_phone("another test");
 							createContact(contact);
 						}
@@ -140,30 +167,77 @@ public class SyncActivity extends Activity {
 
 				if (ExpListItems.get(1).isChecked()) {
 
-					StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-							.permitAll().build();
-					StrictMode.setThreadPolicy(policy);
-					Log.i(LOGTAG, "1 is checked");
+					datasource.open();
 
-					final SharedPreferences pref = getSharedPreferences(
-							OAUTH_PREF, MODE_PRIVATE);
-					final String token = pref.getString(PREF_TOKEN, null);
-					final String tokenSecret = pref.getString(PREF_TOKENSECRET,
-							null);
-					if (token == null || tokenSecret == null) {
-						authenticationStart();
-					} else {
-						LinkedInAccessToken accessToken = new LinkedInAccessToken(
-								token, tokenSecret);
-						// showCurrentUser(accessToken);
-						showConnections(accessToken);
+					for (ExpandListChild contactChild : contactsLinkedIn) {
+						if (contactChild.isChecked()) {
+							Log.i(LOGTAG,
+									"trying to get Linkedin contact with id: "
+											+ contactChild.getLinkedInId()
+											+ contactChild.getName());
+							// contactTemp=new Contact();
+							// queryDetailsForContactLinkedIn(contactChild.getLinkedInId(),accessToken);
+
+							new QueryContactInformationAsyncTask(activity)
+									.execute(contactChild.getLinkedInId(),
+											accessToken);
+						}
 					}
-
 				}
 
 				startActivity(new Intent(context, MainActivity.class));
 			}
 		});
+	}
+
+	private void queryDetailsForContactLinkedIn(final String linkedInId,
+			final LinkedInAccessToken accessToken) {
+
+		new Thread() {
+
+			@Override
+			public void run() {
+				Looper.prepare();
+				Log.i(LOGTAG, "getContactDetails");
+				final LinkedInApiClient client = factory
+						.createLinkedInApiClient(accessToken);
+				try {
+
+					final Person profile = client.getProfileById(linkedInId);
+					// /////////////////////////////////////////////////////////
+					// here you can do client API calls ...
+					// client.postComment(arg0, arg1);
+					// client.updateCurrentStatus(arg0);
+					// or any other API call (this sample only check for current
+					// user
+					// and shows it in TextView)
+					// /////////////////////////////////////////////////////////
+					runOnUiThread(new Runnable() {// updating UI thread from
+													// different thread not a
+													// good idea...
+						public void run() {
+							contactTemp.setName(profile.getFirstName() + " "
+									+ profile.getLastName());
+						}
+					});
+					// or use Toast
+
+				} catch (LinkedInApiClientException ex) {
+					clearTokens();
+					Log.e(LOGTAG, ex.getMessage());
+
+					Toast.makeText(
+							getApplicationContext(),
+							"Application down due LinkedInApiClientException: "
+									+ ex.getMessage()
+									+ " Authokens cleared - try run application again.",
+							Toast.LENGTH_LONG).show();
+
+					finish();
+				}
+				Looper.loop();
+			}
+		}.start();
 	}
 
 	@Override
@@ -329,20 +403,17 @@ public class SyncActivity extends Activity {
 			while (!email.isAfterLast()) {
 				final String address = email.getString(contactEmailColumnIndex);
 				final int type = email.getInt(contactTypeColumnIndex);
-				mails.add(new TypeValue("",address));
+				mails.add(new TypeValue("", address));
 				// content.add(new ListViewEntry(address,
 				// Email.getTypeLabelResource(type),R.string.type_email));
-				
-				
+
 				email.moveToNext();
 			}
 
 		}
-		
-		
+
 		email.close();
-		
-		
+
 		if (mails.size() > 0)
 			return mails;
 		else
@@ -373,33 +444,44 @@ public class SyncActivity extends Activity {
 		if (cursorContact.moveToFirst()) {
 			String name = cursorContact.getString(cursorContact
 					.getColumnIndex(Contacts.DISPLAY_NAME));
-			/*
-			 * String photoId = contact.getString(
-			 * contact.getColumnIndex(Contacts.PHOTO_ID));
-			 */
-			/* Bitmap photo; */
-			/*
-			 * String emailtype = cursorContact.getString(
-			 * cursorContact.getColumnIndex(Email.TYPE));
-			 */
-			/*
-			 * String email = cursorContact.getString(
-			 * cursorContact.getColumnIndex(Email.DATA));
-			 */
-			/*
-			 * if(photoId != null) { photo = queryContactBitmap(photoId); } else
-			 * { photo = null; }
-			 */
-			cursorContact.close();
+
+			String photoId = cursorContact.getString(cursorContact
+					.getColumnIndex(Contacts.PHOTO_ID));
+
 			Contact contact = new Contact();
 			contact.setName(name);
 			contact.setContactManagerId(contactId);
-			/* contact.setEmail(email) */
+
+			if (photoId != null) {
+				contact.setPhoto(queryContactBitmap(photoId));
+			}
+
+			cursorContact.close();
+
 			;
 			return contact;
 		}
 		cursorContact.close();
 		return null;
+	}
+
+	private Bitmap queryContactBitmap(String photoId) {
+		final Cursor photo = managedQuery(Data.CONTENT_URI,
+				new String[] { Photo.PHOTO }, // column where the blob is stored
+				Data._ID + "=?", // select row by id
+				new String[] { photoId }, // filter by the given photoId
+				null);
+
+		final Bitmap photoBitmap;
+		if (photo.moveToFirst()) {
+			byte[] photoBlob = photo.getBlob(photo.getColumnIndex(Photo.PHOTO));
+			photoBitmap = BitmapFactory.decodeByteArray(photoBlob, 0,
+					photoBlob.length);
+		} else {
+			photoBitmap = null;
+		}
+		photo.close();
+		return photoBitmap;
 	}
 
 	public ArrayList<ExpandListGroup> SetStandardGroups() {
@@ -427,7 +509,8 @@ public class SyncActivity extends Activity {
 		ch2_3.setName("Cont3");
 		ch2_3.setTag(null);
 		list2.add(ch2_3);
-		gru2.setItems(list2);
+		gru2.setItems(contactsLinkedIn);
+		// gru2.setItems(list2);
 		// gru1.setItems(list2);
 		list.add(gru1);
 		list.add(gru2);
@@ -586,6 +669,15 @@ public class SyncActivity extends Activity {
 								person.getId() + ":" + person.getFirstName()
 										+ " " + person.getLastName() + ":"
 										+ person.getHeadline());
+
+						ExpandListChild ch2_1 = new ExpandListChild();
+
+						ch2_1.setName(person.getFirstName() + " "
+								+ person.getLastName());
+						ch2_1.setTag(null);
+						ch2_1.setChecked(true);
+						ch2_1.setLinkedInId(person.getId());
+						contactsLinkedIn.add(ch2_1);
 					}
 
 				} catch (LinkedInApiClientException ex) {

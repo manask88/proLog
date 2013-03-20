@@ -40,7 +40,7 @@ public final class R {
         public static final int NewFollowUpActivityDatePicker=0x7f0a002f;
         public static final int TextView01=0x7f0a0002;
         public static final int TextView02=0x7f0a0001;
-        public static final int action_settings=0x7f0a004e;
+        public static final int action_settings=0x7f0a004f;
         public static final int activityAddNewContactCancelButton=0x7f0a001c;
         public static final int activityAddNewContactSaveButton=0x7f0a001b;
         public static final int activityContactListImageView=0x7f0a001f;
@@ -59,11 +59,12 @@ public final class R {
         public static final int editTextPhone=0x7f0a0013;
         public static final int editTextTitle=0x7f0a000b;
         public static final int fragmentInteractionsAddButton=0x7f0a0022;
-        public static final int fragmentInteractionsExpList=0x7f0a004c;
+        public static final int fragmentInteractionsExpList=0x7f0a004d;
         public static final int frameLayout1=0x7f0a0040;
+        public static final int imageButtonDelete=0x7f0a004c;
         public static final int imageButtonEdit=0x7f0a004b;
         public static final int mainLinearLayoutMain=0x7f0a0025;
-        public static final int menu_settings=0x7f0a004d;
+        public static final int menu_settings=0x7f0a004e;
         public static final int newFollowUpActivityCancelButton=0x7f0a0035;
         public static final int newFollowUpActivityDateEditText=0x7f0a002e;
         public static final int newFollowUpActivityEditTextText=0x7f0a0033;

@@ -7,7 +7,14 @@ public class ExpandListChild {
 	private String Tag;
 	private long id;
 	private boolean isChecked;
+	private String linkedInId;
 	
+	public String getLinkedInId() {
+		return linkedInId;
+	}
+	public void setLinkedInId(String linkedInId) {
+		this.linkedInId = linkedInId;
+	}
 	public boolean isChecked() {
 		return isChecked;
 	}
