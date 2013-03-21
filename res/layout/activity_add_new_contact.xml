@@ -15,7 +15,7 @@
         android:layout_height="wrap_content" >
 
         <QuickContactBadge
-            android:id="@+id/quickContactBadge1"
+            android:id="@+id/quickContactBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/twentydp" />

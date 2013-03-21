@@ -83,7 +83,7 @@ public final class R {
         public static final int newInteractionActivitySaveButton=0x7f0a003b;
         public static final int newInteractionActivityTextViewNote=0x7f0a0039;
         public static final int progressBar1=0x7f0a0041;
-        public static final int quickContactBadge1=0x7f0a0004;
+        public static final int quickContactBadge=0x7f0a0004;
         public static final int save=0x7f0a001e;
         public static final int searchView=0x7f0a0026;
         public static final int section_label=0x7f0a0043;

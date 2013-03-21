@@ -16,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class ContactsDataSource {
 
@@ -31,7 +32,9 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_HOME_PHONE,
 			ContactsDBOpenHelper.COLUMN_WORK_PHONE,
 			ContactsDBOpenHelper.COLUMN_EMAIL,
-			ContactsDBOpenHelper.COLUMN_LOCATION };
+			ContactsDBOpenHelper.COLUMN_LOCATION,
+			ContactsDBOpenHelper.COLUMN_PHOTO
+			};
 
 	private static final String[] allColumnsInteractions = {
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
@@ -294,7 +297,19 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
 				contact.setTitle(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));
+				
+				byte[] blob=cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
+				if (blob!=null)
+				contact.setPhoto( BitmapFactory.decodeByteArray(blob, 0, blob.length));
+				
+				/**
+				 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();
 
+			contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
+
+			values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());
+				 */
+				
 			}
 			cursor.close();
 		}
@@ -328,7 +343,10 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
 				contact.setLocation(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
-
+				byte[] blob=cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
+				if (blob!=null)
+				contact.setPhoto( BitmapFactory.decodeByteArray(blob, 0, blob.length));
+				
 				contacts.add(contact);
 
 			}

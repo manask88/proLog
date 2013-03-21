@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,15 @@ public class ViewContactFragment extends Fragment {
 		datasource = new ContactsDataSource(getActivity());
 		datasource.open();
 		contact = datasource.findContactbyId(contactId);
+
+		QuickContactBadge quickContactBadge = (QuickContactBadge) getActivity()
+				.findViewById(R.id.quickContactBadge);
+
+		if (contact.getPhoto() != null)
+			quickContactBadge.setImageBitmap(contact.getPhoto());
+		else
+			quickContactBadge.setImageResource(R.drawable.face);
+
 		TextView tvName = (TextView) getActivity().findViewById(
 				R.id.textViewName);
 		TextView tvTitle = (TextView) getActivity().findViewById(
@@ -72,12 +82,14 @@ public class ViewContactFragment extends Fragment {
 		imagebuttonDelete.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				datasource.open();
-				//TODO should also delete the groups in which the contact is in and anything else?
+				// TODO should also delete the groups in which the contact is in
+				// and anything else?
 				datasource.deleteInteractionsByContactId(contactId);
 				datasource.deleteContactById(contactId);
 				datasource.close();
-				startActivity(new Intent(getActivity(),ContactListActivity.class));
-				
+				startActivity(new Intent(getActivity(),
+						ContactListActivity.class));
+
 			}
 		});
 

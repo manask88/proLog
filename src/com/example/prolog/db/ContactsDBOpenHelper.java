@@ -9,7 +9,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = "EXPLORECA";
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 5; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 1; /* change it whenever making changes on db scheleton*/
 	
 	public static final String TABLE_CONTACTS = "contacts";
 	

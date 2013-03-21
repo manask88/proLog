@@ -1,6 +1,14 @@
 package com.example.prolog;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
@@ -21,6 +29,7 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Entity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -675,7 +684,7 @@ public class SyncActivity extends Activity {
 						ch2_1.setName(person.getFirstName() + " "
 								+ person.getLastName());
 						ch2_1.setTag(null);
-						ch2_1.setChecked(true);
+						ch2_1.setChecked(false);
 						ch2_1.setLinkedInId(person.getId());
 						contactsLinkedIn.add(ch2_1);
 					}
@@ -697,4 +706,6 @@ public class SyncActivity extends Activity {
 			}
 		}.start();
 	}// end method
+
+
 }
