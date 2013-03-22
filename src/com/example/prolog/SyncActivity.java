@@ -177,23 +177,20 @@ public class SyncActivity extends Activity {
 				if (ExpListItems.get(1).isChecked()) {
 
 					new QueryContactInformationAsyncTask(activity)
-					.execute(contactsLinkedIn,
-							accessToken);
-					
-					/*for (ExpandListChild contactChild : contactsLinkedIn) {
-						if (contactChild.isChecked()) {
-							Log.i(LOGTAG,
-									"trying to get Linkedin contact with id: "
-											+ contactChild.getLinkedInId()
-											+ contactChild.getName());
-							// contactTemp=new Contact();
-							// queryDetailsForContactLinkedIn(contactChild.getLinkedInId(),accessToken);
+							.execute(contactsLinkedIn);
 
-							new QueryContactInformationAsyncTask(activity)
-									.execute(contactChild.getLinkedInId(),
-											accessToken);
-						}
-					}*/
+					/*
+					 * for (ExpandListChild contactChild : contactsLinkedIn) {
+					 * if (contactChild.isChecked()) { Log.i(LOGTAG,
+					 * "trying to get Linkedin contact with id: " +
+					 * contactChild.getLinkedInId() + contactChild.getName());
+					 * // contactTemp=new Contact(); //
+					 * queryDetailsForContactLinkedIn
+					 * (contactChild.getLinkedInId(),accessToken);
+					 * 
+					 * new QueryContactInformationAsyncTask(activity)
+					 * .execute(contactChild.getLinkedInId(), accessToken); } }
+					 */
 				}
 
 				startActivity(new Intent(context, MainActivity.class));
@@ -686,13 +683,23 @@ public class SyncActivity extends Activity {
 						childPerson.setName(person.getFirstName() + " "
 								+ person.getLastName());
 						childPerson.setTag(null);
-						childPerson.setChecked(false);
+						childPerson.setChecked(true);
 						childPerson.setPhotoURL(person.getPictureUrl());
+						if (person.getHeadline() != null) {
+							String[] fields = person.getHeadline()
+									.split(" at ");// for english
+							if (fields.length < 2)
+								fields = person.getHeadline().split(" en ");// for
+																			// spanish
+							if (fields.length < 2)
+								fields = person.getHeadline().split(" na ");// for
+																			// portuguese
+							if (fields.length > 0)
+								childPerson.setTitle(fields[0]);
+							if (fields.length > 1)
+								childPerson.setCompany(fields[1]);
 
-						String[] fields = person.getHeadline().split("at");
-						childPerson.setTitle(fields[0]);
-						if (fields.length > 1)
-							childPerson.setCompany(fields[1]);
+						}
 						contactsLinkedIn.add(childPerson);
 					}
 
@@ -713,5 +720,4 @@ public class SyncActivity extends Activity {
 			}
 		}.start();
 	}// end method
-
 }

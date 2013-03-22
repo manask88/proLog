@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.EnumSet;
 
 import org.apache.http.HttpEntity;
@@ -38,13 +39,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class QueryContactInformationAsyncTask extends
-		AsyncTask<Object, Contact, Contact> {
+		AsyncTask<ArrayList<ExpandListChild>, Contact, Contact> {
 
 	private Context context;
 	private Activity activity;
 	private TextView textViewInfo;
 	private String out;
-	private String imageURL,id;
+	private String imageURL, id;
 	private String accessToken;
 	private static final String TAG = QueryContactInformationAsyncTask.class
 			.getSimpleName();
@@ -61,36 +62,36 @@ public class QueryContactInformationAsyncTask extends
 	}
 
 	@Override
-	protected Contact doInBackground(Object... objs) {
+	protected Contact doInBackground(
+			ArrayList<ExpandListChild>... contactsLinkedIn) {
 		Log.i(TAG, "getContactDetails");
 
-		Contact contact = null;
+		Contact contact;
+		datasource = new ContactsDataSource(context);
+		datasource.open();
+		for (ExpandListChild contactChild : contactsLinkedIn[0]) {
+			if (contactChild.isChecked()) {
+				Log.i(TAG, "trying to get Linkedin contact with id: "
+						+ contactChild.getName());
 
-		final LinkedInApiClient client = SyncActivity.factory
-				.createLinkedInApiClient((LinkedInAccessToken) objs[1]);
-		try {
-			final Person profile = client.getProfileById((String) objs[0]);
-			final EnumSet<ProfileField> ProfileParameters = EnumSet.allOf(ProfileField.class);
-			accessToken=((LinkedInAccessToken) objs[1]).getToken();
-			id=((String) objs[0]);
-			client.getProfileById((String) objs[0], ProfileParameters);
-			contact = new Contact();
+				contact = new Contact();
+				if (contactChild.getPhotoURL() != null)
+					try {
+						contact.setPhoto(getImageFromURL(contactChild
+								.getPhotoURL()));
+					} catch (IOException e) {
+						Log.e(TAG, e.getMessage());
+					}
+				contact.setCompany(contactChild.getCompany());
+				contact.setTitle(contactChild.getTitle());
+				contact.setName(contactChild.getName());
+				datasource.createContact(contact);
 
-			contact.setName(profile.getFirstName() + " "
-					+ profile.getLastName());
-
-			imageURL = profile.getPictureUrl();
-			Log.i(TAG, "imgURL raw"+imageURL);
-			Log.i(TAG, "profile parameters"+ProfileParameters);
-			String[] fields = profile.getHeadline().split("at");
-			contact.setTitle(fields[0]);
-			contact.setCompany(fields[1]);
-		} catch (LinkedInApiClientException ex) {
-			Log.e(TAG, ex.getMessage());
+			}
 		}
-
+		datasource.close();
 		Log.i(TAG, "done working on brackground");
-		return contact;
+		return null;
 	}
 
 	/*
@@ -101,25 +102,6 @@ public class QueryContactInformationAsyncTask extends
 	@Override
 	protected void onPostExecute(Contact contact) {
 		Log.e(TAG, "onPostExecute");
-		if (contact != null) {
-			try {
-				if (id != null) {
-
-					Log.i(TAG, "imgURL is"+imageURL);
-Log.i(TAG,"url"+"http://api.linkedin.com/v1/people/"+id+"/picture-url?oauth2_access_token="+accessToken);
-					contact.setPhoto(getImageFromURL("http://api.linkedin.com/v1/people/"+id+"/picture-url?oauth2_access_token=access_token="+accessToken));
-				}
-			} catch (IOException e) {
-				Log.e(TAG, e.getMessage());
-
-			}
-			datasource = new ContactsDataSource(context);
-			datasource.open();
-			datasource.createContact(contact);
-			datasource.close();
-			Log.i(TAG, "result is not null");
-
-		}
 
 	}
 
@@ -141,9 +123,9 @@ Log.i(TAG,"url"+"http://api.linkedin.com/v1/people/"+id+"/picture-url?oauth2_acc
 		HttpResponse response = httpclient.execute(httpGet);
 		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 			entity = response.getEntity();
-		}
-		else
-		Log.e(TAG, "Response error"+response.getStatusLine().getStatusCode());
+		} else
+			Log.e(TAG, "Response error"
+					+ response.getStatusLine().getStatusCode());
 		return EntityUtils.toByteArray(entity);
 	}
 
