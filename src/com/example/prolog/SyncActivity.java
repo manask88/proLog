@@ -302,7 +302,7 @@ public class SyncActivity extends Activity {
 
 			ch2_1.setName(name);
 			ch2_1.setTag(null);
-			ch2_1.setChecked(false);
+			//ch2_1.setChecked(false);
 			ch2_1.setId(id);
 			contacts.add(ch2_1);
 			/*
