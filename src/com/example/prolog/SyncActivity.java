@@ -176,9 +176,11 @@ public class SyncActivity extends Activity {
 
 				if (ExpListItems.get(1).isChecked()) {
 
-					datasource.open();
-
-					for (ExpandListChild contactChild : contactsLinkedIn) {
+					new QueryContactInformationAsyncTask(activity)
+					.execute(contactsLinkedIn,
+							accessToken);
+					
+					/*for (ExpandListChild contactChild : contactsLinkedIn) {
 						if (contactChild.isChecked()) {
 							Log.i(LOGTAG,
 									"trying to get Linkedin contact with id: "
@@ -191,7 +193,7 @@ public class SyncActivity extends Activity {
 									.execute(contactChild.getLinkedInId(),
 											accessToken);
 						}
-					}
+					}*/
 				}
 
 				startActivity(new Intent(context, MainActivity.class));
@@ -302,7 +304,7 @@ public class SyncActivity extends Activity {
 
 			ch2_1.setName(name);
 			ch2_1.setTag(null);
-			//ch2_1.setChecked(false);
+			// ch2_1.setChecked(false);
 			ch2_1.setId(id);
 			contacts.add(ch2_1);
 			/*
@@ -652,8 +654,8 @@ public class SyncActivity extends Activity {
 
 					Connections connections = client
 							.getConnectionsForCurrentUser();
-					// /////////////////////////////////////////////////////////
 					// here you can do client API calls ...
+					// /////////////////////////////////////////////////////////
 					// client.postComment(arg0, arg1);
 					// client.updateCurrentStatus(arg0);
 					// or any other API call (this sample only check for current
@@ -679,14 +681,19 @@ public class SyncActivity extends Activity {
 										+ " " + person.getLastName() + ":"
 										+ person.getHeadline());
 
-						ExpandListChild ch2_1 = new ExpandListChild();
+						ExpandListChild childPerson = new ExpandListChild();
 
-						ch2_1.setName(person.getFirstName() + " "
+						childPerson.setName(person.getFirstName() + " "
 								+ person.getLastName());
-						ch2_1.setTag(null);
-						ch2_1.setChecked(false);
-						ch2_1.setLinkedInId(person.getId());
-						contactsLinkedIn.add(ch2_1);
+						childPerson.setTag(null);
+						childPerson.setChecked(false);
+						childPerson.setPhotoURL(person.getPictureUrl());
+
+						String[] fields = person.getHeadline().split("at");
+						childPerson.setTitle(fields[0]);
+						if (fields.length > 1)
+							childPerson.setCompany(fields[1]);
+						contactsLinkedIn.add(childPerson);
 					}
 
 				} catch (LinkedInApiClientException ex) {
@@ -706,6 +713,5 @@ public class SyncActivity extends Activity {
 			}
 		}.start();
 	}// end method
-
 
 }

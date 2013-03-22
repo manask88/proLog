@@ -63,51 +63,23 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 		CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 		checkBox.setChecked(child.isChecked());
 		checkBox.setOnClickListener(new View.OnClickListener() {
-//			public void onCheckedChanged(CompoundButton buttonView,
-//					boolean isChecked) {
-//				
-//
-////				if (isChecked)
-////				{Toast.makeText(context, "is true", Toast.LENGTH_LONG).show();}
-////				else
-////					{Toast.makeText(context, "is false", Toast.LENGTH_LONG).show();}
-//				
-//				
-//				ExpandListChild child = new ExpandListChild();
-//					child.setChecked(isChecked);
-//					child.setName("child position"+childPosition);
-//					Toast.makeText(context, "child position"+childPosition, Toast.LENGTH_SHORT).show();
-//					List<ExpandListChild> chList = groups.get(groupPosition).getItems();
-//					chList.set(childPosition, child);
-//					ExpandListGroup expandListGroup =  groups.get(groupPosition);
-//					expandListGroup.setItems(chList);
-//					//groups.set(groupPosition,new ExpandListGroup());
-//					groups.set(groupPosition,expandListGroup);
-//				/*	final ExpandListChild	child = (ExpandListChild) getChild(groupPosition,
-//							childPosition);*/
-//					
-//					
-//
-//			}
+
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				
-			//	ExpandListChild child = new ExpandListChild();
 				
 				if (child.isChecked())
 				{child.setChecked(false);}
 				else
 					{child.setChecked(true);}				
-				child.setName("child position"+childPosition);
-				Toast.makeText(context, "child position"+childPosition, Toast.LENGTH_SHORT).show();
+				/*child.setName("child position"+childPosition);
 				List<ExpandListChild> chList = groups.get(groupPosition).getItems();
 				chList.set(childPosition, child);
 				ExpandListGroup expandListGroup =  groups.get(groupPosition);
 				expandListGroup.setItems(chList);
 				//groups.set(groupPosition,new ExpandListGroup());
-				groups.set(groupPosition,expandListGroup);
+				groups.set(groupPosition,expandListGroup);*/
 			}
 		});
 		return view;

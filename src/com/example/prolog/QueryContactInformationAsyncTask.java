@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.util.EnumSet;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,6 +23,7 @@ import com.example.prolog.model.Contact;
 
 import com.google.code.linkedinapi.client.LinkedInApiClient;
 import com.google.code.linkedinapi.client.LinkedInApiClientException;
+import com.google.code.linkedinapi.client.enumeration.ProfileField;
 import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
 import com.google.code.linkedinapi.schema.Person;
 
@@ -42,7 +44,8 @@ public class QueryContactInformationAsyncTask extends
 	private Activity activity;
 	private TextView textViewInfo;
 	private String out;
-	private String imageURL;
+	private String imageURL,id;
+	private String accessToken;
 	private static final String TAG = QueryContactInformationAsyncTask.class
 			.getSimpleName();
 	private ContactsDataSource datasource;
@@ -66,8 +69,11 @@ public class QueryContactInformationAsyncTask extends
 		final LinkedInApiClient client = SyncActivity.factory
 				.createLinkedInApiClient((LinkedInAccessToken) objs[1]);
 		try {
-
 			final Person profile = client.getProfileById((String) objs[0]);
+			final EnumSet<ProfileField> ProfileParameters = EnumSet.allOf(ProfileField.class);
+			accessToken=((LinkedInAccessToken) objs[1]).getToken();
+			id=((String) objs[0]);
+			client.getProfileById((String) objs[0], ProfileParameters);
 			contact = new Contact();
 
 			contact.setName(profile.getFirstName() + " "
@@ -75,10 +81,10 @@ public class QueryContactInformationAsyncTask extends
 
 			imageURL = profile.getPictureUrl();
 			Log.i(TAG, "imgURL raw"+imageURL);
+			Log.i(TAG, "profile parameters"+ProfileParameters);
 			String[] fields = profile.getHeadline().split("at");
 			contact.setTitle(fields[0]);
 			contact.setCompany(fields[1]);
-
 		} catch (LinkedInApiClientException ex) {
 			Log.e(TAG, ex.getMessage());
 		}
@@ -97,11 +103,11 @@ public class QueryContactInformationAsyncTask extends
 		Log.e(TAG, "onPostExecute");
 		if (contact != null) {
 			try {
-				if (imageURL != null) {
+				if (id != null) {
 
 					Log.i(TAG, "imgURL is"+imageURL);
-
-					contact.setPhoto(getImageFromURL(imageURL));
+Log.i(TAG,"url"+"http://api.linkedin.com/v1/people/"+id+"/picture-url?oauth2_access_token="+accessToken);
+					contact.setPhoto(getImageFromURL("http://api.linkedin.com/v1/people/"+id+"/picture-url?oauth2_access_token=access_token="+accessToken));
 				}
 			} catch (IOException e) {
 				Log.e(TAG, e.getMessage());
@@ -136,6 +142,8 @@ public class QueryContactInformationAsyncTask extends
 		if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 			entity = response.getEntity();
 		}
+		else
+		Log.e(TAG, "Response error"+response.getStatusLine().getStatusCode());
 		return EntityUtils.toByteArray(entity);
 	}
 

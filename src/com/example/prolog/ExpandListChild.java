@@ -7,13 +7,29 @@ public class ExpandListChild {
 	private String Tag;
 	private long id;
 	private boolean isChecked;
-	private String linkedInId;
+	private String photoURL;
+	private String title;
+	private String company;
+
 	
-	public String getLinkedInId() {
-		return linkedInId;
+	
+	public String getPhotoURL() {
+		return photoURL;
 	}
-	public void setLinkedInId(String linkedInId) {
-		this.linkedInId = linkedInId;
+	public void setPhotoURL(String photoURL) {
+		this.photoURL = photoURL;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
 	}
 	public boolean isChecked() {
 		return isChecked;
