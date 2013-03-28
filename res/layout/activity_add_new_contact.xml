@@ -14,11 +14,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <QuickContactBadge
+          <QuickContactBadge
             android:id="@+id/quickContactBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/twentydp" />
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/twentydp"
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/eightydp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/face" />
 
         <TableLayout
             android:layout_width="wrap_content"

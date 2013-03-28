@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.prolog.Commons;
 import com.example.prolog.model.Contact;
 import com.example.prolog.model.Group;
 import com.example.prolog.model.GroupContact;
@@ -104,11 +105,12 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
 		if (contact.getPhoto() != null) {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			/*ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 			contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
 
-			values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());
+			values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());*/
+			values.put(ContactsDBOpenHelper.COLUMN_PHOTO,Commons.getBlobfromImage(contact.getPhoto()));
 		}
 
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
@@ -142,6 +144,7 @@ public class ContactsDataSource {
 				contact.getWork_phone());
 		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
+		values.put(ContactsDBOpenHelper.COLUMN_PHOTO,Commons.getBlobfromImage(contact.getPhoto()));
 		database.update(ContactsDBOpenHelper.TABLE_CONTACTS, values,
 				ContactsDBOpenHelper.COLUMN_ID + "=?",
 				new String[] { Long.toString(contact.getId()) });
@@ -300,7 +303,7 @@ public class ContactsDataSource {
 				
 				byte[] blob=cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob!=null)
-				contact.setPhoto( BitmapFactory.decodeByteArray(blob, 0, blob.length));
+				contact.setPhoto( Commons.getImageFromBlob(blob));
 				
 				/**
 				 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -345,8 +348,7 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
 				byte[] blob=cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob!=null)
-				contact.setPhoto( BitmapFactory.decodeByteArray(blob, 0, blob.length));
-				
+				contact.setPhoto( Commons.getImageFromBlob(blob));
 				contacts.add(contact);
 
 			}

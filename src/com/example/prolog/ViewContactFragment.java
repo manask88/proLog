@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class ViewContactFragment extends Fragment {
 
 	ContactsDataSource datasource;
 	Contact contact;
+
 	long contactId;
 
 	@Override
@@ -36,7 +38,7 @@ public class ViewContactFragment extends Fragment {
 
 		QuickContactBadge quickContactBadge = (QuickContactBadge) getActivity()
 				.findViewById(R.id.quickContactBadge);
-
+		Log.i(SyncActivity.LOGTAG, contactId + "    this one");
 		if (contact.getPhoto() != null)
 			quickContactBadge.setImageBitmap(contact.getPhoto());
 		else

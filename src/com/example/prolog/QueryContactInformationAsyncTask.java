@@ -129,11 +129,9 @@ public class QueryContactInformationAsyncTask extends
 		return EntityUtils.toByteArray(entity);
 	}
 
-	public static Bitmap getImageFromBlob(byte[] blob) {
-		return BitmapFactory.decodeByteArray(blob, 0, blob.length);
-	}
+
 
 	public static Bitmap getImageFromURL(String url) throws IOException {
-		return getImageFromBlob(urlToImageBLOB(url));
+		return Commons.getImageFromBlob(urlToImageBLOB(url));
 	}
 }
