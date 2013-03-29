@@ -34,8 +34,7 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_WORK_PHONE,
 			ContactsDBOpenHelper.COLUMN_EMAIL,
 			ContactsDBOpenHelper.COLUMN_LOCATION,
-			ContactsDBOpenHelper.COLUMN_PHOTO
-			};
+			ContactsDBOpenHelper.COLUMN_PHOTO };
 
 	private static final String[] allColumnsInteractions = {
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
@@ -68,15 +67,17 @@ public class ContactsDataSource {
 
 	}
 
-	public long createGroup(String name) {
+	public Group createGroup(Group group) {
 		ContentValues values = new ContentValues();
-		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, name);
+		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, group.getName());
 
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_GROUPS,
 				null, values);
 
 		Log.i(LOGTAG, "group created with id " + insertid);
-		return insertid;
+
+		group.setId(insertid);
+		return group;
 
 	}
 
@@ -105,12 +106,15 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
 		if (contact.getPhoto() != null) {
-			/*ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-			contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
-
-			values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());*/
-			values.put(ContactsDBOpenHelper.COLUMN_PHOTO,Commons.getBlobfromImage(contact.getPhoto()));
+			/*
+			 * ByteArrayOutputStream out = new ByteArrayOutputStream();
+			 * 
+			 * contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
+			 * 
+			 * values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());
+			 */
+			values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
+					Commons.getBlobfromImage(contact.getPhoto()));
 		}
 
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
@@ -144,7 +148,8 @@ public class ContactsDataSource {
 				contact.getWork_phone());
 		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
-		values.put(ContactsDBOpenHelper.COLUMN_PHOTO,Commons.getBlobfromImage(contact.getPhoto()));
+		values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
+				Commons.getBlobfromImage(contact.getPhoto()));
 		database.update(ContactsDBOpenHelper.TABLE_CONTACTS, values,
 				ContactsDBOpenHelper.COLUMN_ID + "=?",
 				new String[] { Long.toString(contact.getId()) });
@@ -238,7 +243,7 @@ public class ContactsDataSource {
 
 	}
 
-	public ArrayList<GroupContact> findContactsbyGroupId(long groupId) {
+	private ArrayList<GroupContact> findContactsIdbyGroupId(long groupId) {
 		ArrayList<GroupContact> groupContacts = new ArrayList<GroupContact>();
 		GroupContact groupContact;
 		Cursor cursor = database.query(
@@ -254,10 +259,10 @@ public class ContactsDataSource {
 				groupContact = new GroupContact();
 				groupContact
 						.setGroupId(cursor.getLong(cursor
-								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID)));
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID)));
 				groupContact
 						.setContactId(cursor.getLong(cursor
-								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID)));
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID)));
 
 				groupContacts.add(groupContact);
 
@@ -269,6 +274,47 @@ public class ContactsDataSource {
 				+ " groupContacts in arraylist");
 
 		return groupContacts;
+
+	}
+
+	public ArrayList<Contact> findContactsbyGroupId(long groupId) {
+		ArrayList<GroupContact> groupContacts;
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		Contact contact;
+
+		groupContacts = findContactsIdbyGroupId(groupId);
+
+		for (GroupContact groupContact : groupContacts) {
+			contact = findContactbyId(groupContact.getContactId());
+			contacts.add(contact);
+		}
+		return contacts;
+
+	}
+
+	public Group findGroupbyId(long id) {
+
+		Group group = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUPS,
+				allColumnsGroups, ContactsDBOpenHelper.COLUMN_GROUPS_ID + "=?",
+				new String[] { Long.toString(id) }, null, null, null);
+
+		if (cursor != null) {
+
+			if (cursor.moveToFirst()) {
+
+				group = new Group();
+				group.setName(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_NAME)));
+
+				group.setId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUPS_ID)));
+
+			}
+			cursor.close();
+		}
+
+		return group;
 
 	}
 
@@ -300,19 +346,22 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
 				contact.setTitle(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));
-				
-				byte[] blob=cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
-				if (blob!=null)
-				contact.setPhoto( Commons.getImageFromBlob(blob));
-				
+
+				byte[] blob = cursor.getBlob(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
+				if (blob != null)
+					contact.setPhoto(Commons.getImageFromBlob(blob));
+
 				/**
-				 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-			contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100, out);
-
-			values.put(ContactsDBOpenHelper.COLUMN_PHOTO, out.toByteArray());
+				 * ByteArrayOutputStream out = new ByteArrayOutputStream();
+				 * 
+				 * contact.getPhoto().compress(Bitmap.CompressFormat.PNG, 100,
+				 * out);
+				 * 
+				 * values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
+				 * out.toByteArray());
 				 */
-				
+
 			}
 			cursor.close();
 		}
@@ -346,9 +395,10 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
 				contact.setLocation(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
-				byte[] blob=cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
-				if (blob!=null)
-				contact.setPhoto( Commons.getImageFromBlob(blob));
+				byte[] blob = cursor.getBlob(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
+				if (blob != null)
+					contact.setPhoto(Commons.getImageFromBlob(blob));
 				contacts.add(contact);
 
 			}

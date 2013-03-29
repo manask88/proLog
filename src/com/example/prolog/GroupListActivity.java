@@ -3,30 +3,61 @@ package com.example.prolog;
 import java.util.ArrayList;
 
 import com.example.prolog.db.ContactsDataSource;
+import com.example.prolog.model.Contact;
+import com.example.prolog.model.Group;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class GroupListActivity extends Activity {
 	
-	ContactsDataSource contactsDataSource;
+	ContactsDataSource dataSource;
 	ArrayList<ExpandListChildGroupListActivity> contacts = new ArrayList<ExpandListChildGroupListActivity>();
-	private ExpandListAdapterGroupListActivity ExpAdapter;
-	private ArrayList<ExpandListGroupGroupListActivity> ExpListItems;
-	private ExpandableListView ExpandList;
-	
+
+	private Button buttonAddGroup;
+	private Context context;
+	private ListView lv;
+	private ArrayList<Group> groups;
+	private static final String TAG = GroupListActivity.class.getSimpleName();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		contactsDataSource = new ContactsDataSource(this);
 		setTitle("Groups");
 		super.onCreate(savedInstanceState);
+	    
+		
 		setContentView(R.layout.activity_group_list);
-		ExpandList = (ExpandableListView) findViewById(R.id.activityGroupListExpList);
-	    ExpListItems = SetStandardGroups();
-	    ExpAdapter = new ExpandListAdapterGroupListActivity(GroupListActivity.this, ExpListItems);
-	    ExpandList.setAdapter(ExpAdapter);
+		dataSource = new ContactsDataSource(this);
+
+		context=this;
+		
+		dataSource.open();
+		
+		
+		lv = (ListView) findViewById(android.R.id.list);
+		
+
+	    buttonAddGroup= (Button) findViewById(R.id.buttonAdd);
+		 
+	    buttonAddGroup.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(context, AddNewGroupActivity.class));
+			}
+		});
 	    
 	}
 		
@@ -34,80 +65,59 @@ public class GroupListActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		contactsDataSource.open();
+		dataSource.open();
+		groups =dataSource.findAllGroups();
+		lv.setAdapter(new GroupListAdapter(this,
+				R.id.activityGroupListTextView, groups));
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent i = new Intent(context, ViewGroupActivity.class);
+				i.putExtra("groupId", groups.get(position).getId());
+				startActivity(i);
+			}
+
+		});
 	}
 	@Override
 	protected void onPause() {
 		super.onPause();
-		contactsDataSource.close();
+		dataSource.close();
 
-	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.group_list, menu);
-		return true;
 	}
 	
-	   public ArrayList<ExpandListGroupGroupListActivity> SetStandardGroups() {
-	    	ArrayList<ExpandListGroupGroupListActivity> list = new ArrayList<ExpandListGroupGroupListActivity>();
-	    	ArrayList<ExpandListChildGroupListActivity> list1 = new ArrayList<ExpandListChildGroupListActivity>();
-	    	ArrayList<ExpandListChildGroupListActivity> list2 = new ArrayList<ExpandListChildGroupListActivity>();
-	        
-	    	
-	    	ExpandListGroupGroupListActivity gru1 = new ExpandListGroupGroupListActivity();
-	        gru1.setName("Family");
-	       
-	        ExpandListChildGroupListActivity ch1_1 = new ExpandListChildGroupListActivity();
-	        ch1_1.setName("Devika Nair");
-	        ch1_1.setTag(null);
-	        list1.add(ch1_1);  
-	        
-	        ExpandListChildGroupListActivity ch1_2 = new ExpandListChildGroupListActivity();
-	        ch1_2.setName("Michael Curd");
-	        ch1_2.setTag(null);
-	        list1.add(ch1_2);    
-	        
-	        ExpandListChildGroupListActivity ch1_3 = new ExpandListChildGroupListActivity();
+	
+	 
+	private class GroupListAdapter extends ArrayAdapter<Group> {
 
-	        ch1_3.setName("Dooyum Malu");
-	        ch1_3.setTag(null);
-	        list1.add(ch1_3);
-	        
-	        gru1.setItems(list1);
-	        list.add(gru1);
-	        
-	        
-	        
-	        ExpandListGroupGroupListActivity gru2 = new ExpandListGroupGroupListActivity();
-	        gru2.setName("Friends");
-	        
-	        ExpandListChildGroupListActivity ch2_1 = new ExpandListChildGroupListActivity();
-	        ch2_1.setName("Ruchir Patwa");
-	        ch2_1.setTag(null);
-	        list2.add(ch2_1);
-	        
-	        ExpandListChildGroupListActivity ch2_2 = new ExpandListChildGroupListActivity();
-	        ch2_2.setName("Malav Bhavsar");
-	        ch2_2.setTag(null);
-	        list2.add(ch2_2);
-	        
-	        ExpandListChildGroupListActivity ch2_3 = new ExpandListChildGroupListActivity();
-	        ch2_3.setName("Jack Lam");
-	        ch2_3.setTag(null);
-	        list2.add(ch2_3);
-	        
-	        ExpandListChildGroupListActivity ch2_4 = new ExpandListChildGroupListActivity();
-	        ch2_4.setName("Julianne Harty");
-	        ch2_4.setTag(null);
-	        list2.add(ch2_4);
-	        
-	        gru2.setItems(list2);
-	        list.add(gru2);
-	        
-	        return list;
-	    }
+		private ArrayList<Group> items;
 
+		public GroupListAdapter(Context context, int textViewResourceId,
+				ArrayList<Group> groups) {
+			super(context, textViewResourceId, groups);
+			items = groups;
+
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			View row = inflater.inflate(R.layout.activity_group_list_item,
+					parent, false);
+
+	
+			TextView tv = (TextView) row
+					.findViewById(R.id.activityGroupListTextView);
+			Log.i(TAG, "id :" + items.get(position).getId());
+			tv.setText(items.get(position).getName());
+			
+
+			return row;
+		}
+	}
 	   
 	    
 	

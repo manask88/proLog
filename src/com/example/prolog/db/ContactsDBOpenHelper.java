@@ -9,7 +9,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = "EXPLORECA";
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 1; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 3; /* change it whenever making changes on db scheleton*/
 	
 	public static final String TABLE_CONTACTS = "contacts";
 	
@@ -66,7 +66,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			")";
 	
 	private static final String TABLE_CREATE_GROUP_CONTACTS =
-			"CREATE TABLE IF NOT EXISTS " + TABLE_GROUPS + " ( " +
+			"CREATE TABLE IF NOT EXISTS " + TABLE_GROUP_CONTACTS + " ( " +
 			COLUMN_GROUP_CONTACT_ID + " INTEGER, " +
 			COLUMN_GROUP_GROUP_ID + " INTEGER " +
 			")";
@@ -83,7 +83,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(TABLE_CREATE);
 		db.execSQL(TABLE_CREATE_INTERACTIONS);
-
+		db.execSQL(TABLE_CREATE_GROUPS);
+		db.execSQL(TABLE_CREATE_GROUP_CONTACTS);
 		Log.i(LOGTAG, "Tables have been created");
 	}
 

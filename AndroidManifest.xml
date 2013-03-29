@@ -47,10 +47,20 @@
             android:name="com.example.prolog.AddContactActivity"
             android:label="@string/title_activity_add_contact" >
         </activity>
+          <activity
+            android:name="com.example.prolog.AddNewGroupActivity">
+        </activity>
+         <activity
+            android:name="com.example.prolog.ViewGroupActivity">
+        </activity>
+         <activity
+            android:name="com.example.prolog.ContactListGroupAddContactActivity">
+        </activity>
         <activity
             android:name="com.example.prolog.SyncLoadingActivity"
             android:label="@string/title_activity_sync_loading" >
         </activity>
+        
         <activity
             android:name="com.example.prolog.ContactViewActivity"
             android:label="@string/title_activity_contact_view" >

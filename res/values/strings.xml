@@ -12,6 +12,7 @@
     <string name="welcomeText">\nWelcome to proLog</string>
     <string name="recommendText">We recommend you bring in your contacts</string>
     <string name="viewGroups">View Groups</string>
+    <string name="groupName">Group Name</string>
     <string name="app_name">proLog</string>
     <string name="menu_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
