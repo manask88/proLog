@@ -77,7 +77,7 @@ public class SyncActivity extends Activity {
 	public static final LinkedInApiClientFactory factory = LinkedInApiClientFactory
 			.newInstance(CONSUMER_KEY, CONSUMER_SECRET);
 	LinkedInRequestToken liToken;
-	public static final String LOGTAG = SyncActivity.class.getSimpleName();
+	public static final String TAG = SyncActivity.class.getSimpleName();
 
 	ArrayList<ExpandListChild> contacts = new ArrayList<ExpandListChild>();
 	ArrayList<ExpandListChild> contactsLinkedIn = new ArrayList<ExpandListChild>();
@@ -98,7 +98,7 @@ public class SyncActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(LOGTAG, "onCreate");
+		Log.i(TAG, "onCreate");
 		setContentView(R.layout.activity_sync);
 		datasource = new ContactsDataSource(this);
 		datasource.open();
@@ -121,18 +121,25 @@ public class SyncActivity extends Activity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		Log.i(LOGTAG, "1 is checked");
+		Log.i(TAG, "1 is checked");
 
 		final SharedPreferences pref = getSharedPreferences(OAUTH_PREF,
 				MODE_PRIVATE);
 		final String token = pref.getString(PREF_TOKEN, null);
 		final String tokenSecret = pref.getString(PREF_TOKENSECRET, null);
-		if (token == null || tokenSecret == null) {
-			authenticationStart();
-		} else {
-			accessToken = new LinkedInAccessToken(token, tokenSecret);
-			// showCurrentUser(accessToken);
-			showConnections(accessToken);
+		
+		
+		try {
+			if (token == null || tokenSecret == null) {
+				authenticationStart();
+			} else {
+				accessToken = new LinkedInAccessToken(token, tokenSecret);
+				// showCurrentUser(accessToken);
+				showConnections(accessToken);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Log.e(TAG, e.getMessage());
 		}
 		// linkedIn ends
 
@@ -141,7 +148,7 @@ public class SyncActivity extends Activity {
 			public void onClick(View v) {
 
 				if (ExpListItems.get(0).isChecked()) {
-					Log.i(LOGTAG, "0 is checked");
+					Log.i(TAG, "0 is checked");
 
 					datasource.open();
 
@@ -206,7 +213,7 @@ public class SyncActivity extends Activity {
 			@Override
 			public void run() {
 				Looper.prepare();
-				Log.i(LOGTAG, "getContactDetails");
+				Log.i(TAG, "getContactDetails");
 				final LinkedInApiClient client = factory
 						.createLinkedInApiClient(accessToken);
 				try {
@@ -232,7 +239,7 @@ public class SyncActivity extends Activity {
 
 				} catch (LinkedInApiClientException ex) {
 					clearTokens();
-					Log.e(LOGTAG, ex.getMessage());
+					Log.e(TAG, ex.getMessage());
 
 					Toast.makeText(
 							getApplicationContext(),
@@ -251,14 +258,14 @@ public class SyncActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.i(LOGTAG, "onResume");
+		Log.i(TAG, "onResume");
 		datasource.open();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.i(LOGTAG, "onPause");
+		Log.i(TAG, "onPause");
 
 		// datasource.close();
 
@@ -266,7 +273,7 @@ public class SyncActivity extends Activity {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		Log.i(LOGTAG, "onNewIntent");
+		Log.i(TAG, "onNewIntent");
 		finishAuthenticate(intent.getData());
 	}
 
@@ -313,7 +320,7 @@ public class SyncActivity extends Activity {
 	}
 
 	private void queryAllRawContacts() {
-		Log.i(LOGTAG, "queryAllRawContacts");
+		Log.i(TAG, "queryAllRawContacts");
 
 		final String[] projection = new String[] { RawContacts.CONTACT_ID, // the
 																			// contact
@@ -429,7 +436,7 @@ public class SyncActivity extends Activity {
 	}
 
 	private Contact queryDetailsForContactEntry(long contactId) {
-		Log.i(LOGTAG, "queryDetailsForContactEntry");
+		Log.i(TAG, "queryDetailsForContactEntry");
 		final String[] projection = new String[] { Contacts.DISPLAY_NAME, // the
 				// name
 				// of
@@ -568,7 +575,7 @@ public class SyncActivity extends Activity {
 						// showCurrentUser(accessToken);
 						showConnections(accessToken);
 
-						Log.d(LOGTAG, "finishAuthenticate");
+						Log.d(TAG, "finishAuthenticate");
 
 					} else {
 						Toast.makeText(
@@ -594,7 +601,7 @@ public class SyncActivity extends Activity {
 			@Override
 			public void run() {
 				Looper.prepare();
-				Log.i(LOGTAG, "showCurrentUser");
+				Log.i(TAG, "showCurrentUser");
 
 				final LinkedInApiClient client = factory
 						.createLinkedInApiClient(accessToken);
@@ -617,7 +624,7 @@ public class SyncActivity extends Activity {
 						}
 					});
 					// or use Toast
-					Log.d(LOGTAG, "Lastname:: " + p.getLastName()
+					Log.d(TAG, "Lastname:: " + p.getLastName()
 							+ ", First name: " + p.getFirstName());
 					Toast.makeText(
 							getApplicationContext(),
@@ -644,7 +651,7 @@ public class SyncActivity extends Activity {
 			@Override
 			public void run() {
 				Looper.prepare();
-				Log.i(LOGTAG, "showConnections");
+				Log.i(TAG, "showConnections");
 				final LinkedInApiClient client = factory
 						.createLinkedInApiClient(accessToken);
 				try {
@@ -669,11 +676,11 @@ public class SyncActivity extends Activity {
 					});
 					// or use Toast
 
-					Log.i(LOGTAG,
+					Log.i(TAG,
 							"Total connections fetched:"
 									+ connections.getTotal());
 					for (Person person : connections.getPersonList()) {
-						Log.i(LOGTAG,
+						Log.i(TAG,
 								person.getId() + ":" + person.getFirstName()
 										+ " " + person.getLastName() + ":"
 										+ person.getHeadline());
@@ -705,7 +712,7 @@ public class SyncActivity extends Activity {
 
 				} catch (LinkedInApiClientException ex) {
 					clearTokens();
-					Log.e(LOGTAG, ex.getMessage());
+					Log.e(TAG, ex.getMessage());
 
 					Toast.makeText(
 							getApplicationContext(),

@@ -17,7 +17,7 @@ public class DatePickerFragment extends DialogFragment implements
 		DatePickerDialog.OnDateSetListener {
 
 	private EditText editText1;
-
+	public final static String TAG=DatePickerFragment.class.getSimpleName();
 	public DatePickerFragment() {
 		// TODO Auto-generated constructor stub
 	}
@@ -48,13 +48,13 @@ public class DatePickerFragment extends DialogFragment implements
 			year = c.get(Calendar.YEAR);
 			month = c.get(Calendar.MONTH);
 			day = c.get(Calendar.DAY_OF_MONTH);
-			Log.e(SyncActivity.LOGTAG, "date extracted" + date);
-			Log.e(SyncActivity.LOGTAG,
+			Log.e(TAG, "date extracted" + date);
+			Log.e(TAG,
 					"motnh extracted" + c.get(Calendar.MONTH));
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			Log.e(SyncActivity.LOGTAG, e.getMessage());
+			Log.e(TAG, e.getMessage());
 		}
 
 		// Create a new instance of DatePickerDialog and return it

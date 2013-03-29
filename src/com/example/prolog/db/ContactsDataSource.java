@@ -21,7 +21,7 @@ import android.graphics.BitmapFactory;
 
 public class ContactsDataSource {
 
-	public static final String LOGTAG = "EXPLORECA";
+	public static final String TAG = ContactsDataSource.class.getSimpleName();
 
 	SQLiteOpenHelper dbhelper;
 	SQLiteDatabase database;
@@ -56,13 +56,13 @@ public class ContactsDataSource {
 	}
 
 	public void open() {
-		Log.i(LOGTAG, "Database opened");
+		Log.i(TAG, "Database opened");
 		database = dbhelper.getWritableDatabase();
 
 	}
 
 	public void close() {
-		Log.i(LOGTAG, "Database closed");
+		Log.i(TAG, "Database closed");
 		dbhelper.close();
 
 	}
@@ -74,7 +74,7 @@ public class ContactsDataSource {
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_GROUPS,
 				null, values);
 
-		Log.i(LOGTAG, "group created with id " + insertid);
+		Log.i(TAG, "group created with id " + insertid);
 
 		group.setId(insertid);
 		return group;
@@ -88,7 +88,7 @@ public class ContactsDataSource {
 
 		database.insert(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS, null, values);
 
-		Log.i(LOGTAG, "groupid " + groupId + " and contact id entry created "
+		Log.i(TAG, "groupid " + groupId + " and contact id entry created "
 				+ contactId);
 
 	}
@@ -120,7 +120,7 @@ public class ContactsDataSource {
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
 				null, values);
 		contact.setId(insertid);
-		Log.i(LOGTAG, "Contact created with id " + contact.getId());
+		Log.i(TAG, "Contact created with id " + contact.getId());
 		return contact;
 
 	}
@@ -141,7 +141,7 @@ public class ContactsDataSource {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
 		values.put(ContactsDBOpenHelper.COLUMN_TITLE, contact.getTitle());
-		values.put(ContactsDBOpenHelper.COLUMN_COMPANY, contact.getEmail());
+		values.put(ContactsDBOpenHelper.COLUMN_COMPANY, contact.getCompany());
 		values.put(ContactsDBOpenHelper.COLUMN_HOME_PHONE,
 				contact.getHome_phone());
 		values.put(ContactsDBOpenHelper.COLUMN_WORK_PHONE,
@@ -154,7 +154,7 @@ public class ContactsDataSource {
 				ContactsDBOpenHelper.COLUMN_ID + "=?",
 				new String[] { Long.toString(contact.getId()) });
 
-		Log.i(LOGTAG, "Contact  with id " + contact.getId() + " updated");
+		Log.i(TAG, "Contact  with id " + contact.getId() + " updated");
 		return contact;
 
 	}
@@ -171,7 +171,7 @@ public class ContactsDataSource {
 		long insertid = database.insert(
 				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
 		interaction.setId(insertid);
-		Log.i(LOGTAG, "Returned Interaction- " + interaction.getContactId()
+		Log.i(TAG, "Returned Interaction- " + interaction.getContactId()
 				+ " text: " + interaction.getText());
 		return interaction;
 
@@ -183,7 +183,7 @@ public class ContactsDataSource {
 		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUPS,
 				allColumnsGroups, null, null, null, null, null);
 
-		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
 
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
@@ -199,7 +199,7 @@ public class ContactsDataSource {
 
 		}
 		cursor.close();
-		Log.i(LOGTAG, "Filled" + groups.size() + " groups in arraylist");
+		Log.i(TAG, "Filled" + groups.size() + " groups in arraylist");
 
 		return groups;
 
@@ -213,7 +213,7 @@ public class ContactsDataSource {
 				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?",
 				new String[] { Long.toString(contactId) }, null, null, null);
 
-		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
 
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
@@ -236,7 +236,7 @@ public class ContactsDataSource {
 
 		}
 		cursor.close();
-		Log.i(LOGTAG, "Filled" + interactions.size()
+		Log.i(TAG, "Filled" + interactions.size()
 				+ " interactions in arraylist");
 
 		return interactions;
@@ -252,7 +252,7 @@ public class ContactsDataSource {
 				ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID + "=?",
 				new String[] { Long.toString(groupId) }, null, null, null);
 
-		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
 
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
@@ -270,7 +270,7 @@ public class ContactsDataSource {
 
 		}
 		cursor.close();
-		Log.i(LOGTAG, "Filled" + groupContacts.size()
+		Log.i(TAG, "Filled" + groupContacts.size()
 				+ " groupContacts in arraylist");
 
 		return groupContacts;
@@ -350,7 +350,12 @@ public class ContactsDataSource {
 				byte[] blob = cursor.getBlob(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob != null)
-					contact.setPhoto(Commons.getImageFromBlob(blob));
+					{contact.setPhoto(Commons.getImageFromBlob(blob));
+					
+					Log.i(TAG, "found pic");
+					}
+				else
+					Log.i(TAG, "not found pic");
 
 				/**
 				 * ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -376,7 +381,7 @@ public class ContactsDataSource {
 		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_CONTACTS,
 				allColumnsContacts, null, null, null, null, null);
 
-		Log.i(LOGTAG, "Returned" + cursor.getCount() + " rows");
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
 
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {

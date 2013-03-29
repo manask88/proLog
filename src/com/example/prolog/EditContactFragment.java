@@ -33,7 +33,8 @@ public class EditContactFragment extends Fragment {
 	long contactId;
 	EditText tvName, tvTitle, tvCompany, tvPhone, tvEmail, tvLocation;
 	QuickContactBadge quickContactBadge;
-	public static final String TAG= EditContactFragment.class.getSimpleName();
+	public static final String TAG = EditContactFragment.class.getSimpleName();
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -44,8 +45,12 @@ public class EditContactFragment extends Fragment {
 		datasource = new ContactsDataSource(getActivity());
 		datasource.open();
 		contact = datasource.findContactbyId(contactId);
-		quickContactBadge = (QuickContactBadge) getActivity().findViewById(R.id.quickContactBadge);
-		quickContactBadge.setImageBitmap(contact.getPhoto());
+		quickContactBadge = (QuickContactBadge) getActivity().findViewById(
+				R.id.quickContactBadge);
+		if (contact.getPhoto() != null)
+			quickContactBadge.setImageBitmap(contact.getPhoto());
+		else
+			quickContactBadge.setImageResource(R.drawable.face);
 		quickContactBadge.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -146,11 +151,11 @@ public class EditContactFragment extends Fragment {
 			// textTargetUri.setText(targetUri.toString());
 			Bitmap bitmap;
 			try {
-				bitmap = BitmapFactory.decodeStream( getActivity().getContentResolver()
-						.openInputStream(targetUri));
+				bitmap = BitmapFactory.decodeStream(getActivity()
+						.getContentResolver().openInputStream(targetUri));
 				quickContactBadge.setImageBitmap(bitmap);
 			} catch (FileNotFoundException e) {
-				Log.e( TAG, e.getMessage());
+				Log.e(TAG, e.getMessage());
 			}
 		}
 	}

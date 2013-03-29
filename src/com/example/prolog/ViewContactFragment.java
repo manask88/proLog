@@ -22,7 +22,7 @@ public class ViewContactFragment extends Fragment {
 
 	ContactsDataSource datasource;
 	Contact contact;
-
+	public final static String TAG = ViewContactFragment.class.getSimpleName();
 	long contactId;
 
 	@Override
@@ -38,7 +38,7 @@ public class ViewContactFragment extends Fragment {
 
 		QuickContactBadge quickContactBadge = (QuickContactBadge) getActivity()
 				.findViewById(R.id.quickContactBadge);
-		Log.i(SyncActivity.LOGTAG, contactId + "    this one");
+		Log.i(TAG, contactId + "    this one");
 		if (contact.getPhoto() != null)
 			quickContactBadge.setImageBitmap(contact.getPhoto());
 		else
