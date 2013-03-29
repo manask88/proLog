@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/groupName"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/editTextGroupName"
+        android:layout_width="278dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minWidth="120dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/activityAddNewGroupSaveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twentydp"
+            android:minWidth="@dimen/eightydp"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/activityAddNewGroupCancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/fifty"
+            android:layout_marginRight="@dimen/fifty"
+            android:text="@string/Cancel" />
+    </LinearLayout>
+
+</LinearLayout>
