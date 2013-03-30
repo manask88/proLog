@@ -35,7 +35,7 @@ import android.widget.Toast;
 public class ContactListGroupAddContactActivity extends Activity {
 	private Context context = this;
 	private ContactsDataSource datasource;
-	private ArrayList<Contact> contacts;
+	private ArrayList<Contact> contacts, contactsCurrentGroup;
 	private ArrayList<Contact> contactsSearchResult;
 	private SearchView searchView;
 	private ListView lv;
@@ -69,12 +69,29 @@ public class ContactListGroupAddContactActivity extends Activity {
 		Log.i(TAG, "onResume");
 		datasource.open();
 
-		contacts = (ArrayList<Contact>) datasource.findAllContacts();
-
+		contacts = datasource.findAllContacts();
+		contactsCurrentGroup = datasource.findContactsbyGroupId(groupId);
 		contactsSearchResult = new ArrayList<Contact>();
+		boolean found = false;
+		
+		
+		//TODO this can make it slow as this is very ineficient
+		for (int i = 0; i < contacts.size(); i++) {
+			found = false;
+			for (int j = 0; j < contactsCurrentGroup.size(); j++) {
 
-		for (Contact contact : contacts) {
-			contactsSearchResult.add(contact);
+				if (contacts.get(i).getId() == contactsCurrentGroup.get(j)
+						.getId()) {
+					found = true;
+					break;
+
+				}
+
+			}
+
+			if (!found)
+				contactsSearchResult.add(contacts.get(i));
+
 		}
 
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
@@ -149,5 +166,4 @@ public class ContactListGroupAddContactActivity extends Activity {
 		return true;
 	}
 
-	
 }
