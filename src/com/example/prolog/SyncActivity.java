@@ -2,6 +2,7 @@ package com.example.prolog;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -79,7 +80,7 @@ public class SyncActivity extends Activity {
 	LinkedInRequestToken liToken;
 	public static final String TAG = SyncActivity.class.getSimpleName();
 
-	ArrayList<ExpandListChild> contacts = new ArrayList<ExpandListChild>();
+	ArrayList<ExpandListChild> contacts;
 	ArrayList<ExpandListChild> contactsLinkedIn = new ArrayList<ExpandListChild>();
 
 	ArrayList<Contact> contactsList = new ArrayList<Contact>();
@@ -112,10 +113,7 @@ public class SyncActivity extends Activity {
 
 		ExpandList = (ExpandableListView) findViewById(R.id.ExpList);
 
-		ExpListItems = SetStandardGroups();
-		ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
-
-		ExpandList.setAdapter(ExpAdapter);
+	
 
 		// linkedIn begins
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -260,6 +258,16 @@ public class SyncActivity extends Activity {
 		super.onResume();
 		Log.i(TAG, "onResume");
 		datasource.open();
+		contacts=queryAllRawContacts();
+		
+		
+			Collections.sort(contacts, new ContactsChildCompareByName());
+		
+		
+		ExpListItems = SetStandardGroups();
+		ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
+
+		ExpandList.setAdapter(ExpAdapter);
 	}
 
 	@Override
@@ -288,8 +296,9 @@ public class SyncActivity extends Activity {
 	 * contactsList (used to sync contacts to DB)
 	 */
 
-	private void queryAllRawContactsv1() {
+	private ArrayList<ExpandListChild> queryAllRawContacts() {
 
+		ArrayList<ExpandListChild> contacts = new ArrayList<ExpandListChild>();
 		String[] mProjection = new String[] { Profile._ID,
 				Profile.DISPLAY_NAME_PRIMARY, };
 
@@ -317,61 +326,14 @@ public class SyncActivity extends Activity {
 			 */
 
 		}
+		return contacts;
+		
+		
+	
+
 	}
 
-	private void queryAllRawContacts() {
-		Log.i(TAG, "queryAllRawContacts");
-
-		final String[] projection = new String[] { RawContacts.CONTACT_ID, // the
-																			// contact
-																			// id
-																			// column
-				RawContacts.DELETED // column if this contact is deleted
-		};
-
-		final Cursor rawContacts = managedQuery(RawContacts.CONTENT_URI, // the
-																			// uri
-																			// for
-																			// raw
-																			// contact
-																			// provider
-				projection, null, // selection = null, retrieve all entries
-				null, // not required because selection does not contain
-						// parameters
-				null); // do not order
-
-		final int contactIdColumnIndex = rawContacts
-				.getColumnIndex(RawContacts.CONTACT_ID);
-		final int deletedColumnIndex = rawContacts
-				.getColumnIndex(RawContacts.DELETED);
-		Contact contact;
-		int cont = 0;
-		if (rawContacts.moveToFirst()) { // move the cursor to the first entry
-			while (!rawContacts.isAfterLast()) { // still a valid entry left?
-				final int contactId = rawContacts.getInt(contactIdColumnIndex);
-				final boolean deleted = (rawContacts.getInt(deletedColumnIndex) == 1);
-
-				if (!deleted) {
-
-					ExpandListChild ch2_1 = new ExpandListChild();
-					ch2_1.setName(queryDetailsForContactEntry(contactId)
-							.getName());
-					ch2_1.setTag(null);
-					contacts.add(ch2_1);
-					contact = new Contact();
-					contact.setContactManagerId(contactId);
-					contactsList.add(contact);
-				}
-				rawContacts.moveToNext(); // move to the next entry
-				if (cont == 100)
-					break; // hardcoded to get out of this loop if there are
-							// many contacts
-				cont++;
-			}
-		}
-
-		rawContacts.close();
-	}
+	
 
 	public String queryAllPhoneNumbersForContact(long contactId) {
 		final String[] projection = new String[] { Phone.NUMBER, Phone.TYPE, };
@@ -468,7 +430,13 @@ public class SyncActivity extends Activity {
 			contact.setContactManagerId(contactId);
 
 			if (photoId != null) {
+				Log.i(TAG, "photoid found");
 				contact.setPhoto(queryContactBitmap(photoId));
+			}
+			else
+			{
+				Log.i(TAG, "photoid not found");
+				
 			}
 
 			cursorContact.close();
@@ -492,8 +460,11 @@ public class SyncActivity extends Activity {
 			byte[] photoBlob = photo.getBlob(photo.getColumnIndex(Photo.PHOTO));
 			photoBitmap = BitmapFactory.decodeByteArray(photoBlob, 0,
 					photoBlob.length);
+			Log.i(TAG, "bitmap found");
 		} else {
 			photoBitmap = null;
+			Log.i(TAG, "bitmap not found");
+
 		}
 		photo.close();
 		return photoBitmap;
@@ -505,8 +476,11 @@ public class SyncActivity extends Activity {
 		ExpandListGroup gru1 = new ExpandListGroup();
 		gru1.setName("Phone Contacts");
 		// TODO
-		queryAllRawContactsv1();
+	
 		// queryAllRawContacts();
+		
+		
+		
 		gru1.setItems(contacts);
 		list2 = new ArrayList<ExpandListChild>();
 
@@ -524,6 +498,8 @@ public class SyncActivity extends Activity {
 		ch2_3.setName("Cont3");
 		ch2_3.setTag(null);
 		list2.add(ch2_3);
+		
+		Collections.sort(contactsLinkedIn, new ContactsChildCompareByName());
 		gru2.setItems(contactsLinkedIn);
 		// gru2.setItems(list2);
 		// gru1.setItems(list2);
@@ -680,10 +656,10 @@ public class SyncActivity extends Activity {
 							"Total connections fetched:"
 									+ connections.getTotal());
 					for (Person person : connections.getPersonList()) {
-						Log.i(TAG,
+						/*Log.i(TAG,
 								person.getId() + ":" + person.getFirstName()
 										+ " " + person.getLastName() + ":"
-										+ person.getHeadline());
+										+ person.getHeadline());*/
 
 						ExpandListChild childPerson = new ExpandListChild();
 
@@ -724,7 +700,66 @@ public class SyncActivity extends Activity {
 					finish();
 				}
 				Looper.loop();
+				Collections.sort(contactsLinkedIn, new ContactsChildCompareByName());
+
 			}
 		}.start();
 	}// end method
+	
+	
+	
+	
+	/*private void queryAllRawContacts() {
+	Log.i(TAG, "queryAllRawContacts");
+
+	final String[] projection = new String[] { RawContacts.CONTACT_ID, // the
+																		// contact
+																		// id
+																		// column
+			RawContacts.DELETED // column if this contact is deleted
+	};
+
+	final Cursor rawContacts = managedQuery(RawContacts.CONTENT_URI, // the
+																		// uri
+																		// for
+																		// raw
+																		// contact
+																		// provider
+			projection, null, // selection = null, retrieve all entries
+			null, // not required because selection does not contain
+					// parameters
+			null); // do not order
+
+	final int contactIdColumnIndex = rawContacts
+			.getColumnIndex(RawContacts.CONTACT_ID);
+	final int deletedColumnIndex = rawContacts
+			.getColumnIndex(RawContacts.DELETED);
+	Contact contact;
+	int cont = 0;
+	if (rawContacts.moveToFirst()) { // move the cursor to the first entry
+		while (!rawContacts.isAfterLast()) { // still a valid entry left?
+			final int contactId = rawContacts.getInt(contactIdColumnIndex);
+			final boolean deleted = (rawContacts.getInt(deletedColumnIndex) == 1);
+
+			if (!deleted) {
+
+				ExpandListChild ch2_1 = new ExpandListChild();
+				ch2_1.setName(queryDetailsForContactEntry(contactId)
+						.getName());
+				ch2_1.setTag(null);
+				contacts.add(ch2_1);
+				contact = new Contact();
+				contact.setContactManagerId(contactId);
+				contactsList.add(contact);
+			}
+			rawContacts.moveToNext(); // move to the next entry
+			if (cont == 100)
+				break; // hardcoded to get out of this loop if there are
+						// many contacts
+			cont++;
+		}
+	}
+
+	rawContacts.close();
+}*/
 }

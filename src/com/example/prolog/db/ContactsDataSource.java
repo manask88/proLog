@@ -106,6 +106,8 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
 		if (contact.getPhoto() != null) {
+			Log.i(TAG, "getPhoto != null");
+
 			/*
 			 * ByteArrayOutputStream out = new ByteArrayOutputStream();
 			 * 
@@ -116,7 +118,8 @@ public class ContactsDataSource {
 			values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
 					Commons.getBlobfromImage(contact.getPhoto()));
 		}
-
+		else
+		{Log.i(TAG, "getPhoto is null");}
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
 				null, values);
 		contact.setId(insertid);
