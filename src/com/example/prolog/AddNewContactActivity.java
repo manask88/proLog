@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.QuickContactBadge;
+import android.widget.Toast;
 
 public class AddNewContactActivity extends Activity {
 
@@ -30,7 +31,7 @@ public class AddNewContactActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTitle("Add New Contact");
+		// setTitle("Add New Contact");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_contact);
 
@@ -54,31 +55,40 @@ public class AddNewContactActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				EditText etName = (EditText) findViewById(R.id.editTextName);
-				EditText etTitle = (EditText) findViewById(R.id.editTextTitle);
-				EditText etCompany = (EditText) findViewById(R.id.editTextCompany);
-				EditText etPhone = (EditText) findViewById(R.id.editTextPhone);
-				EditText etEmail = (EditText) findViewById(R.id.editTextEmail);
-				EditText etLocation = (EditText) findViewById(R.id.editTextLocation);
 
-				datasource = new ContactsDataSource(context);
-				datasource.open();
-				Contact c = new Contact();
-				c.setName(etName.getText().toString());
-				c.setTitle(etTitle.getText().toString());
-				c.setCompany(etCompany.getText().toString());
-				c.setHome_phone(etPhone.getText().toString());
-				c.setWork_phone(etPhone.getText().toString());
-				c.setEmail(etEmail.getText().toString());
-				c.setLocation(etLocation.getText().toString());
-				BitmapDrawable bitmapDrawable = ((BitmapDrawable) quickContactBadge
-						.getDrawable());
-				c.setPhoto(bitmapDrawable.getBitmap());
-				c = datasource.createContact(c);
-				datasource.close();
+				if (!etName.getText().toString().equals(""))
 
-				Intent i = new Intent(context, MyTabActivity.class);
-				i.putExtra("contactId", c.getId());
-				startActivity(i);
+				{
+					EditText etTitle = (EditText) findViewById(R.id.editTextTitle);
+					EditText etCompany = (EditText) findViewById(R.id.editTextCompany);
+					EditText etPhone = (EditText) findViewById(R.id.editTextPhone);
+					EditText etEmail = (EditText) findViewById(R.id.editTextEmail);
+					EditText etLocation = (EditText) findViewById(R.id.editTextLocation);
+
+					datasource = new ContactsDataSource(context);
+					datasource.open();
+					Contact c = new Contact();
+					c.setName(etName.getText().toString());
+					c.setTitle(etTitle.getText().toString());
+					c.setCompany(etCompany.getText().toString());
+					c.setHome_phone(etPhone.getText().toString());
+					c.setWork_phone(etPhone.getText().toString());
+					c.setEmail(etEmail.getText().toString());
+					c.setLocation(etLocation.getText().toString());
+					BitmapDrawable bitmapDrawable = ((BitmapDrawable) quickContactBadge
+							.getDrawable());
+					c.setPhoto(bitmapDrawable.getBitmap());
+					c = datasource.createContact(c);
+					datasource.close();
+
+					Intent i = new Intent(context, MyTabActivity.class);
+					i.putExtra("contactId", c.getId());
+					startActivity(i);
+				} else {
+					Toast.makeText(context, Commons.pleaseEnterNameContact,
+							Toast.LENGTH_SHORT).show();
+
+				}
 			}
 		});
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddNewGroupActivity extends Activity {
 	private EditText editTextGroupName;
@@ -32,8 +33,12 @@ public class AddNewGroupActivity extends Activity {
 		
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Group group = new Group();
-				group.setName(editTextGroupName.getText().toString());
+				
+				String groupName = editTextGroupName.getText().toString();
+				if (!groupName.equals(""))
+				
+				{	Group group = new Group();
+				group.setName(groupName);
 				datasource.open();
 				group = datasource.createGroup(group);
 				datasource.close();
@@ -42,7 +47,14 @@ public class AddNewGroupActivity extends Activity {
 				Intent i = new Intent(context, ViewGroupActivity.class);
 				i.putExtra("groupId", group.getId());
 				startActivity(i);
-				finish();
+				finish();}
+				
+				else
+				{
+					
+					Toast.makeText(context, Commons.pleaseEnterNameGroup,
+							Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		

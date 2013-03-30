@@ -9,7 +9,6 @@ public class ContactsCompareByName implements Comparator<Contact> {
 
 @Override
 public int compare(Contact contact1, Contact contact2) {
-	// TODO Auto-generated method stub
-	return contact1.getName().compareTo(contact2.getName());
+	return contact1.getName().toLowerCase().compareTo(contact2.getName().toLowerCase());
 }
 }

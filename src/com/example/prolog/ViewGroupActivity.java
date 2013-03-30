@@ -1,73 +1,149 @@
 package com.example.prolog;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
-import com.example.prolog.model.Group;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewGroupActivity extends Activity {
-	private ListView lv;
 	private Context context = this;
 	private ContactsDataSource datasource;
-	private TextView textView;
-	private long groupId;
 	private ArrayList<Contact> contacts;
-	private static final String TAG = ViewGroupActivity.class.getSimpleName();
-	private Button addContact;
+	private ArrayList<Contact> contactsSearchResult;
+	private SearchView searchView;
+	private ListView lv;
+	private Button buttonAdd;
+	private TextView textView;
+	public static final String TAG = ViewGroupActivity.class.getSimpleName();
+	private long groupId;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setTitle("Add New Contact");
-		setContentView(R.layout.activity_group_view);
+		// setTitle("Contacts");
+		setContentView(R.layout.activity_contact_list);
 
-		datasource = new ContactsDataSource(context);
+		Log.i(TAG, "started ContactListGroupAddContactActivity");
+		datasource = new ContactsDataSource(this);
 
-		Bundle b = getIntent().getExtras();
-		groupId = b.getLong("groupId");
-
-
+		textView = (TextView) findViewById(R.id.textView);
+		
+		searchView = (SearchView) findViewById(R.id.searchView);
 		lv = (ListView) findViewById(android.R.id.list);
-		textView= (TextView) findViewById(R.id.textViewGroupName);
-		datasource.open();
-		textView.setText("Group "+datasource.findGroupbyId(groupId).getName());
-		datasource.close();
-		addContact = (Button) findViewById(R.id.buttonAdd);
-		addContact.setOnClickListener(new View.OnClickListener() { public
-		  void onClick(View v) { 		
-			Intent i = new Intent(context, ContactListGroupAddContactActivity.class);
-			i.putExtra("groupId", groupId);
-			startActivity(i);
- } });
-		 
+		buttonAdd = (Button) findViewById(R.id.buttonAdd);
+
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.i(TAG, "onResume");
 		datasource.open();
-		contacts = datasource.findContactsbyGroupId(groupId);
-		lv.setAdapter(new GroupListAdapter(this,
-				R.id.activityContactListTextView, contacts));
+		Bundle b = getIntent().getExtras();
+		groupId = b.getLong("groupId");
+		
+		
+		textView.setText("Group "+datasource.findGroupbyId(groupId).getName());
+		contacts = (ArrayList<Contact>) datasource
+				.findContactsbyGroupId(groupId);
+
+		contactsSearchResult = new ArrayList<Contact>();
+
+		for (Contact contact : contacts) {
+			contactsSearchResult.add(contact);
+		}
+
+		Collections.sort(contactsSearchResult, new ContactsCompareByName());
+
+		lv.setAdapter(new ContactListAdapter(this,
+				R.id.activityContactListTextView, contactsSearchResult));
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				Intent i = new Intent(context, MyTabActivity.class);
+				i.putExtra("contactId", contactsSearchResult.get(position)
+						.getId());
+				startActivity(i);
+
+			}
+
+		});
+		// lv.setAdapter(new ArrayAdapter<String>(this,
+		// android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				contactsSearchResult.clear();
+				for (int i = 0; i < contacts.size(); i++) {
+					if (contacts.get(i).getName().toLowerCase()
+							.contains(newText.toString().toLowerCase())
+							|| contacts.get(i).getCompany().toLowerCase()
+									.contains(newText.toString().toLowerCase())
+							|| contacts.get(i).getTitle().toLowerCase()
+									.contains(newText.toString().toLowerCase())) {
+						contactsSearchResult.add(contacts.get(i));
+					}
+				}
+
+				Collections.sort(contactsSearchResult,
+						new ContactsCompareByName());
+
+				lv.setAdapter(new ContactListAdapter(ViewGroupActivity.this,
+						R.id.activityContactListTextView, contactsSearchResult));
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				return true;
+			}
+		});
+
+		buttonAdd.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent(context,
+						ContactListGroupAddContactActivity.class);
+				i.putExtra("groupId", groupId);
+				startActivity(i);
+			}
+		});
 	}
 
 	@Override
 	protected void onPause() {
+
 		super.onPause();
 		datasource.close();
 	}
@@ -75,35 +151,8 @@ public class ViewGroupActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.add_contact, menu);
+		getMenuInflater().inflate(R.menu.contact_list, menu);
 		return true;
-	}
-
-	private class GroupListAdapter extends ArrayAdapter<Contact> {
-
-		private ArrayList<Contact> items;
-
-		public GroupListAdapter(Context context, int textViewResourceId,
-				ArrayList<Contact> contacts) {
-			super(context, textViewResourceId, contacts);
-			items = contacts;
-
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-			View row = inflater.inflate(R.layout.activity_contact_list_item,
-					parent, false);
-
-			TextView tv = (TextView) row
-					.findViewById(R.id.activityContactListTextView);
-			Log.i(TAG, "id :" + items.get(position).getId());
-			tv.setText(items.get(position).getName());
-
-			return row;
-		}
 	}
 
 }

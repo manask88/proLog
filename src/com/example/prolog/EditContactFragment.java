@@ -82,24 +82,38 @@ public class EditContactFragment extends Fragment {
 
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				contact.setName(tvName.getText().toString());
-				contact.setTitle(tvTitle.getText().toString());
-				contact.setCompany(tvCompany.getText().toString());
-				contact.setHome_phone(tvPhone.getText().toString());
-				contact.setEmail(tvEmail.getText().toString());
-				contact.setLocation(tvLocation.getText().toString());
-				BitmapDrawable bitmapDrawable = ((BitmapDrawable) quickContactBadge
-						.getDrawable());
-				contact.setPhoto(bitmapDrawable.getBitmap());
-				datasource.updateContact(contact);
-				Bundle b = new Bundle();
-				b.putLong("contactId", contactId);
-				ViewContactFragment viewContactFragment = new ViewContactFragment();
-				viewContactFragment.setArguments(b);
-				FragmentManager fmi = getFragmentManager();
-				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, viewContactFragment)
-						.addToBackStack(null).commit();
+
+				if (!tvName.getText().toString().equals(""))
+
+				{
+
+					contact.setName(tvName.getText().toString());
+					contact.setTitle(tvTitle.getText().toString());
+					contact.setCompany(tvCompany.getText().toString());
+					contact.setHome_phone(tvPhone.getText().toString());
+					contact.setEmail(tvEmail.getText().toString());
+					contact.setLocation(tvLocation.getText().toString());
+					BitmapDrawable bitmapDrawable = ((BitmapDrawable) quickContactBadge
+							.getDrawable());
+					contact.setPhoto(bitmapDrawable.getBitmap());
+					datasource.updateContact(contact);
+					Bundle b = new Bundle();
+					b.putLong("contactId", contactId);
+					ViewContactFragment viewContactFragment = new ViewContactFragment();
+					viewContactFragment.setArguments(b);
+					FragmentManager fmi = getFragmentManager();
+					/*
+					 * FragmentTransaction ftu = fmi.beginTransaction();
+					 * ftu.replace(android.R.id.content, viewContactFragment)
+					 * .addToBackStack(null).commit();
+					 */
+					fmi.popBackStack();
+				} else {
+
+					Toast.makeText(getActivity(),
+							Commons.pleaseEnterNameContact, Toast.LENGTH_SHORT)
+							.show();
+				}
 			}
 		});
 

@@ -9,7 +9,6 @@ import java.util.List;
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
 
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
@@ -29,112 +28,118 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ContactListNewInteractionActivity extends Activity {
-private Context context=this;
-private ContactsDataSource datasource;
-private ArrayList<Contact> contacts = new ArrayList<Contact>();
-private ArrayList<Contact> arr_sort= new ArrayList<Contact>();
-private String[] lv_arr;
-private EditText ed;
-private ListView lv;
-private Button button1;
-private Button button;
-public static final String LOGTAG="EXPLORECA";
+	private Context context = this;
+	private ContactsDataSource datasource;
+	private ArrayList<Contact> contacts;
+	private ArrayList<Contact> contactsSearchResult;
+	private SearchView searchView;
+	private ListView lv;
+	private Button buttonAdd;
+	private TextView textView;
+	public static final String TAG = ContactListNewInteractionActivity.class
+			.getSimpleName();
+	private long groupId;
 
-	@Override
-		protected void onResume() {
-			super.onResume();
-			datasource.open();
-			contacts=(ArrayList<Contact>) datasource.findAllContacts();
-			Collections.sort(contacts,new ContactsCompareByName());
-			// TODO we shoyld be copyng this properly... this is nasty!!
-			arr_sort=(ArrayList<Contact>) datasource.findAllContacts();
-			Collections.sort(arr_sort,new ContactsCompareByName());
-
-			lv_arr = new String[contacts.size()];
-			Iterator i = contacts.iterator();
-			int j = 0;
-			while(i.hasNext()) {
-				lv_arr[j]=((Contact) i.next()).getName();
-				j++;
-			}
-			lv = (ListView)findViewById(android.R.id.list);
-			
-			
-			lv.setAdapter(new ContactListAdapter(this, R.id.activityContactListTextView, arr_sort));
-			lv.setOnItemClickListener(new OnItemClickListener() 
-			{
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position,
-						long id) {
-				
-						Intent i = new Intent(context,NewInteracionActivity.class);
-						i.putExtra("contactId", arr_sort.get(position).getId());
-						startActivity(i);
-				}
-		
-			});
-			//lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
-			
-			ed.addTextChangedListener( new TextWatcher() {
-				
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					// TODO Auto-generated method stub
-	                arr_sort.clear();
-	                for (int i = 0; i < lv_arr.length; i++) {
-	                        if ((lv_arr[i].toLowerCase()).contains(ed.getText().toString().toLowerCase())) {
-	                            arr_sort.add(contacts.get(i));
-	                        }
-	                }
-	        		lv.setAdapter(new ContactListAdapter(ContactListNewInteractionActivity.this, R.id.activityContactListTextView, arr_sort));
-				}
-				
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
-			button.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					startActivity(new Intent(context,AddNewContactActivity.class));
-				}
-			});
-		}
-	@Override
-		protected void onPause() {
-			
-			super.onPause();
-			datasource.close();
-		}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle("Contacts");
+		// setTitle("Contacts");
 		setContentView(R.layout.activity_contact_list);
 
-		Log.i(LOGTAG,"started ContactListActivity");
-		datasource=new ContactsDataSource(this);
-		
-	
-		
-		ed = (EditText) findViewById(R.id.editTextNewFollowUpActivityDate);
-		
-		button = (Button) findViewById(R.id.save);
-		
+		Log.i(TAG, "started ContactListGroupAddContactActivity");
+		datasource = new ContactsDataSource(this);
+		textView = (TextView) findViewById(R.id.textView);
+		textView.setText("Contacts");
+		searchView = (SearchView) findViewById(R.id.searchView);
+		lv = (ListView) findViewById(android.R.id.list);
+		buttonAdd = (Button) findViewById(R.id.buttonAdd);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.i(TAG, "onResume");
+		datasource.open();
+
+		contacts = (ArrayList<Contact>) datasource.findAllContacts();
+
+		contactsSearchResult = new ArrayList<Contact>();
+
+		for (Contact contact : contacts) {
+			contactsSearchResult.add(contact);
+		}
+
+		Collections.sort(contactsSearchResult, new ContactsCompareByName());
+
+		lv.setAdapter(new ContactListAdapter(this,
+				R.id.activityContactListTextView, contactsSearchResult));
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+							
+				Intent i = new Intent(context,NewInteracionActivity.class);
+				i.putExtra("contactId", contactsSearchResult.get(position).getId());
+				startActivity(i);
+				finish();
+
+			}
+
+		});
+		// lv.setAdapter(new ArrayAdapter<String>(this,
+		// android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
+
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				contactsSearchResult.clear();
+				for (int i = 0; i < contacts.size(); i++) {
+					if (contacts.get(i).getName().toLowerCase()
+							.contains(newText.toString().toLowerCase())
+							|| contacts.get(i).getCompany().toLowerCase()
+									.contains(newText.toString().toLowerCase())
+							|| contacts.get(i).getTitle().toLowerCase()
+									.contains(newText.toString().toLowerCase())) {
+						contactsSearchResult.add(contacts.get(i));
+					}
+				}
+
+				Collections.sort(contactsSearchResult,
+						new ContactsCompareByName());
+
+				lv.setAdapter(new ContactListAdapter(
+						ContactListNewInteractionActivity.this,
+						R.id.activityContactListTextView, contactsSearchResult));
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				return true;
+			}
+		});
+
+		buttonAdd.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(context, AddNewContactActivity.class));
+			}
+		});
+	}
+
+	@Override
+	protected void onPause() {
+
+		super.onPause();
+		datasource.close();
 	}
 
 	@Override
@@ -145,29 +150,4 @@ public static final String LOGTAG="EXPLORECA";
 	}
 
 	
-	private class ContactListAdapter extends ArrayAdapter<Contact> {
-
-		
-		private ArrayList<Contact> items;
-		
-		public ContactListAdapter(Context context, int textViewResourceId, ArrayList<Contact> contacts) {
-			super(context, textViewResourceId, contacts);
-			items=contacts;
-			
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			
-			View row = inflater.inflate(R.layout.activity_contact_list_item, parent, false);
-			
-			ImageView iv = (ImageView) row.findViewById(R.id.activityContactListImageView);
-			TextView tv = (TextView) row.findViewById(R.id.activityContactListTextView);
-			Log.i(LOGTAG,"id :"+ items.get(position).getId());
-			tv.setText(items.get(position).getName());
-			iv.setImageResource(R.drawable.ic_launcher);
-			return row;
-		}
-	}
 }

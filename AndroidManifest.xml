@@ -18,15 +18,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.example.prolog.MainActivity"
-            android:label="@string/title_activity_add_contact" >
-            >
+        <activity android:name="com.example.prolog.MainActivity" >
         </activity>
         <activity
             android:name="com.example.prolog.SyncActivity"
-            android:label="@string/app_name" 
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,63 +39,35 @@
                     android:scheme="x-oauthflow-linkedin" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.prolog.AddContactActivity"
-            android:label="@string/title_activity_add_contact" >
+        <activity android:name="com.example.prolog.AddContactActivity" >
         </activity>
-          <activity
-            android:name="com.example.prolog.AddNewGroupActivity">
+        <activity android:name="com.example.prolog.AddNewGroupActivity" >
         </activity>
-         <activity
-            android:name="com.example.prolog.ViewGroupActivity">
+        <activity android:name="com.example.prolog.ViewGroupActivity" >
         </activity>
-         <activity
-            android:name="com.example.prolog.ContactListGroupAddContactActivity">
+        <activity android:name="com.example.prolog.ContactListGroupAddContactActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.SyncLoadingActivity"
-            android:label="@string/title_activity_sync_loading" >
+        <activity android:name="com.example.prolog.SyncLoadingActivity" >
         </activity>
-        
-        <activity
-            android:name="com.example.prolog.ContactViewActivity"
-            android:label="@string/title_activity_contact_view" >
+        <activity android:name="com.example.prolog.ContactViewActivity" >
         </activity>
-            <activity
-            android:name="com.example.prolog.ContactListNewInteractionActivity"
-            android:label="@string/title_activity_add_contact" >
+        <activity android:name="com.example.prolog.ContactListNewInteractionActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.ContactListActivity"
-            android:label="@string/title_activity_contact_list" >
+        <activity android:name="com.example.prolog.ContactListActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.NewContactActivity"
-            android:label="@string/title_activity_new_contact" >
+        <activity android:name="com.example.prolog.NewContactActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.GroupListActivity"
-            android:label="@string/title_activity_group_list" >
+        <activity android:name="com.example.prolog.GroupListActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.ContactInteractionsActivity"
-            android:label="@string/title_activity_contact_interactions" >
+        <activity android:name="com.example.prolog.ContactInteractionsActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.MyTabActivity"
-            android:label="@string/title_activity_my_tab" >
+        <activity android:name="com.example.prolog.MyTabActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.AddNewContactActivity"
-            android:label="@string/title_activity_add_new_contact" >
+        <activity android:name="com.example.prolog.AddNewContactActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.NewInteracionActivity"
-            android:label="@string/title_activity_new_interacion" >
+        <activity android:name="com.example.prolog.NewInteracionActivity" >
         </activity>
-        <activity
-            android:name="com.example.prolog.NewFollowUpActivity"
-            android:label="@string/title_activity_new_follow_up" >
+        <activity android:name="com.example.prolog.NewFollowUpActivity" >
         </activity>
     </application>
 

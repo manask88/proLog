@@ -28,53 +28,52 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ContactListActivity extends Activity {
 	private Context context = this;
 	private ContactsDataSource datasource;
-	private ArrayList<Contact> contacts = new ArrayList<Contact>();
-	private ArrayList<Contact> contactsSearchResult = new ArrayList<Contact>();
-	private Contact[] lv_arr;
-	private EditText editTextSearch;
+	private ArrayList<Contact> contacts;
+	private ArrayList<Contact> contactsSearchResult;
+	private SearchView searchView;
 	private ListView lv;
-	private Button button;
+	private Button buttonAdd;
+	private TextView textView;
 	public static final String TAG = ContactListActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle("Contacts");
+		//setTitle("Contacts");
 		setContentView(R.layout.activity_contact_list);
 
 		Log.i(TAG, "started ContactListActivity");
 		datasource = new ContactsDataSource(this);
-
-		editTextSearch = (EditText) findViewById(R.id.editTextNewFollowUpActivityDate);
-
-		button = (Button) findViewById(R.id.save);
+		textView = (TextView) findViewById(R.id.textView);
+		textView.setText("Contacts");
+		searchView = (SearchView) findViewById(R.id.searchView);
+		lv = (ListView) findViewById(android.R.id.list);
+		buttonAdd = (Button) findViewById(R.id.buttonAdd);
 
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.i(TAG, "onResume");
 		datasource.open();
-		contacts = (ArrayList<Contact>) datasource.findAllContacts();
-		Collections.sort(contacts, new ContactsCompareByName());
-		// TODO we shoyld be copyng this properly... this is nasty!!
-		contactsSearchResult = (ArrayList<Contact>) datasource.findAllContacts();
-		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
-		lv_arr = new Contact[contacts.size()];
-		Iterator i = contacts.iterator();
-		int j = 0;
-		while (i.hasNext()) {
-			lv_arr[j] = ((Contact) i.next());
-			j++;
+		contacts = (ArrayList<Contact>) datasource.findAllContacts();
+
+		contactsSearchResult = new ArrayList<Contact>();
+
+		for (Contact contact : contacts) {
+			contactsSearchResult.add(contact);
 		}
-		lv = (ListView) findViewById(android.R.id.list);
+
+		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
 		lv.setAdapter(new ContactListAdapter(this,
 				R.id.activityContactListTextView, contactsSearchResult));
@@ -84,7 +83,8 @@ public class ContactListActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent i = new Intent(context, MyTabActivity.class);
-				i.putExtra("contactId", contactsSearchResult.get(position).getId());
+				i.putExtra("contactId", contactsSearchResult.get(position)
+						.getId());
 				startActivity(i);
 			}
 
@@ -92,51 +92,37 @@ public class ContactListActivity extends Activity {
 		// lv.setAdapter(new ArrayAdapter<String>(this,
 		// android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
 
-		editTextSearch.addTextChangedListener(new TextWatcher() {
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public boolean onQueryTextChange(String newText) {
 				contactsSearchResult.clear();
-				for (int i = 0; i < lv_arr.length; i++) {
-					if (lv_arr[i]
-							.getName()
-							.toLowerCase()
-							.contains(
-									editTextSearch.getText().toString()
-											.toLowerCase())
-							|| lv_arr[i]
-									.getCompany()
-									.toLowerCase()
-									.contains(
-											editTextSearch.getText().toString()
-													.toLowerCase())
-							|| lv_arr[i]
-									.getTitle()
-									.toLowerCase()
-									.contains(
-											editTextSearch.getText().toString()
-													.toLowerCase())) {
+				for (int i = 0; i < contacts.size(); i++) {
+					if (contacts.get(i).getName().toLowerCase()
+							.contains(newText.toString().toLowerCase())
+							|| contacts.get(i).getCompany().toLowerCase()
+									.contains(newText.toString().toLowerCase())
+							|| contacts.get(i).getTitle().toLowerCase()
+									.contains(newText.toString().toLowerCase())) {
 						contactsSearchResult.add(contacts.get(i));
 					}
 				}
+
+				Collections.sort(contactsSearchResult,
+						new ContactsCompareByName());
+
 				lv.setAdapter(new ContactListAdapter(ContactListActivity.this,
 						R.id.activityContactListTextView, contactsSearchResult));
+				return true;
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-
+			public boolean onQueryTextSubmit(String query) {
+				return true;
 			}
 		});
 
-		button.setOnClickListener(new View.OnClickListener() {
+		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(context, AddNewContactActivity.class));
 			}
@@ -157,42 +143,5 @@ public class ContactListActivity extends Activity {
 		return true;
 	}
 
-	private class ContactListAdapter extends ArrayAdapter<Contact> {
-
-		private ArrayList<Contact> items;
-
-		public ContactListAdapter(Context context, int textViewResourceId,
-				ArrayList<Contact> contacts) {
-			super(context, textViewResourceId, contacts);
-			items = contacts;
-
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-			View row = inflater.inflate(R.layout.activity_contact_list_item,
-					parent, false);
-
-			ImageView iv = (ImageView) row
-					.findViewById(R.id.activityContactListImageView);
-			TextView tv = (TextView) row
-					.findViewById(R.id.activityContactListTextView);
-			TextView tvContactListTextViewTitle = (TextView) row
-					.findViewById(R.id.activityContactListTextViewTitle);
-			TextView tvContactListTextViewCompany = (TextView) row
-					.findViewById(R.id.activityContactListTextViewCompany);
-			Log.i(TAG, "id :" + items.get(position).getId());
-			tv.setText(items.get(position).getName());
-			tvContactListTextViewTitle.setText(items.get(position).getTitle());
-			tvContactListTextViewCompany.setText(items.get(position).getCompany());
-			if (items.get(position).getPhoto() != null)
-				iv.setImageBitmap(items.get(position).getPhoto());
-			else
-				iv.setImageResource(R.drawable.face);
-
-			return row;
-		}
-	}
+	
 }
