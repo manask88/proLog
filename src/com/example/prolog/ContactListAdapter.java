@@ -24,7 +24,6 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
 		items = contacts;
 
 	}
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context

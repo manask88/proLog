@@ -46,7 +46,7 @@ public class ContactListActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setTitle("Contacts");
+		// setTitle("Contacts");
 		setContentView(R.layout.activity_contact_list);
 
 		Log.i(TAG, "started ContactListActivity");
@@ -55,6 +55,10 @@ public class ContactListActivity extends Activity {
 		textView.setText("Contacts");
 		searchView = (SearchView) findViewById(R.id.searchView);
 		lv = (ListView) findViewById(android.R.id.list);
+
+		TextView empty = (TextView) findViewById(R.id.empty);
+
+		lv.setEmptyView(empty);
 		buttonAdd = (Button) findViewById(R.id.buttonAdd);
 
 	}
@@ -143,5 +147,4 @@ public class ContactListActivity extends Activity {
 		return true;
 	}
 
-	
 }

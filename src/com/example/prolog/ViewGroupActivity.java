@@ -118,6 +118,9 @@ public class ViewGroupActivity extends Activity {
 
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
+		TextView empty = (TextView)findViewById(R.id.empty);
+		
+		lv.setEmptyView(empty);
 		lv.setAdapter(new ContactListAdapter(this,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {

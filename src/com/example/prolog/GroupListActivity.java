@@ -45,7 +45,7 @@ public class GroupListActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		//setTitle("Groups");
+		// setTitle("Groups");
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_contact_list);
@@ -84,6 +84,9 @@ public class GroupListActivity extends Activity {
 
 		Collections.sort(groupsSearchResult, new GroupCompareByName());
 
+		TextView empty = (TextView) findViewById(R.id.empty);
+
+		lv.setEmptyView(empty);
 		lv.setAdapter(new GroupListAdapter(this,
 				R.id.activityGroupListTextView, groupsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
