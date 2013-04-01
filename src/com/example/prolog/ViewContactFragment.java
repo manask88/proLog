@@ -1,11 +1,16 @@
 package com.example.prolog;
 
+import com.example.prolog.ViewGroupActivity.MyAlertDialogFragment;
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,14 +88,9 @@ public class ViewContactFragment extends Fragment {
 
 		imagebuttonDelete.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				datasource.open();
-				// TODO should also delete the groups in which the contact is in
-				// and anything else?
-				datasource.deleteInteractionsByContactId(contactId);
-				datasource.deleteContactById(contactId);
-				datasource.close();
-				startActivity(new Intent(getActivity(),
-						ContactListActivity.class));
+				DialogFragment newFragment = MyAlertDialogFragment
+						.newInstance(contactId);
+				newFragment.show(getFragmentManager(), "dialog");
 
 			}
 		});
@@ -119,4 +119,58 @@ public class ViewContactFragment extends Fragment {
 				container, false);
 	}
 
+	public static class MyAlertDialogFragment extends DialogFragment {
+
+		public static MyAlertDialogFragment newInstance(long contactId) {
+			MyAlertDialogFragment frag = new MyAlertDialogFragment();
+			Bundle args = new Bundle();
+			args.putLong("contactId", contactId);
+			frag.setArguments(args);
+			return frag;
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			final long contactId = getArguments().getLong("contactId");
+
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					getActivity()).setIcon(android.R.drawable.ic_dialog_alert)
+					.setTitle("Are you sure you want to delete this contact??");
+			alertDialogBuilder.setPositiveButton(R.string.OK,
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							ContactsDataSource datasource = new ContactsDataSource(
+									getActivity());
+							;
+							datasource.open();
+							// TODO should also delete the groups in which the
+							// contact is in
+							// and anything else?
+							datasource.deleteInteractionsByContactId(contactId);
+							datasource
+									.deleteGroupContactsByContactId(contactId);
+							datasource.deleteContactById(contactId);
+							datasource.close();
+							getActivity().finish();
+							startActivity(new Intent(getActivity(),
+									ContactListActivity.class));
+
+						}
+					});
+			alertDialogBuilder.setNegativeButton(R.string.Cancel,
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+
+						}
+					});
+
+			return alertDialogBuilder.create();
+		}
+	}
+
+	protected void deleteContact(long contactId2) {
+
+	}
 }

@@ -34,8 +34,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_GROUPS_NAME = "name";
 	
 	public static final String TABLE_GROUP_CONTACTS = "group_contacts";
-	public static final String COLUMN_GROUP_CONTACT_ID = "contactId";
-	public static final String COLUMN_GROUP_GROUP_ID = "groupId";
+	public static final String COLUMN_GROUP_CONTACTS_CONTACT_ID = "contactId";
+	public static final String COLUMN_GROUP_CONTACTS_GROUP_ID = "groupId";
 
 
 	
@@ -67,8 +67,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	
 	private static final String TABLE_CREATE_GROUP_CONTACTS =
 			"CREATE TABLE IF NOT EXISTS " + TABLE_GROUP_CONTACTS + " ( " +
-			COLUMN_GROUP_CONTACT_ID + " INTEGER, " +
-			COLUMN_GROUP_GROUP_ID + " INTEGER " +
+			COLUMN_GROUP_CONTACTS_CONTACT_ID + " INTEGER, " +
+			COLUMN_GROUP_CONTACTS_GROUP_ID + " INTEGER " +
 			")";
 	
 	

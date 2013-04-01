@@ -47,8 +47,8 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_GROUPS_NAME };
 
 	private static final String[] allColumnsGroupContacts = {
-			ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID,
-			ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID };
+			ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID,
+			ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID };
 
 	public ContactsDataSource(Context context) {
 		dbhelper = new ContactsDBOpenHelper(context);
@@ -83,8 +83,9 @@ public class ContactsDataSource {
 
 	public void createGroupContacts(long groupId, long contactId) {
 		ContentValues values = new ContentValues();
-		values.put(ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID, contactId);
-		values.put(ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID, groupId);
+		values.put(ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID,
+				contactId);
+		values.put(ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID, groupId);
 
 		database.insert(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS, null, values);
 
@@ -117,9 +118,9 @@ public class ContactsDataSource {
 			 */
 			values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
 					Commons.getBlobfromImage(contact.getPhoto()));
+		} else {
+			Log.i(TAG, "getPhoto is null");
 		}
-		else
-		{Log.i(TAG, "getPhoto is null");}
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_CONTACTS,
 				null, values);
 		contact.setId(insertid);
@@ -134,6 +135,27 @@ public class ContactsDataSource {
 				new String[] { Long.toString(id) });
 	}
 
+	public void deleteGroupById(long id) {
+
+		deleteGroupContactsByGroupId(id);
+		database.delete(ContactsDBOpenHelper.TABLE_GROUPS,
+				ContactsDBOpenHelper.COLUMN_GROUPS_ID + "=?",
+				new String[] { Long.toString(id) });
+
+	}
+
+	public void deleteGroupContactsByGroupId(long id) {
+		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?",
+				new String[] { Long.toString(id) });
+	}
+
+	
+	public void deleteGroupContactsByContactId(long id) {
+		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID + "=?",
+				new String[] { Long.toString(id) });
+	}
 	public void deleteInteractionsByContactId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_INTERACTIONS,
 				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?",
@@ -162,6 +184,18 @@ public class ContactsDataSource {
 
 	}
 
+	public Group updateGroup(Group group) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, group.getName());
+	
+		database.update(ContactsDBOpenHelper.TABLE_GROUPS, values,
+				ContactsDBOpenHelper.COLUMN_GROUPS_ID + "=?",
+				new String[] { Long.toString(group.getId()) });
+
+		Log.i(TAG, "Group  with id " + group.getId() + " updated");
+		return group;
+
+	}
 	public Interaction createInteraction(Interaction interaction) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID,
@@ -252,7 +286,7 @@ public class ContactsDataSource {
 		Cursor cursor = database.query(
 				ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
 				allColumnsGroupContacts,
-				ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID + "=?",
+				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?",
 				new String[] { Long.toString(groupId) }, null, null, null);
 
 		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
@@ -262,10 +296,10 @@ public class ContactsDataSource {
 				groupContact = new GroupContact();
 				groupContact
 						.setGroupId(cursor.getLong(cursor
-								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_GROUP_ID)));
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID)));
 				groupContact
 						.setContactId(cursor.getLong(cursor
-								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_CONTACT_ID)));
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID)));
 
 				groupContacts.add(groupContact);
 
@@ -352,12 +386,11 @@ public class ContactsDataSource {
 
 				byte[] blob = cursor.getBlob(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
-				if (blob != null)
-					{contact.setPhoto(Commons.getImageFromBlob(blob));
-					
+				if (blob != null) {
+					contact.setPhoto(Commons.getImageFromBlob(blob));
+
 					Log.i(TAG, "found pic");
-					}
-				else
+				} else
 					Log.i(TAG, "not found pic");
 
 				/**
