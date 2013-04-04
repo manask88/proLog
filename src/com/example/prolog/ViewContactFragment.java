@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,7 +116,7 @@ public class ViewContactFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		return (LinearLayout) inflater.inflate(R.layout.fragment_view_contact,
+		return (RelativeLayout) inflater.inflate(R.layout.fragment_view_contact,
 				container, false);
 	}
 

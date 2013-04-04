@@ -1,4 +1,4 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,41 +7,42 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".NewContactActivity" >
+    tools:context=".ContactListActivity" >
 
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-          <QuickContactBadge
-            android:id="@+id/quickContactBadge"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_marginTop="@dimen/twentydp"
-            android:adjustViewBounds="true"
-            android:maxWidth="@dimen/eightydp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/face" />
-
-        <TableLayout
+        <TableRow
+            android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <TableRow
-                android:id="@+id/tableRow9"
+            <QuickContactBadge
+                android:id="@+id/quickContactBadge"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/twentydp"
+                android:adjustViewBounds="true"
+                android:maxWidth="@dimen/eightydp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/face" />
+
+            <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
                 <TableRow
-                    android:id="@+id/tableRow13"
+                    android:id="@+id/tableRow9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
+
+                    <TableRow
+                        android:id="@+id/tableRow13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                    </TableRow>
                 </TableRow>
-
-            </TableRow>
-
-          
 
                 <TableRow
                     android:id="@+id/tableRow1"
@@ -68,12 +69,8 @@
 
                         <requestFocus />
                     </EditText>
-
                 </TableRow>
 
-      
-
-        
                 <TableRow
                     android:id="@+id/tableRow3"
                     android:layout_width="wrap_content"
@@ -90,18 +87,17 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/white" />
 
-                   <EditText
-                       android:id="@+id/editTextTitle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:background="@color/white" >
+                    <EditText
+                        android:id="@+id/editTextTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white" >
 
                         <requestFocus />
                     </EditText>
-
                 </TableRow>
 
-          		<TableRow
+                <TableRow
                     android:id="@+id/tableRow4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -124,125 +120,111 @@
                         android:background="@color/white" >
 
                         <requestFocus />
-					</EditText>
+                    </EditText>
                 </TableRow>
+            </TableLayout>
+        </TableRow>
 
+        <TableRow
+            android:id="@+id/tableRow8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </TableRow>
 
-               
+        <TableRow
+            android:id="@+id/tableRow18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </TableRow>
 
-        </TableLayout>
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fivedp"
+            android:layout_marginTop="@dimen/fivedp" >
 
-    </TableRow>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Phone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white" />
 
-    <TableRow
-        android:id="@+id/tableRow8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <EditText
+                android:id="@+id/editTextPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:inputType="phone" />
+        </TableRow>
 
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/tableRow18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fivedp"
+            android:layout_marginTop="@dimen/fivedp" >
 
-    </TableRow>
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Email"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white" />
 
-    <TableRow
-        android:id="@+id/tableRow5"
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fivedp"
+            android:layout_marginTop="@dimen/fivedp" >
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Location"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/editTextLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:inputType="textPostalAddress" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/activityAddNewContactSaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/fivedp"
-        android:layout_marginTop="@dimen/fivedp" >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:minWidth="@dimen/eightydp"
+        android:text="@string/save" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Phone"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
-
-        <EditText
-            android:id="@+id/editTextPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:ems="10"
-            android:inputType="phone" />
-
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/tableRow6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_marginBottom="@dimen/fivedp"
-        android:layout_marginTop="@dimen/fivedp">
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Email"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
-
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
-
-    </TableRow>
-    <TableRow
-        android:id="@+id/tableRow7"
+    <Button
+        android:id="@+id/activityAddNewContactCancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/fivedp"
-        android:layout_marginTop="@dimen/fivedp" >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/Cancel" />
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Location"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
-
-        <EditText
-            android:id="@+id/editTextLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:ems="10"
-            android:inputType="textPostalAddress" />
-
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/activityAddNewContactSaveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/twentydp"
-            android:minWidth="@dimen/eightydp"
-            android:text="@string/save" />
-
-        <Button
-            android:id="@+id/activityAddNewContactCancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fifty"
-            android:layout_marginRight="@dimen/fifty"
-            android:text="@string/Cancel" />
-
-    </TableRow>
-
-</TableLayout>
+</RelativeLayout>
