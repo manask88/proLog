@@ -1,6 +1,8 @@
 package com.example.prolog;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
@@ -12,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.Menu;
@@ -19,12 +22,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.QuickContactBadge;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 public class AddNewContactActivity extends Activity {
 
 	private ContactsDataSource datasource;
 	private Context context = this;
+	private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 	public static final String TAG = AddNewContactActivity.class
 			.getSimpleName();
 	QuickContactBadge quickContactBadge;
@@ -35,6 +41,60 @@ public class AddNewContactActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_new_contact);
 
+		
+		  // Hashmap for custom field
+        final HashMap<Integer, Integer> customFieldIDs = new HashMap<Integer, Integer>();
+        //final HashMap<String, String> customFields = new HashMap<String, String>();
+        
+        
+        
+        TableRow tableRow = (TableRow) findViewById(R.id.tableRowAddField);
+        tableRow.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try{ TableLayout tl = (TableLayout) findViewById(R.id.add_new_contact_lo);
+                TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);                  
+                EditText editNewFieldName=new EditText(AddNewContactActivity.this);                 
+                editNewFieldName.setLayoutParams(lparams);                  
+                editNewFieldName.setTextColor(Color.WHITE);                                             
+                editNewFieldName.setHint("New field");                  
+                editNewFieldName.requestFocus();
+                editNewFieldName.setEms(4);     
+            
+                
+                EditText editNewFieldValue = new EditText(AddNewContactActivity.this);
+                editNewFieldValue.setLayoutParams(lparams);                    
+                editNewFieldValue.setTextColor(Color.WHITE);
+                editNewFieldValue.setHint("Value");          
+                editNewFieldValue.setEms(10);
+                
+                int idNameField = generateViewId();
+                int idValueField = generateViewId();
+                
+                customFieldIDs.put(idNameField, idValueField);
+                editNewFieldName.setId(idNameField);
+                editNewFieldValue.setId(idValueField);
+                
+                // create a new row for label and edit text field
+                TableRow.LayoutParams tparams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);                    
+                TableRow tr = new TableRow(AddNewContactActivity.this);
+                tr.setLayoutParams(tparams);
+                
+                tr.addView(editNewFieldName);
+                tr.addView(editNewFieldValue);
+                                    
+                tl.addView(tr); 
+            } catch(Exception e){
+                Log.d("test", e.toString());
+            }
+                
+            }
+        });
+                
+		
+		
+		
 		quickContactBadge = (QuickContactBadge) findViewById(R.id.quickContactBadge);
 		quickContactBadge.setOnClickListener(new View.OnClickListener() {
 
@@ -103,6 +163,25 @@ public class AddNewContactActivity extends Activity {
 			}
 		});
 	}
+
+	
+	 /**
+     * Generate a value suitable for use in {@link #setId(int)}.
+     * This value will not collide with ID values generated at build time by aapt for R.id.
+     *
+     * @return a generated ID value
+     */
+    private static int generateViewId() {
+        for (;;) {
+            final int result = sNextGeneratedId.get();
+            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
+            int newValue = result + 1;
+            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
+            if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                return result;
+            }
+        }
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

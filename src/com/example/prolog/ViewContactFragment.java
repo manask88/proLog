@@ -1,5 +1,8 @@
 package com.example.prolog;
 
+import java.util.HashMap;
+import java.util.Set;
+
 import com.example.prolog.ViewGroupActivity.MyAlertDialogFragment;
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
@@ -12,6 +15,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +25,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +68,54 @@ public class ViewContactFragment extends Fragment {
 				R.id.textViewEmail);
 		TextView tvLocation = (TextView) getActivity().findViewById(
 				R.id.textViewLocation);
+		
+		
+		
+		  /***
+         * Display custom fields
+         */
+        if (contact.getAllCustomFields() != null && contact.getAllCustomFields().size() > 0){
+            
+            TableLayout tl=(TableLayout)getActivity().findViewById(R.id.viewContactDetail);
+                        
+            TextView tvFieldName = null;
+            TextView tvFielValue = null;
+            
+            TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);  
+            
+            HashMap<String, Object> customFields = contact.getAllCustomFields();
+            Set<String> keys = customFields.keySet();
+            
+            // for each custom field
+            for (String string : keys) {
+                tvFieldName = new TextView(ViewContactFragment.this.getActivity());
+                tvFieldName.setText(string);
+                tvFieldName.setLayoutParams(lparams);
+                tvFieldName.setTextAppearance(ViewContactFragment.this.getActivity(),android.R.style.TextAppearance_Medium);
+                tvFieldName.setTextColor(Color.WHITE);
+                tvFieldName.setEms(4);
+                
+                tvFielValue = new TextView(ViewContactFragment.this.getActivity());
+                tvFielValue.setText((String)contact.getCustomField(string));
+                tvFielValue.setLayoutParams(lparams);
+                tvFielValue.setTextAppearance(ViewContactFragment.this.getActivity(),android.R.style.TextAppearance_Medium);
+                tvFielValue.setTextColor(Color.WHITE);              
+                tvFielValue.setEms(10);
+                
+                // create a new row for label and edit text field
+                TableRow.LayoutParams tparams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);                    
+                TableRow tr = new TableRow(ViewContactFragment.this.getActivity());
+                tr.setLayoutParams(tparams);
+                
+                tr.addView(tvFieldName);
+                tr.addView(tvFielValue);
+                
+                                            
+                tl.addView(tr, tl.getChildCount() - 1);
+            }
+            
+        }
+		
 		ImageButton imagebuttonEdit = (ImageButton) getActivity().findViewById(
 				R.id.imageButtonEdit);
 		ImageButton imagebuttonDelete = (ImageButton) getActivity()

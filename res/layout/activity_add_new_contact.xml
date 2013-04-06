@@ -11,8 +11,10 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
+        android:layout_height="wrap_content" 
+        android:id="@+id/add_new_contact_lo"
+        >
+		
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
@@ -209,6 +211,31 @@
                 android:inputType="textPostalAddress" />
         </TableRow>
     </TableLayout>
+    
+     <TableRow
+        android:id="@+id/tableRowAddField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textSize="15sp"
+        android:layout_marginBottom="@dimen/fivedp"
+        android:layout_marginTop="@dimen/fivedp">
+
+        <ImageView
+            android:id="@+id/imageAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="@android:dimen/app_icon_size"
+            android:scaleType="matrix"
+            android:src="@android:drawable/ic_input_add" />
+         
+          <Button
+            android:id="@+id/activityAddNewFieldButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        
+            android:text="@string/Field" />
+    </TableRow>  
 
     <Button
         android:id="@+id/activityAddNewContactSaveButton"

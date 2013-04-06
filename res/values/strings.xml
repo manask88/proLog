@@ -66,5 +66,10 @@
     <string name="oneweek">One Week</string>
     <string name="onemonth">One Month</string>
     <string name="addfollow">Add notes about follow up</string>
-
+ <string name="Field">Add field</string>
+     <string name="FieldName">FieldName</string>
+    <string name="FieldNameNew">Field Name</string>
+    <string name="FieldValue">Field Value</string>
+    <string name="ExampleFieldName">E.g. Office phone</string>
+    <string name="ExampleFieldValue">E.g. xxx-xxx-xxxx</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.prolog.model;
 
+import java.util.HashMap;
+
 import android.graphics.Bitmap;
 
 public class Contact {
@@ -12,9 +14,42 @@ public class Contact {
 	private String email;
 	private String location;
 	private long contactManagerId;
+	private HashMap<String, Object> custom_fields;
 	private Bitmap photo;
 
-	
+    /**
+     * get all the customer field value pairs in a HashMap format
+     * @return
+     */
+    public HashMap<String, Object> getAllCustomFields() {
+        return custom_fields;
+    }
+    
+    /**
+     * get the value of a particular custom field
+     * @param fieldName
+     * @return
+     */
+    public Object getCustomField(String fieldName){
+        return this.custom_fields.get(fieldName);
+    }
+    
+    /**
+     * put a new customer field value pair 
+     * @param fieldName
+     * @param fieldValue
+     */
+    public void setCustomField(String fieldName, Object fieldValue) {
+        if (custom_fields == null)
+            custom_fields = new HashMap<String, Object>();
+        this.custom_fields.put(fieldName, fieldValue);
+    }
+    
+    
+    public void setCustomFields(HashMap<String, Object> custom_fields) {
+        this.custom_fields = custom_fields;
+    }
+    
 	public Bitmap getPhoto() {
 		return photo;
 	}
@@ -33,6 +68,7 @@ public class Contact {
 		location="";
 		contactManagerId=0;
 		photo=null;
+		  custom_fields = null;
 	}
 	public long getContactManagerId() {
 		return contactManagerId;

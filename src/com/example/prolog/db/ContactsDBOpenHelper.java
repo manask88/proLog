@@ -9,7 +9,17 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = "EXPLORECA";
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 3; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 4; /* change it whenever making changes on db scheleton*/
+	
+	
+	
+    /*
+     * Note: custom_fields are instance specific instead of table specific. 
+     *       This means creating a new custom_field for a contact will not automatically make this field
+     *       available for other contacts. For instance, adding customer field "office_phone1" to Jack 
+     *       will not make this field "office_phone1" available for Manuel.
+     *       
+     */
 	
 	public static final String TABLE_CONTACTS = "contacts";
 	
@@ -21,6 +31,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_WORK_PHONE = "work_phone";
 	public static final String COLUMN_EMAIL = "email";
 	public static final String COLUMN_LOCATION = "location";
+    public static final String COLUMN_CUSTOM_FIELDS = "custom_fields";
 	public static final String COLUMN_PHOTO = "photo";
 
 	public static final String TABLE_INTERACTIONS = "interactions";
@@ -48,7 +59,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			COLUMN_HOME_PHONE + " TEXT, " +
 			COLUMN_WORK_PHONE + " TEXT, " +
 			COLUMN_EMAIL + " TEXT, " +
-			COLUMN_LOCATION + " TEXT," +
+			COLUMN_LOCATION + " TEXT, " +
+			COLUMN_CUSTOM_FIELDS + " BLOB, " +      // added by Jack
 			COLUMN_PHOTO + " BLOB" +
 			")";
 	private static final String TABLE_CREATE_INTERACTIONS =

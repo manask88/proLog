@@ -34,6 +34,7 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_WORK_PHONE,
 			ContactsDBOpenHelper.COLUMN_EMAIL,
 			ContactsDBOpenHelper.COLUMN_LOCATION,
+			ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS,
 			ContactsDBOpenHelper.COLUMN_PHOTO };
 
 	private static final String[] allColumnsInteractions = {
@@ -106,6 +107,17 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
+		
+		
+		 // handle custom fields
+        if (contact.getAllCustomFields() != null){
+        		
+        	 // Convert HashMap to bytes and save it in the database 
+            byte [] customFieldsAsBytes = BlobHelper.object2Byte(contact.getAllCustomFields());
+            values.put(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS, customFieldsAsBytes);    }
+        
+        
+        //TODO potential thing to change
 		if (contact.getPhoto() != null) {
 			Log.i(TAG, "getPhoto != null");
 
@@ -175,6 +187,20 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 		values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
 				Commons.getBlobfromImage(contact.getPhoto()));
+		
+	    if (contact.getAllCustomFields() != null && contact.getAllCustomFields().size() > 0){
+            // handle custom fields
+            if (contact.getAllCustomFields() != null){
+
+                // Convert HashMap to bytes and save it in the database 
+                byte [] customFieldsAsBytes = BlobHelper.object2Byte(contact.getAllCustomFields());
+                values.put(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS, customFieldsAsBytes);            
+                
+            }
+        }
+        
+		
+		
 		database.update(ContactsDBOpenHelper.TABLE_CONTACTS, values,
 				ContactsDBOpenHelper.COLUMN_ID + "=?",
 				new String[] { Long.toString(contact.getId()) });
@@ -384,6 +410,12 @@ public class ContactsDataSource {
 				contact.setTitle(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));
 
+				   // get custom fields
+                byte[] custom_fields = cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS));
+                if (custom_fields!= null)
+                    contact.setCustomFields(BlobHelper.byte2HashMap(custom_fields));
+				
+				
 				byte[] blob = cursor.getBlob(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob != null) {
@@ -436,6 +468,13 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
 				contact.setLocation(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
+				
+				
+				 // get custom fields
+                byte[] custom_fields = cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS));
+                if (custom_fields!=null)
+                    contact.setCustomFields(BlobHelper.byte2HashMap(custom_fields));
+				
 				byte[] blob = cursor.getBlob(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob != null)

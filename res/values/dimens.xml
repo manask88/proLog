@@ -8,5 +8,5 @@
     <dimen name="eightydp">80dp</dimen>
     <dimen name="fifty">50dp</dimen>
     <dimen name="hundredten">110dp</dimen>
-
+  <dimen name="tendp">10dp</dimen>
 </resources>
