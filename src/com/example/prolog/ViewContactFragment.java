@@ -76,7 +76,7 @@ public class ViewContactFragment extends Fragment {
          */
         if (contact.getAllCustomFields() != null && contact.getAllCustomFields().size() > 0){
             
-            TableLayout tl=(TableLayout)getActivity().findViewById(R.id.viewContactDetail);
+            TableLayout tl=(TableLayout)getActivity().findViewById(R.id.viewContactDetailFrame);
                         
             TextView tvFieldName = null;
             TextView tvFielValue = null;

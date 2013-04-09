@@ -2,6 +2,7 @@ package com.example.prolog;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.example.prolog.db.ContactsDataSource;
@@ -47,49 +48,50 @@ public class AddNewContactActivity extends Activity {
         //final HashMap<String, String> customFields = new HashMap<String, String>();
         
         
-        
-        TableRow tableRow = (TableRow) findViewById(R.id.tableRowAddField);
-        tableRow.setOnClickListener(new View.OnClickListener() {
+        // button to add field
+        Button buttAddField = (Button) findViewById(R.id.activityAddNewFieldButton);
+        buttAddField.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                try{ TableLayout tl = (TableLayout) findViewById(R.id.add_new_contact_lo);
-                TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);                  
-                EditText editNewFieldName=new EditText(AddNewContactActivity.this);                 
-                editNewFieldName.setLayoutParams(lparams);                  
-                editNewFieldName.setTextColor(Color.WHITE);                                             
-                editNewFieldName.setHint("New field");                  
-                editNewFieldName.requestFocus();
-                editNewFieldName.setEms(4);     
-            
-                
-                EditText editNewFieldValue = new EditText(AddNewContactActivity.this);
-                editNewFieldValue.setLayoutParams(lparams);                    
-                editNewFieldValue.setTextColor(Color.WHITE);
-                editNewFieldValue.setHint("Value");          
-                editNewFieldValue.setEms(10);
-                
-                int idNameField = generateViewId();
-                int idValueField = generateViewId();
-                
-                customFieldIDs.put(idNameField, idValueField);
-                editNewFieldName.setId(idNameField);
-                editNewFieldValue.setId(idValueField);
-                
-                // create a new row for label and edit text field
-                TableRow.LayoutParams tparams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);                    
-                TableRow tr = new TableRow(AddNewContactActivity.this);
-                tr.setLayoutParams(tparams);
-                
-                tr.addView(editNewFieldName);
-                tr.addView(editNewFieldValue);
-                                    
-                tl.addView(tr); 
-            } catch(Exception e){
-                Log.d("test", e.toString());
-            }
-                
-            }
+                try{
+                	TableLayout tl = (TableLayout) findViewById(R.id.add_new_contact_lo);
+	                TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);                  
+	                EditText editNewFieldName=new EditText(AddNewContactActivity.this);                 
+	                editNewFieldName.setLayoutParams(lparams);                  
+	                editNewFieldName.setTextColor(Color.WHITE);                                             
+	                editNewFieldName.setHint("New field");                  
+	                editNewFieldName.requestFocus();
+	                editNewFieldName.setEms(4);     
+	            
+	                
+	                EditText editNewFieldValue = new EditText(AddNewContactActivity.this);
+	                editNewFieldValue.setLayoutParams(lparams);                    
+	                editNewFieldValue.setTextColor(Color.WHITE);
+	                editNewFieldValue.setHint("Value");          
+	                editNewFieldValue.setEms(10);
+	                
+	                int idNameField = generateViewId();
+	                int idValueField = generateViewId();
+	                
+	                customFieldIDs.put(idNameField, idValueField);
+	                editNewFieldName.setId(idNameField);
+	                editNewFieldValue.setId(idValueField);
+	                
+	                // create a new row for label and edit text field
+	                TableRow.LayoutParams tparams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);                    
+	                TableRow tr = new TableRow(AddNewContactActivity.this);
+	                tr.setLayoutParams(tparams);
+	                
+	                tr.addView(editNewFieldName);
+	                tr.addView(editNewFieldValue);
+	                                    
+	                tl.addView(tr); 
+	            } catch(Exception e){
+	                Log.d("test", e.toString());
+	            }
+	                
+	            }
         });
                 
 		
@@ -107,6 +109,8 @@ public class AddNewContactActivity extends Activity {
 				Log.d(TAG, "trying to go to media store");
 			}
 		});
+		
+		
 
 		Button button = (Button) findViewById(R.id.activityAddNewContactSaveButton);
 
@@ -135,6 +139,17 @@ public class AddNewContactActivity extends Activity {
 					c.setWork_phone(etPhone.getText().toString());
 					c.setEmail(etEmail.getText().toString());
 					c.setLocation(etLocation.getText().toString());
+					
+					// Save custom fields as well
+					Set<Integer> keys = customFieldIDs.keySet();
+					for (Integer integer : keys) {
+						// get the field name
+						String fieldName = ((EditText) findViewById(integer.intValue())).getText().toString();
+						String fieldValue = ((EditText) findViewById(customFieldIDs.get(integer).intValue())).getText().toString();					
+						c.setCustomField(fieldName, fieldValue);
+					}
+
+					
 					BitmapDrawable bitmapDrawable = ((BitmapDrawable) quickContactBadge
 							.getDrawable());
 					c.setPhoto(bitmapDrawable.getBitmap());

@@ -186,57 +186,34 @@
                 android:ems="10"
                 android:inputType="textEmailAddress" />
         </TableRow>
+       
+    	<TableRow
+        android:id="@+id/tableRow7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fivedp"
+        android:layout_marginTop="@dimen/fivedp" >
 
-        <TableRow
-            android:id="@+id/tableRow7"
+        <TextView
+            android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/fivedp"
-            android:layout_marginTop="@dimen/fivedp" >
+            android:text="@string/Location"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Location"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/white" />
-
-            <EditText
-                android:id="@+id/editTextLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:ems="10"
-                android:inputType="textPostalAddress" />
-        </TableRow>
+        <EditText
+            android:id="@+id/editTextLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:ems="10"
+            android:inputType="textPostalAddress" />
+    </TableRow>					
+        
     </TableLayout>
     
-     <TableRow
-        android:id="@+id/tableRowAddField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:textSize="15sp"
-        android:layout_marginBottom="@dimen/fivedp"
-        android:layout_marginTop="@dimen/fivedp">
-
-        <ImageView
-            android:id="@+id/imageAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:maxWidth="@android:dimen/app_icon_size"
-            android:scaleType="matrix"
-            android:src="@android:drawable/ic_input_add" />
-         
-          <Button
-            android:id="@+id/activityAddNewFieldButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        
-            android:text="@string/Field" />
-    </TableRow>  
-
+  
     <Button
         android:id="@+id/activityAddNewContactSaveButton"
         android:layout_width="wrap_content"
@@ -253,5 +230,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/Cancel" />
+
+    <Button
+        android:id="@+id/activityAddNewFieldButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/activityAddNewContactSaveButton"
+        android:layout_alignBottom="@+id/activityAddNewContactSaveButton"
+        android:layout_centerHorizontal="true"
+        android:minWidth="@dimen/eightydp"
+        android:text="@string/Field" />
 
 </RelativeLayout>

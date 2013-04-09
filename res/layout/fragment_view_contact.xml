@@ -10,10 +10,9 @@
     tools:context=".ContactListActivity" >
 
     <TableLayout
+        android:id="@+id/viewContactDetailFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-         android:id="@+id/viewContactDetail"
-        >
+        android:layout_height="wrap_content" >
 
         <TableRow
             android:id="@+id/tableRow2"
