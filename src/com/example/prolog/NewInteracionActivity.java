@@ -20,8 +20,7 @@ import android.widget.EditText;
 
 public class NewInteracionActivity extends Activity {
 
-	private Button datePickerButton;
-	private EditText editText1, etDate;
+	private EditText etDate;
 	private Button saveButton;
 	private ContactsDataSource datasource;
 	private Context context = this;
@@ -38,8 +37,7 @@ public class NewInteracionActivity extends Activity {
 		int day = c.get(Calendar.DAY_OF_MONTH);
 		etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
 		etDate.setText((month+1) + "/" + day + "/" + year);
-		datePickerButton = (Button) findViewById(R.id.newInteractionActivityDatePicker);
-		datePickerButton.setOnClickListener(new View.OnClickListener() {
+		etDate.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);

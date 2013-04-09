@@ -1,4 +1,4 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,68 +9,136 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".NewInteracionActivity" >
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:id="@+id/addInteraction"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <EditText
-            android:id="@+id/newInteractionActivityEditTextDate"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:ems="10"
-            android:gravity="left"
-            android:hint="@string/Date"
-            android:inputType="date"
-            android:maxWidth="@dimen/eightydp"
-            android:minWidth="@dimen/eightydp"
-            android:width="@dimen/eightydp" >
-
-            <requestFocus />
-        </EditText>
-        
-        <Button
-            android:id="@+id/newInteractionActivityDatePicker"
+        <TableRow
+            android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fifty"
-            android:layout_marginRight="@dimen/twentydp"
-            android:text="@string/pick_date"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:layout_height="wrap_content" >
 
-    </TableRow>
+            <EditText
+                android:id="@+id/newInteractionActivityType"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="@string/type"
+                android:maxWidth="@dimen/eightydp"
+                android:minWidth="@dimen/eightydp"
+                android:width="@dimen/eightydp" >
 
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+                <requestFocus />
+            </EditText>
 
-        <CheckBox
-            android:id="@+id/newInteractionActivityCheckBoxFollowUp"
+            <EditText
+                android:id="@+id/newInteractionActivityEditTextDate"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="@string/Date"
+                android:inputType="date"
+                android:maxWidth="@dimen/eightydp"
+                android:minWidth="@dimen/eightydp"
+                android:width="@dimen/eightydp" >
+
+                <requestFocus />
+            </EditText>
+
+            <CheckBox
+                android:id="@+id/newInteractionActivityCheckBoxFollowUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Follow_up"
+                android:textColor="@color/white" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Follow_up"
-            android:textColor="@color/white" />
-    </TableRow>
+            android:layout_height="wrap_content" >
 
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <EditText
+                android:id="@+id/newInteractionActivityLocation"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="@string/location"
+                android:maxWidth="@dimen/eightydp"
+                android:minWidth="@dimen/eightydp"
+                android:width="@dimen/eightydp" >
 
-        <TextView
-            android:id="@+id/newInteractionActivityTextViewNote"
-            style="@color/white"
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/newInteractionActivityEvent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="@string/event"
+                android:maxWidth="@dimen/eightydp"
+                android:minWidth="@dimen/eightydp"
+                android:width="@dimen/eightydp" >
+
+                <requestFocus />
+            </EditText>
+        </TableRow>
+
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/note"
-            android:textColor="@color/white"
-            android:textSize="@dimen/twentydp" />
+            android:layout_height="wrap_content" >
 
-    </TableRow>
+            <TextView
+                style="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/otherparticipants"
+                android:textColor="@color/white"
+                android:textSize="@dimen/twentydp" />
 
+            <TextView
+                android:id="@+id/newInteractionActivityOtherParticipants"
+                style="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/twentydp" />
+        </TableRow>
 
+        <TableRow
+          
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/newInteractionActivitySelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select"
+                android:textColor="@color/white" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/newInteractionActivityTextViewNote"
+                style="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/note"
+                android:textColor="@color/white"
+                android:textSize="@dimen/twentydp" />
+        </TableRow>
 
         <EditText
             android:id="@+id/newInteractionActivityEditTextText"
@@ -80,21 +148,24 @@
             android:hint="@string/addNote"
             android:inputType="textMultiLine"
             android:minLines="@integer/min_lines" />
+    </TableLayout>
 
-        <Button
-            android:id="@+id/newInteractionActivitySaveButton"
-            style="@dimen/twentydp"
-            android:layout_marginTop="@dimen/twentydp"
-            android:maxWidth="@dimen/fifty"
-            android:minWidth="@dimen/fifty"
-            android:text="@string/save"
-            android:textColor="@color/white" />
+    <Button
+        android:id="@+id/newInteractionActivitySaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/save"
+        android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/newInteractionActivityCancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Cancel"
-            android:textColor="@color/white" />
+    <Button
+        android:id="@+id/newInteractionActivityCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/Cancel"
+        android:textColor="@color/white" />
 
-</TableLayout>
+</RelativeLayout>

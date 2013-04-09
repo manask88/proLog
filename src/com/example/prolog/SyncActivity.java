@@ -114,7 +114,7 @@ public class SyncActivity extends Activity {
 		ExpandList = (ExpandableListView) findViewById(R.id.ExpList);
 
 	
-		/**
+		
 		// linkedIn begins
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 				.permitAll().build();
@@ -140,7 +140,7 @@ public class SyncActivity extends Activity {
 			Log.e(TAG, e.getMessage());
 		}
 		// linkedIn ends
-		 * */
+		 
 		 
 		
 		buttonSync = (Button) findViewById(R.id.buttonSyncSync);

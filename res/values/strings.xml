@@ -20,8 +20,8 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="grey">#808080</color>
+
     <string name="OK">OK</string>
-    
     <string name="title_activity_add_contact">AddContactActivity</string>
     <string name="action_settings">Settings</string>
     <string name="type_contact">Type in a contact information</string>
@@ -66,10 +66,16 @@
     <string name="oneweek">One Week</string>
     <string name="onemonth">One Month</string>
     <string name="addfollow">Add notes about follow up</string>
- <string name="Field">Add field</string>
-     <string name="FieldName">FieldName</string>
+    <string name="Field">Add field</string>
+    <string name="FieldName">FieldName</string>
     <string name="FieldNameNew">Field Name</string>
     <string name="FieldValue">Field Value</string>
     <string name="ExampleFieldName">E.g. Office phone</string>
     <string name="ExampleFieldValue">E.g. xxx-xxx-xxxx</string>
+    <string name="type">type</string>
+    <string name="location">Location</string>
+    <string name="event">Event</string>
+    <string name="otherparticipants">Other participants</string>
+    <string name="select">Select</string>
+    
 </resources>
