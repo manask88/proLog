@@ -200,12 +200,10 @@ public class EditContactFragment extends Fragment {
 			public void onClick(View v) {
 				Bundle b = new Bundle();
 				b.putLong("contactId", contactId);
-				EditContactFragment viewContactFragment = new EditContactFragment();
+				ViewContactFragment viewContactFragment = new ViewContactFragment();
 				viewContactFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
-				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, viewContactFragment)
-						.addToBackStack(null).commit();
+				fmi.popBackStack();
 
 			}
 		});
