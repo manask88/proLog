@@ -9,7 +9,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = "EXPLORECA";
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 4; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 6; /* change it whenever making changes on db scheleton*/
 	
 	
 	
@@ -36,7 +36,6 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_INTERACTIONS = "interactions";
 	public static final String COLUMN_INTERACTIONS_ID = "interactionId";
-	public static final String COLUMN_INTERACTIONS_CONTACT_ID = "contactid";
 	public static final String COLUMN_INTERACTIONS_DATE = "date";
 	public static final String COLUMN_INTERACTIONS_TEXT = "text";
 
@@ -47,6 +46,10 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String TABLE_GROUP_CONTACTS = "group_contacts";
 	public static final String COLUMN_GROUP_CONTACTS_CONTACT_ID = "contactId";
 	public static final String COLUMN_GROUP_CONTACTS_GROUP_ID = "groupId";
+	
+	public static final String TABLE_INTERACTION_CONTACTS = "interaction_contacts";
+	public static final String COLUMN_INTERACTION_CONTACTS_CONTACT_ID = "contactId";
+	public static final String COLUMN_INTERACTION_CONTACTS_INTERACTION_ID = "interactionId";
 
 
 	
@@ -66,7 +69,6 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	private static final String TABLE_CREATE_INTERACTIONS =
 			"CREATE TABLE IF NOT EXISTS " + TABLE_INTERACTIONS + " ( " +
 			COLUMN_INTERACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-			COLUMN_INTERACTIONS_CONTACT_ID + " INTEGER, " +
 			COLUMN_INTERACTIONS_DATE + " TEXT, " +
 			COLUMN_INTERACTIONS_TEXT + " TEXT" +
 			")";
@@ -84,7 +86,11 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			")";
 	
 	
-	
+	private static final String TABLE_CREATE_INTERACTION_CONTACTS =
+			"CREATE TABLE IF NOT EXISTS " + TABLE_INTERACTION_CONTACTS + " ( " +
+			COLUMN_INTERACTION_CONTACTS_CONTACT_ID + " INTEGER, " +
+			COLUMN_INTERACTION_CONTACTS_INTERACTION_ID + " INTEGER " +
+			")";
 	
 	public ContactsDBOpenHelper(Context context) {
 		
@@ -97,6 +103,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 		db.execSQL(TABLE_CREATE_INTERACTIONS);
 		db.execSQL(TABLE_CREATE_GROUPS);
 		db.execSQL(TABLE_CREATE_GROUP_CONTACTS);
+		db.execSQL(TABLE_CREATE_INTERACTION_CONTACTS);
 		Log.i(LOGTAG, "Tables have been created");
 	}
 
@@ -106,6 +113,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERACTIONS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUP_CONTACTS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERACTION_CONTACTS);
 		onCreate(db);
 
 	}

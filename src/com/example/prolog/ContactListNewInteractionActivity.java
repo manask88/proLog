@@ -86,7 +86,7 @@ public class ContactListNewInteractionActivity extends Activity {
 					int position, long id) {
 
 							
-				Intent i = new Intent(context,NewInteracionActivity.class);
+				Intent i = new Intent(context,NewInteractionActivity.class);
 				i.putExtra("contactId", contactsSearchResult.get(position).getId());
 				startActivity(i);
 				finish();

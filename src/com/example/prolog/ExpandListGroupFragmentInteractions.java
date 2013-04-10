@@ -9,6 +9,9 @@ import com.example.prolog.model.Interaction;
 public class ExpandListGroupFragmentInteractions {
 
 	private String Name;
+	private long id;
+
+
 	private ExpandListChildFragmentInteractions expandListChildFragmentInteractions;
 	
 	public String getName() {
@@ -30,5 +33,10 @@ public class ExpandListGroupFragmentInteractions {
 		return expandListChildFragmentInteractions;
 	}
 	
-	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 }

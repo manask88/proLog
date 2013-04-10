@@ -9,6 +9,7 @@ import com.example.prolog.model.Contact;
 import com.example.prolog.model.Group;
 import com.example.prolog.model.GroupContact;
 import com.example.prolog.model.Interaction;
+import com.example.prolog.model.InteractionContact;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -39,7 +40,6 @@ public class ContactsDataSource {
 
 	private static final String[] allColumnsInteractions = {
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
-			ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT };
 
@@ -51,6 +51,9 @@ public class ContactsDataSource {
 			ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID,
 			ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID };
 
+	private static final String[] allColumnsInteractionContacts = {
+		ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID,
+		ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID };
 	public ContactsDataSource(Context context) {
 		dbhelper = new ContactsDBOpenHelper(context);
 
@@ -81,6 +84,24 @@ public class ContactsDataSource {
 		return group;
 
 	}
+	
+	public Interaction createInteraction(Interaction interaction) {
+		ContentValues values = new ContentValues();
+
+	
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
+				interaction.getDate());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT,
+				interaction.getText());
+
+		long insertid = database.insert(
+				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
+		interaction.setId(insertid);
+		Log.i(TAG, "Returned Interaction- " + interaction.getId()
+				+ " text: " + interaction.getText());
+		return interaction;
+
+	}
 
 	public void createGroupContacts(long groupId, long contactId) {
 		ContentValues values = new ContentValues();
@@ -95,6 +116,18 @@ public class ContactsDataSource {
 
 	}
 
+	public void createInteractionContacts(long interactionId, long contactId) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID,
+				contactId);
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID, interactionId);
+
+		database.insert(ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS, null, values);
+
+		Log.i(TAG, "interactionId " + interactionId + " and contact id entry created "
+				+ contactId);
+
+	}
 	public Contact createContact(Contact contact) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
@@ -107,17 +140,17 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_EMAIL, contact.getEmail());
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 
-		
-		
-		 // handle custom fields
-        if (contact.getAllCustomFields() != null){
-        		
-        	 // Convert HashMap to bytes and save it in the database 
-            byte [] customFieldsAsBytes = BlobHelper.object2Byte(contact.getAllCustomFields());
-            values.put(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS, customFieldsAsBytes);    }
-        
-        
-        //TODO potential thing to change
+		// handle custom fields
+		if (contact.getAllCustomFields() != null) {
+
+			// Convert HashMap to bytes and save it in the database
+			byte[] customFieldsAsBytes = BlobHelper.object2Byte(contact
+					.getAllCustomFields());
+			values.put(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS,
+					customFieldsAsBytes);
+		}
+
+		// TODO potential thing to change
 		if (contact.getPhoto() != null) {
 			Log.i(TAG, "getPhoto != null");
 
@@ -162,18 +195,31 @@ public class ContactsDataSource {
 				new String[] { Long.toString(id) });
 	}
 
-	
 	public void deleteGroupContactsByContactId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
 				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID + "=?",
 				new String[] { Long.toString(id) });
 	}
+
+	/*
 	public void deleteInteractionsByContactId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_INTERACTIONS,
 				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?",
 				new String[] { Long.toString(id) });
 	}
+*/
+	
+	public void deleteInteractionsByContactId(long id) {
+	
+	}
+	
+	public void deleteInteractionByInteractionId(long id) {
+		database.delete(ContactsDBOpenHelper.TABLE_INTERACTIONS,
+				ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID + "=?",
+				new String[] { Long.toString(id) });
+	}
 
+	
 	public Contact updateContact(Contact contact) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_NAME, contact.getName());
@@ -187,20 +233,21 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_LOCATION, contact.getLocation());
 		values.put(ContactsDBOpenHelper.COLUMN_PHOTO,
 				Commons.getBlobfromImage(contact.getPhoto()));
-		
-	    if (contact.getAllCustomFields() != null && contact.getAllCustomFields().size() > 0){
-            // handle custom fields
-            if (contact.getAllCustomFields() != null){
 
-                // Convert HashMap to bytes and save it in the database 
-                byte [] customFieldsAsBytes = BlobHelper.object2Byte(contact.getAllCustomFields());
-                values.put(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS, customFieldsAsBytes);            
-                
-            }
-        }
-        
-		
-		
+		if (contact.getAllCustomFields() != null
+				&& contact.getAllCustomFields().size() > 0) {
+			// handle custom fields
+			if (contact.getAllCustomFields() != null) {
+
+				// Convert HashMap to bytes and save it in the database
+				byte[] customFieldsAsBytes = BlobHelper.object2Byte(contact
+						.getAllCustomFields());
+				values.put(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS,
+						customFieldsAsBytes);
+
+			}
+		}
+
 		database.update(ContactsDBOpenHelper.TABLE_CONTACTS, values,
 				ContactsDBOpenHelper.COLUMN_ID + "=?",
 				new String[] { Long.toString(contact.getId()) });
@@ -213,7 +260,7 @@ public class ContactsDataSource {
 	public Group updateGroup(Group group) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, group.getName());
-	
+
 		database.update(ContactsDBOpenHelper.TABLE_GROUPS, values,
 				ContactsDBOpenHelper.COLUMN_GROUPS_ID + "=?",
 				new String[] { Long.toString(group.getId()) });
@@ -222,23 +269,21 @@ public class ContactsDataSource {
 		return group;
 
 	}
-	public Interaction createInteraction(Interaction interaction) {
+
+	public Interaction updateInteractionByInteractionId(Interaction interaction) {
 		ContentValues values = new ContentValues();
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID,
-				interaction.getContactId());
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
-				interaction.getDate());
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT,
-				interaction.getText());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE, interaction.getDate());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT, interaction.getText());
 
-		long insertid = database.insert(
-				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
-		interaction.setId(insertid);
-		Log.i(TAG, "Returned Interaction- " + interaction.getContactId()
-				+ " text: " + interaction.getText());
+		database.update(ContactsDBOpenHelper.TABLE_INTERACTIONS, values,
+				ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID + "=?",
+				new String[] { Long.toString(interaction.getId()) });
+
+		Log.i(TAG, "Interaction  with id " + interaction.getId() + " updated");
 		return interaction;
-
 	}
+
+	
 
 	public ArrayList<Group> findAllGroups() {
 		ArrayList<Group> groups = new ArrayList<Group>();
@@ -267,13 +312,15 @@ public class ContactsDataSource {
 		return groups;
 
 	}
-
+	
+	
+/*
 	public ArrayList<Interaction> findInteractionsbyContactId(long contactId) {
 		ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 		Interaction interaction;
 		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_INTERACTIONS,
 				allColumnsInteractions,
-				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?",
+				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_IDS + "=?",
 				new String[] { Long.toString(contactId) }, null, null, null);
 
 		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
@@ -305,7 +352,7 @@ public class ContactsDataSource {
 		return interactions;
 
 	}
-
+*/
 	private ArrayList<GroupContact> findContactsIdbyGroupId(long groupId) {
 		ArrayList<GroupContact> groupContacts = new ArrayList<GroupContact>();
 		GroupContact groupContact;
@@ -339,7 +386,88 @@ public class ContactsDataSource {
 		return groupContacts;
 
 	}
+	
+	public ArrayList<InteractionContact> findContactIdsbyInteractionId(long interactionId) {
+		ArrayList<InteractionContact> interactionContacts = new ArrayList<InteractionContact>();
+		InteractionContact interactionContact;
+		Cursor cursor = database.query(
+				ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS,
+				allColumnsInteractionContacts,
+				ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID + "=?",
+				new String[] { Long.toString(interactionId) }, null, null, null);
 
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
+
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				interactionContact = new InteractionContact();
+				interactionContact
+						.setInteractionId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID)));
+				interactionContact
+						.setContactId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID)));
+
+				interactionContacts.add(interactionContact);
+
+			}
+
+		}
+		cursor.close();
+		Log.i(TAG, "Filled" + interactionContacts.size()
+				+ " interactionContacts in arraylist");
+
+		return interactionContacts;
+	}
+
+	private ArrayList<InteractionContact> findInteractionIdsbyContactId(long contactId) {
+		ArrayList<InteractionContact> contactInteractions = new ArrayList<InteractionContact>();
+		InteractionContact contactInteraction;
+		Cursor cursor = database.query(
+				ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS,
+				allColumnsInteractionContacts,
+				ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID + "=?",
+				new String[] { Long.toString(contactId) }, null, null, null);
+
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
+
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				contactInteraction = new InteractionContact();
+				contactInteraction
+						.setContactId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID)));
+				contactInteraction
+						.setInteractionId(cursor.getLong(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID)));
+
+				contactInteractions.add(contactInteraction);
+
+			}
+
+		}
+		cursor.close();
+		Log.i(TAG, "Filled" + contactInteractions.size()
+				+ " contactInteractions in arraylist");
+
+		return contactInteractions;
+
+	}
+	
+	public ArrayList<Interaction> findInteractionsbyContactId(long contactId) {
+		ArrayList<InteractionContact> interactionContacts;
+		ArrayList<Interaction> interactions = new ArrayList<Interaction>();
+		Interaction interaction;
+		interactionContacts = findInteractionIdsbyContactId(contactId);
+
+		for (InteractionContact interactionContact : interactionContacts) {
+			interaction = findInteractionbyId(interactionContact.getInteractionId());
+			interactions.add(interaction);
+		}
+		return interactions;
+	}
+
+	
 	public ArrayList<Contact> findContactsbyGroupId(long groupId) {
 		ArrayList<GroupContact> groupContacts;
 		ArrayList<Contact> contacts = new ArrayList<Contact>();
@@ -349,6 +477,21 @@ public class ContactsDataSource {
 
 		for (GroupContact groupContact : groupContacts) {
 			contact = findContactbyId(groupContact.getContactId());
+			contacts.add(contact);
+		}
+		return contacts;
+
+	}
+							
+	public ArrayList<Contact> findContactsbyInteractionId(long interactionId) {
+		ArrayList<InteractionContact> interactionContacts;
+		ArrayList<Contact> contacts = new ArrayList<Contact>();
+		Contact contact;
+
+		interactionContacts = findContactIdsbyInteractionId(interactionId);
+
+		for (InteractionContact interactionContact : interactionContacts) {
+			contact = findContactbyId(interactionContact.getContactId());
 			contacts.add(contact);
 		}
 		return contacts;
@@ -378,6 +521,33 @@ public class ContactsDataSource {
 		}
 
 		return group;
+
+	}
+	public Interaction findInteractionbyId(long id) {
+
+		Interaction interaction = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_INTERACTIONS,
+				allColumnsInteractions, ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID + "=?",
+				new String[] { Long.toString(id) }, null, null, null);
+
+		if (cursor != null) {
+
+			if (cursor.moveToFirst()) {
+
+				interaction = new Interaction();
+				interaction.setDate(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE)));
+
+				interaction.setText(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT)));
+				interaction.setId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID)));
+				//TODO BOOLEAN FIELD
+			}
+			cursor.close();
+		}
+
+		return interaction;
 
 	}
 
@@ -410,12 +580,14 @@ public class ContactsDataSource {
 				contact.setTitle(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_TITLE)));
 
-				   // get custom fields
-                byte[] custom_fields = cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS));
-                if (custom_fields!= null)
-                    contact.setCustomFields(BlobHelper.byte2HashMap(custom_fields));
-				
-				
+				// get custom fields
+				byte[] custom_fields = cursor
+						.getBlob(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS));
+				if (custom_fields != null)
+					contact.setCustomFields(BlobHelper
+							.byte2HashMap(custom_fields));
+
 				byte[] blob = cursor.getBlob(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob != null) {
@@ -468,13 +640,15 @@ public class ContactsDataSource {
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_WORK_PHONE)));
 				contact.setLocation(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_LOCATION)));
-				
-				
-				 // get custom fields
-                byte[] custom_fields = cursor.getBlob(cursor.getColumnIndex(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS));
-                if (custom_fields!=null)
-                    contact.setCustomFields(BlobHelper.byte2HashMap(custom_fields));
-				
+
+				// get custom fields
+				byte[] custom_fields = cursor
+						.getBlob(cursor
+								.getColumnIndex(ContactsDBOpenHelper.COLUMN_CUSTOM_FIELDS));
+				if (custom_fields != null)
+					contact.setCustomFields(BlobHelper
+							.byte2HashMap(custom_fields));
+
 				byte[] blob = cursor.getBlob(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_PHOTO));
 				if (blob != null)
@@ -488,4 +662,9 @@ public class ContactsDataSource {
 		return contacts;
 
 	}
+
+	
+	
+
+	
 }

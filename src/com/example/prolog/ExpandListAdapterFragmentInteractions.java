@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ExpandListAdapterFragmentInteractions extends BaseExpandableListAdapter {
@@ -79,16 +86,32 @@ public class ExpandListAdapterFragmentInteractions extends BaseExpandableListAda
 		return groupPosition;
 	}
 
-	public View getGroupView(int groupPosition, boolean isLastChild, View view,
+	public View getGroupView(final int groupPosition, boolean isLastChild, View view,
 			ViewGroup parent) {
-		ExpandListGroupFragmentInteractions group = (ExpandListGroupFragmentInteractions) getGroup(groupPosition);
+		final ExpandListGroupFragmentInteractions group = (ExpandListGroupFragmentInteractions) getGroup(groupPosition);
 		if (view == null) {
 			LayoutInflater inf = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 			view = inf.inflate(R.layout.fragment_interactions_expandlist_group_item, null);
 		}
 		TextView tv = (TextView) view.findViewById(R.id.tvGroup);
 		tv.setText(group.getName());
-		// TODO Auto-generated method stub
+
+	
+		ImageButton imageButton = (ImageButton) view.findViewById(R.id.imageButton);
+		imageButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				onGroupExpanded(groupPosition);
+
+				Activity activity=(Activity) context;
+				Bundle b = 	activity.getIntent().getExtras();
+				long contactId = b.getLong("contactId");
+				
+				Intent i = new Intent(context, ViewFullInteractionActivity.class);
+				i.putExtra("interactionId",group.getId());
+				i.putExtra("contactId",	contactId);
+				context.startActivity(i);
+			}
+		});
 		return view;
 	}
 

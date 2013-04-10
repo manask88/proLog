@@ -1,17 +1,20 @@
 package com.example.prolog.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class Interaction {
 	private long id;
-	private long contactId;
+	
 	private String date;
 	private boolean followUp;
 	private String text;
 	
+
 	public Interaction ()
 	{
 		id=0;
-		contactId=0;
 		date="";
 		followUp=false;
 		text="";
@@ -25,12 +28,7 @@ public class Interaction {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getContactId() {
-		return contactId;
-	}
-	public void setContactId(long contactId) {
-		this.contactId = contactId;
-	}
+
 	public String getDate() {
 		return date;
 	}
@@ -50,6 +48,5 @@ public class Interaction {
 		this.text = text;
 	}
 
-	
 	
 }

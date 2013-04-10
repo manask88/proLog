@@ -67,10 +67,18 @@
         </activity>
         <activity android:name="com.example.prolog.AddNewContactActivity" >
         </activity>
-        <activity android:name="com.example.prolog.NewInteracionActivity" >
+        <activity android:name="com.example.prolog.NewInteractionActivity" >
+        </activity>
+         <activity android:name="com.example.prolog.ContactListInteractionsAddContactActivity" >
         </activity>
         <activity android:name="com.example.prolog.NewFollowUpActivity" >
         </activity>
+          <activity android:name="com.example.prolog.ViewFullInteractionActivity" >
+        </activity>
+          <activity android:name="com.example.prolog.EditInteractionActivity" >
+        </activity>
+        
+      
     </application>
 
 </manifest>

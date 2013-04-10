@@ -70,4 +70,16 @@ public class BlobHelper {
 		return (HashMap<String, Object>) byte2Object(blob);
 	}
 	
+	
+	
+	/**
+	 * Convert bytes to ArrayList<long>
+	 * @param blob
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static ArrayList<Long> byte2ArrayList(byte[] blob) {		
+					
+		return (ArrayList<Long>) byte2Object(blob);
+	}
 }

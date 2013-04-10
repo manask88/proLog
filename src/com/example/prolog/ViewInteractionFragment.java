@@ -39,7 +39,7 @@ public class ViewInteractionFragment extends Fragment {
 		buttonAdd = (Button) getView().findViewById(R.id.fragmentInteractionsAddButton);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent i = new Intent(getActivity().getBaseContext(),NewInteracionActivity.class);
+				Intent i = new Intent(getActivity().getBaseContext(),NewInteractionActivity.class);
 				long contatcId =  getArguments().getLong("contactId");
 				i.putExtra("contactId", contatcId);
 				startActivity(i);
@@ -73,6 +73,17 @@ public class ViewInteractionFragment extends Fragment {
 		expListItems = SetStandardGroups();
 	    expAdapter = new ExpandListAdapterFragmentInteractions(getActivity(), expListItems);
 	    expandList.setAdapter(expAdapter);
+	    
+	    
+	    expandList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener () {
+
+			@Override
+			public void onGroupExpand(int arg0) {
+				Toast.makeText(getActivity().getBaseContext(), "hiiii", Toast.LENGTH_SHORT).show();				
+			}
+
+			
+		});
 	}
 	
 	@Override
@@ -103,6 +114,7 @@ public class ViewInteractionFragment extends Fragment {
         	gru1=new ExpandListGroupFragmentInteractions();
         	gru1.setName(interaction.getDate());
         	gru1.setExpandListChildFragmentInteractions(interaction);
+        	gru1.setId(interaction.getId());
         	list.add(gru1);
         	Log.i(LOGTAG, interaction.getText());
         }
