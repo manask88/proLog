@@ -75,15 +75,7 @@ public class ViewInteractionFragment extends Fragment {
 	    expandList.setAdapter(expAdapter);
 	    
 	    
-	    expandList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener () {
-
-			@Override
-			public void onGroupExpand(int arg0) {
-				Toast.makeText(getActivity().getBaseContext(), "hiiii", Toast.LENGTH_SHORT).show();				
-			}
-
-			
-		});
+	  
 	}
 	
 	@Override

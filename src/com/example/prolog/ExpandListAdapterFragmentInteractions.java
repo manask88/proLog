@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ExpandListAdapterFragmentInteractions extends BaseExpandableListAdapter {
 
@@ -98,10 +99,10 @@ public class ExpandListAdapterFragmentInteractions extends BaseExpandableListAda
 
 	
 		ImageButton imageButton = (ImageButton) view.findViewById(R.id.imageButton);
-		imageButton.setOnClickListener(new OnClickListener() {
+		imageButton.setOnClickListener(new ImageButton.OnClickListener() {
 			public void onClick(View v) {
-				onGroupExpanded(groupPosition);
 
+				
 				Activity activity=(Activity) context;
 				Bundle b = 	activity.getIntent().getExtras();
 				long contactId = b.getLong("contactId");
