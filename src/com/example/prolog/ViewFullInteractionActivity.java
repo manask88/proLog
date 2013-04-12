@@ -54,7 +54,7 @@ public class ViewFullInteractionActivity extends Activity {
 		interactionContacts = new ArrayList<Contact>();
 		
 
-		setContentView(R.layout.activity_view_full_interacion);
+		setContentView(R.layout.activity_view_full_interaction);
 		
 		otherParticipants = (TextView) findViewById(R.id.newInteractionActivityOtherParticipants);
 		imageButtonEdit = (ImageButton) findViewById(R.id.imageButtonEdit);
