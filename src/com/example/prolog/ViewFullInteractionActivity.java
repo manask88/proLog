@@ -31,14 +31,14 @@ import android.widget.Toast;
 public class ViewFullInteractionActivity extends Activity {
 
 	private EditText etDate;
-	private ImageButton imageButtonEdit,imagebuttonDelete;
+	private ImageButton imageButtonEdit, imagebuttonDelete;
 	private ContactsDataSource datasource;
 	private Context context = this;
 	private Button buttonCancel, buttonSelect;
 	private ArrayList<Contact> interactionContacts;
 	private TextView otherParticipants;
 	private Interaction interaction;
-	private long interactionId,contactId;
+	private long interactionId, contactId;
 	public final static String TAG = ViewFullInteractionActivity.class
 			.getSimpleName();
 
@@ -48,32 +48,27 @@ public class ViewFullInteractionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
 		datasource = new ContactsDataSource(context);
-		
 
 		Bundle b = getIntent().getExtras();
 		interactionId = b.getLong("interactionId");
 		contactId = b.getLong("contactId");
 
-		
 		interactionContacts = new ArrayList<Contact>();
-		
 
 		setContentView(R.layout.activity_view_full_interaction);
-		
+
 		otherParticipants = (TextView) findViewById(R.id.newInteractionActivityOtherParticipants);
 		imageButtonEdit = (ImageButton) findViewById(R.id.imageButtonEdit);
 		imageButtonEdit.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
-				
+
 				Intent i = new Intent(context, EditInteractionActivity.class);
 				i.putExtra("interactionId", interactionId);
 				i.putExtra("contactId", contactId);
 				startActivity(i);
-		
-				
+
 			}
 
 		});
@@ -87,14 +82,9 @@ public class ViewFullInteractionActivity extends Activity {
 
 			}
 		});
-		
+
 		etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
-		
-		
 
-		
-
-		
 	}
 
 	@Override
@@ -103,29 +93,24 @@ public class ViewFullInteractionActivity extends Activity {
 
 		datasource.open();
 		Log.i(TAG, "onResume");
-		
-		
-		interaction=datasource.findInteractionbyId(interactionId);
-		etDate.setText(interaction.getDate());
-		
-		
-		otherParticipants.setText("Empty");
-		
-		interactionContacts=datasource.findContactsbyInteractionId(interaction.getId());
 
-		if (interactionContacts.size()>1)
+		interaction = datasource.findInteractionbyId(interactionId);
+		etDate.setText(interaction.getDate());
+
+		interactionContacts = datasource
+				.findContactsbyInteractionId(interaction.getId());
+
+		if (interactionContacts.size() > 1)
 			otherParticipants.setText("");
 		else
 			otherParticipants.setText("Empty");
-		
-		
+
 		for (Contact contact : interactionContacts)
 
 		{
-		
-			
+
 			Contact contactData = datasource.findContactbyId(contact.getId());
-			if (contactData != null && contactData.getId()!=contactId) {
+			if (contactData != null && contactData.getId() != contactId) {
 				otherParticipants.setText(otherParticipants.getText()
 						.toString() + " " + contact.getName());
 				Log.i(TAG, "other contacts" + contact.getName());
@@ -148,7 +133,6 @@ public class ViewFullInteractionActivity extends Activity {
 		Log.i(TAG, "onPause");
 		datasource.close();
 	}
-	
 
 	public static class MyAlertDialogFragment extends DialogFragment {
 
@@ -165,8 +149,10 @@ public class ViewFullInteractionActivity extends Activity {
 			final long interactionId = getArguments().getLong("interactionId");
 
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-					getActivity()).setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("Are you sure you want to delete this interaction?");
+					getActivity())
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setTitle(
+							"Are you sure you want to delete this interaction?");
 			alertDialogBuilder.setPositiveButton(R.string.OK,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,
@@ -174,20 +160,25 @@ public class ViewFullInteractionActivity extends Activity {
 							ContactsDataSource datasource = new ContactsDataSource(
 									getActivity());
 							;
-							//datasource.open();
+							// datasource.open();
 							// TODO should also delete the groups in which the
 							// contact is in
 							// and anything else?
-							/*datasource.deleteInteractionsByContactId(contactId);
-							datasource
-									.deleteGroupContactsByContactId(contactId);
-							datasource.deleteContactById(contactId);
-							datasource.close();*/
-							Toast.makeText(getActivity(), "not deleting yet", Toast.LENGTH_SHORT).show();
+							/*
+							 * datasource.deleteInteractionsByContactId(contactId
+							 * ); datasource
+							 * .deleteGroupContactsByContactId(contactId);
+							 * datasource.deleteContactById(contactId);
+							 * datasource.close();
+							 */
+							Toast.makeText(getActivity(), "not deleting yet",
+									Toast.LENGTH_SHORT).show();
 
 							getActivity().finish();
-							/*startActivity(new Intent(getActivity(),
-									ContactListActivity.class));*/
+							/*
+							 * startActivity(new Intent(getActivity(),
+							 * ContactListActivity.class));
+							 */
 
 						}
 					});

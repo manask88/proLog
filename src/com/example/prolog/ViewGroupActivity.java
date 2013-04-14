@@ -215,7 +215,7 @@ public class ViewGroupActivity extends Activity {
 
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					getActivity()).setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("Are you sure you want to delete this group??");
+					.setTitle("Are you sure you want to delete this group?");
 			alertDialogBuilder.setPositiveButton(R.string.OK,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,

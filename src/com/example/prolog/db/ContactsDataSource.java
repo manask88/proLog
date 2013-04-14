@@ -194,7 +194,11 @@ public class ContactsDataSource {
 				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID + "=?",
 				new String[] { Long.toString(groupId),Long.toString(contactId) });
 	}
-	
+	public void deleteInteractionContactsByGroupIdAndContactId(long interactionId, long  contactId) {
+		database.delete(ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS,
+				ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID + "=?",
+				new String[] { Long.toString(interactionId),Long.toString(contactId) });
+	}
 	
 	public void deleteGroupContactsByGroupId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
@@ -518,7 +522,7 @@ public class ContactsDataSource {
 		if (cursor != null) {
 
 			if (cursor.moveToFirst()) {
-				Log.i(TAG, "foind something rows on findGroupContactbyGroupIdAndContactId");
+				Log.i(TAG, "found something rows on findGroupContactbyGroupIdAndContactId");
 
 				groupContact = new GroupContact();
 				groupContact.setContactId(cursor.getLong(cursor
@@ -534,6 +538,36 @@ public class ContactsDataSource {
 		return groupContact;
 
 	}
+	
+	public InteractionContact findInteractionContactbyInteractionIdAndContactId(long interactionId, long  contactId) {
+
+		InteractionContact interactionContact = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS,
+				allColumnsInteractionContacts, ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID + "=?",
+				new String[] { Long.toString(interactionId),Long.toString(contactId) }, null, null, null);
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows on findInteractionContactbyInteractionIdAndContactId");
+		
+		if (cursor != null) {
+
+			if (cursor.moveToFirst()) {
+				Log.i(TAG, "found something rows on findInteractionContactbyInteractionIdAndContactId");
+
+				interactionContact = new InteractionContact();
+				interactionContact.setContactId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID)));
+
+				interactionContact.setInteractionId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID)));
+
+			}
+			cursor.close();
+		}
+
+		return interactionContact;
+
+	}
+	
+	
 	public Group findGroupbyId(long id) {
 
 		Group group = null;
@@ -724,7 +758,31 @@ public class ContactsDataSource {
 
 	}
 
-	
+	public void createInteractionContacts_r(long interactionId, long contactId) {
+		
+		if (findInteractionContactbyInteractionIdAndContactId(interactionId,contactId)==null)
+			{createInteractionContacts(interactionId,contactId);
+			
+			Log.i(TAG, "null on createInteractionContacts_r");
+
+			}
+		
+		Log.i(TAG, "not null on createInteractionContacts_r");
+
+		
+	}
+
+	public void deleteInteractionContacts_r(long interactionId, long contactId) {
+
+		if (findInteractionContactbyInteractionIdAndContactId(interactionId,contactId)!=null)
+			{deleteInteractionContactsByGroupIdAndContactId(interactionId, contactId);
+			Log.i(TAG, "not null on deleteInteractionContacts_r");
+			
+			}
+		Log.i(TAG, "null on deleteInteractionContacts_r");
+
+	}
+
 	
 
 	

@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
+import com.example.prolog.model.TypeValue;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,23 +37,26 @@ import android.widget.Toast;
 public class ContactListInteractionsAddContactActivity extends Activity {
 	private Context context = this;
 	private ContactsDataSource datasource;
-	private ArrayList<Contact> contacts, contactsCurrentGroup;
+	private ArrayList<Long> contactIds;
+
+	private ArrayList<Contact> contacts, currentContacts;
 	private ArrayList<Contact> contactsSearchResult;
 	private SearchView searchView;
 	private ListView lv;
-	private Button buttonAdd;
+	private Button buttonAdd, buttonCancel, buttonSave;
 	private TextView textView;
 	public static final String TAG = ContactListInteractionsAddContactActivity.class
 			.getSimpleName();
 	private long interactionId;
+	public String callingActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setTitle("Contacts");
-		setContentView(R.layout.activity_contact_list);
+		setContentView(R.layout.activity_contact_list_with_checkbox);
 
-		Log.i(TAG, "onCreate");
+		Log.i(TAG, "started ContactListInteractionsAddContactActivity");
 		datasource = new ContactsDataSource(this);
 		textView = (TextView) findViewById(R.id.textView);
 		textView.setText("Contacts");
@@ -61,6 +66,21 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 
 		Bundle b = getIntent().getExtras();
 		interactionId = b.getLong("interactionId");
+		Log.i(TAG, "interactionId: " + interactionId);
+
+		callingActivity = b.getString(Commons.callingActivity);
+		buttonSave = (Button) findViewById(R.id.buttonSave);
+
+		buttonCancel = (Button) findViewById(R.id.buttonCancel);
+
+		buttonCancel.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
 	}
 
 	@Override
@@ -70,50 +90,58 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 		datasource.open();
 
 		contacts = datasource.findAllContacts();
-		contactsCurrentGroup = datasource.findContactsbyInteractionId(interactionId);
-		contactsSearchResult = new ArrayList<Contact>();
-		boolean found = false;
-		
-		
-		//TODO this can make it slow as this is very ineficient
-		for (int i = 0; i < contacts.size(); i++) {
-			found = false;
-			for (int j = 0; j < contactsCurrentGroup.size(); j++) {
 
-				if (contacts.get(i).getId() == contactsCurrentGroup.get(j)
-						.getId()) {
-					found = true;
-					break;
+		if (interactionId >= 0)
+
+		{
+
+			currentContacts = datasource
+					.findContactsbyInteractionId(interactionId);
+			// TODO this can make it slow as this is very ineficient
+			for (int i = 0; i < contacts.size(); i++) {
+				for (int j = 0; j < currentContacts.size(); j++) {
+
+					Contact contact = contacts.get(i);
+					if (contact.getId() == currentContacts.get(j).getId()) {
+						contact.setSelected(true);
+						contacts.set(i, contact);
+						break;
+
+					}
 
 				}
 
 			}
-
-			if (!found)
-				contactsSearchResult.add(contacts.get(i));
-
 		}
+		contactsSearchResult = new ArrayList<Contact>();
 
+		for (Contact contact : contacts) {
+
+			contactsSearchResult.add(contact);
+		}
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
-		lv.setAdapter(new ContactListAdapter(this,
+		lv.setAdapter(new ContactListAdapterWithCheckBox(this,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 
-				
-				datasource.createInteractionContacts(interactionId, contactsSearchResult
-						.get(position).getId());		
-				finish();
+				if (checkBox.isChecked()) {
+					contactsSearchResult.get(position).setSelected(false);
+					checkBox.setChecked(false);
+				} else {
+					contactsSearchResult.get(position).setSelected(true);
+					checkBox.setChecked(true);
+
+				}
 
 			}
 
 		});
-		// lv.setAdapter(new ArrayAdapter<String>(this,
-		// android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.countries)));
 
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -149,6 +177,61 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(context, AddNewContactActivity.class));
+			}
+		});
+
+		buttonSave.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				Intent intent;
+
+				if (callingActivity.equals(NewInteractionActivity.TAG)) {
+
+					contactIds = new ArrayList<Long>();
+					for (Contact contact : contactsSearchResult) {
+						if (contact.isSelected()) {
+
+							contactIds.add(contact.getId());
+						}
+					}
+
+					long[] contactIdsArray = new long[contactIds.size()];
+					int i = 0;
+
+					for (long id : contactIds) {
+
+						contactIdsArray[i] = id;
+						i++;
+					}
+
+					intent = new Intent(context, NewInteractionActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+					intent.putExtra("contactIds", contactIdsArray);
+
+				}
+
+				else {
+
+					for (Contact contact : contactsSearchResult)
+						if (contact.isSelected())
+							datasource.createInteractionContacts_r(
+									interactionId, contact.getId());
+						else {
+
+							datasource.deleteInteractionContacts_r(
+									interactionId, contact.getId());
+						}
+
+					intent = new Intent(context, EditInteractionActivity.class);
+				}
+
+				intent.putExtra("interactionId", interactionId);
+				intent.putExtra("calledActivity", TAG);
+				startActivity(intent);
+				finish();
+
 			}
 		});
 	}

@@ -18,10 +18,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.example.prolog.MainActivity" >
-        </activity>
-        <activity
-            android:name="com.example.prolog.SyncActivity" >
+        <activity android:name="com.example.prolog.SyncActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,6 +34,8 @@
                     android:host="linkedinApiTestCallback"
                     android:scheme="x-oauthflow-linkedin" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.example.prolog.MainActivity" >
         </activity>
         <activity android:name="com.example.prolog.AddContactActivity" >
         </activity>
@@ -66,18 +65,18 @@
         </activity>
         <activity android:name="com.example.prolog.AddNewContactActivity" >
         </activity>
-        <activity android:name="com.example.prolog.NewInteractionActivity" >
+        <activity
+            android:name="com.example.prolog.NewInteractionActivity"
+            android:launchMode="singleInstance" >
         </activity>
-         <activity android:name="com.example.prolog.ContactListInteractionsAddContactActivity" >
+        <activity android:name="com.example.prolog.ContactListInteractionsAddContactActivity" >
         </activity>
         <activity android:name="com.example.prolog.NewFollowUpActivity" >
         </activity>
-          <activity android:name="com.example.prolog.ViewFullInteractionActivity" >
+        <activity android:name="com.example.prolog.ViewFullInteractionActivity" >
         </activity>
-          <activity android:name="com.example.prolog.EditInteractionActivity" >
+        <activity android:name="com.example.prolog.EditInteractionActivity" >
         </activity>
-        
-      
     </application>
 
 </manifest>

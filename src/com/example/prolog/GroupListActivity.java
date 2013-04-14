@@ -142,7 +142,7 @@ public class GroupListActivity extends Activity {
 			public void onClick(View v) {
 				FragmentManager fm = getFragmentManager();
 				CreateGroupDialog editNameDialog = new CreateGroupDialog();
-				editNameDialog.show(fm, "fragment_edit_name");
+				editNameDialog.show(fm, "new group fragment");
 			}
 		});
 
@@ -240,8 +240,8 @@ public class GroupListActivity extends Activity {
 				}
 			});
 
-			getDialog().setTitle("Hello");
-
+			getDialog().setTitle("Write new group name");
+			
 			return view;
 		}
 	}

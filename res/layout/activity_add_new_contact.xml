@@ -22,6 +22,7 @@
             <QuickContactBadge
                 android:id="@+id/quickContactBadge"
                 android:layout_height="match_parent"
+                android:layout_width="match_parent"
                 android:layout_gravity="left"
                 android:layout_marginTop="@dimen/twentydp"
                 android:adjustViewBounds="true"
@@ -31,41 +32,34 @@
 
             <TableLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content" 
+                >
 
-                <TableRow
-                    android:id="@+id/tableRow9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <TableRow
-                        android:id="@+id/tableRow13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
-                    </TableRow>
-                </TableRow>
+               
 
                 <TableRow
                     android:id="@+id/tableRow1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/fivedp"
                     android:layout_marginLeft="@dimen/twentydp"
-                    android:layout_marginTop="@dimen/fivedp" >
+                    android:layout_marginTop="@dimen/fivedp" 
+                    >
 
                     <EditText
                         android:id="@+id/editTextName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:hint="@string/fname"
-                        android:minWidth="120dp" >
+                       
+                         >
                     </EditText>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRow3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/fivedp"
                     android:layout_marginLeft="@dimen/twentydp"
@@ -73,16 +67,17 @@
 
                     <EditText
                         android:id="@+id/editTextTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="@string/Title" >
+                        android:hint="@string/Title" 
+                         android:minWidth="200dp">
                     </EditText>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRow4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/fivedp"
                     android:layout_marginLeft="@dimen/twentydp"
@@ -92,12 +87,11 @@
 
                     <EditText
                         android:id="@+id/editTextCompany"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/Company"
                         android:background="@color/white" >
 
-                        <requestFocus />
                     </EditText>
                 </TableRow>
             </TableLayout>

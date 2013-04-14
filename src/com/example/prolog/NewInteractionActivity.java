@@ -44,13 +44,10 @@ public class NewInteractionActivity extends Activity {
 		datasource = new ContactsDataSource(context);
 		datasource.open();
 
-		interaction = datasource.createInteraction(new Interaction());
+		interaction = new Interaction();
 
 		Bundle b = getIntent().getExtras();
 		contactId = b.getLong("contactId");
-
-		interactionContacts = new ArrayList<Contact>();
-		
 
 		setContentView(R.layout.activity_new_interacion);
 		final Calendar c = Calendar.getInstance();
@@ -66,7 +63,8 @@ public class NewInteractionActivity extends Activity {
 
 				Intent i = new Intent(context,
 						ContactListInteractionsAddContactActivity.class);
-				i.putExtra("interactionId", interaction.getId());
+				i.putExtra(Commons.callingActivity, TAG);
+				i.putExtra("interactionId", (long) -1);
 				startActivity(i);
 
 			}
@@ -95,16 +93,16 @@ public class NewInteractionActivity extends Activity {
 
 				interaction.setDate(etDate.getText().toString());
 				interaction.setText(etText.getText().toString());
-				interaction = datasource
-						.updateInteractionByInteractionId(interaction);
+				interaction = datasource.createInteraction(interaction);
 				datasource.createInteractionContacts(interaction.getId(),
 						contactId);
-				/*for (Contact contact : interactionContacts)
+
+				for (Contact contact : interactionContacts)
 
 				{
 					datasource.createInteractionContacts(interaction.getId(),
 							contact.getId());
-				}*/
+				}
 
 				Intent i = new Intent(context, MyTabActivity.class);
 				i.putExtra("contactId", contactId);
@@ -117,7 +115,6 @@ public class NewInteractionActivity extends Activity {
 		buttonCancel.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				datasource.deleteInteractionByInteractionId(interaction.getId());
 				finish();
 			}
 		});
@@ -129,29 +126,6 @@ public class NewInteractionActivity extends Activity {
 
 		datasource.open();
 		Log.i(TAG, "onResume");
-		otherParticipants.setText("Empty");
-		
-		interactionContacts=datasource.findContactsbyInteractionId(interaction.getId());
-
-		if (interactionContacts.size()>0)
-			otherParticipants.setText("");
-		else
-			otherParticipants.setText("Empty");
-		
-		
-		for (Contact contact : interactionContacts)
-
-		{
-		
-			
-			Contact contactData = datasource.findContactbyId(contact.getId());
-			if (contactData != null) {
-				otherParticipants.setText(otherParticipants.getText()
-						.toString() + " " + contact.getName());
-				Log.i(TAG, "other contacts" + contact.getName());
-			}
-
-		}
 
 	}
 
@@ -168,12 +142,40 @@ public class NewInteractionActivity extends Activity {
 		Log.i(TAG, "onPause");
 		datasource.close();
 	}
-	
 
-	/*
-	 * public void showDatePickerDialog(View v) { DialogFragment newFragment =
-	 * new DatePickerFragment() .setEditText(editText1);
-	 * newFragment.show(getFragmentManager(), "datePicker"); }
-	 */
+	@Override
+	protected void onNewIntent(Intent intent) {
+		Log.i(TAG, "onNewIntent");
+		datasource.open();
+		Bundle b = intent.getExtras();
+		String calledActivity = b.getString("calledActivity");
+
+		if (calledActivity != null
+				&& calledActivity
+						.equals(ContactListInteractionsAddContactActivity.TAG)) {
+			long[] contactIds = b.getLongArray("contactIds");
+			interactionContacts = new ArrayList<Contact>();
+
+			for (int i = 0; i < contactIds.length; i++)
+				interactionContacts.add(datasource
+						.findContactbyId(contactIds[i]));
+
+			if (interactionContacts.size() > 0)
+				otherParticipants.setText("");
+			else
+				otherParticipants.setText("Empty");
+
+			for (Contact contact : interactionContacts)
+
+			{
+
+				otherParticipants.setText(otherParticipants.getText()
+						.toString() + " " + contact.getName());
+				Log.i(TAG, "other contacts" + contact.getName());
+
+			}
+		}
+
+	}
 
 }
