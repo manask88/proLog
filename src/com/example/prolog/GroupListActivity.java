@@ -3,13 +3,19 @@ package com.example.prolog;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.example.prolog.ViewGroupActivity.MyAlertDialogFragment;
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
 import com.example.prolog.model.Group;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +34,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 public class GroupListActivity extends Activity {
 
@@ -38,7 +45,7 @@ public class GroupListActivity extends Activity {
 	private Context context;
 	private SearchView searchView;
 	private TextView textView;
-
+	GroupListAdapter groupListAdapter;
 	private ListView lv;
 	private ArrayList<Group> groups, groupsSearchResult;
 	private static final String TAG = GroupListActivity.class.getSimpleName();
@@ -62,18 +69,10 @@ public class GroupListActivity extends Activity {
 
 		buttonAddGroup = (Button) findViewById(R.id.buttonAdd);
 
-		buttonAddGroup.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context, AddNewGroupActivity.class));
-			}
-		});
-
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		dataSource.open();
+	private void refreshListView()
+	{
 		groups = dataSource.findAllGroups();
 
 		groupsSearchResult = new ArrayList<Group>();
@@ -85,21 +84,24 @@ public class GroupListActivity extends Activity {
 		Collections.sort(groupsSearchResult, new GroupCompareByName());
 
 		TextView empty = (TextView) findViewById(R.id.empty);
-
+		// lv.setAnimationCacheEnabled(false);
+		// lv.setScrollingCacheEnabled(false);
 		lv.setEmptyView(empty);
-		lv.setAdapter(new GroupListAdapter(this,
-				R.id.activityGroupListTextView, groupsSearchResult));
+		groupListAdapter = new GroupListAdapter(this,
+				R.id.activityGroupListTextView, groupsSearchResult);
+		lv.setAdapter(groupListAdapter);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent i = new Intent(context, ViewGroupActivity.class);
-				i.putExtra("groupId", groups.get(position).getId());
+				i.putExtra("groupId", groupsSearchResult.get(position).getId());
 				startActivity(i);
 			}
 
 		});
+		
 
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
@@ -126,6 +128,23 @@ public class GroupListActivity extends Activity {
 				return true;
 			}
 		});
+		
+		//groupListAdapter.notifyDataSetChanged();
+
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		dataSource.open();
+		refreshListView();
+		buttonAddGroup.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				FragmentManager fm = getFragmentManager();
+				CreateGroupDialog editNameDialog = new CreateGroupDialog();
+				editNameDialog.show(fm, "fragment_edit_name");
+			}
+		});
 
 	}
 
@@ -148,18 +167,82 @@ public class GroupListActivity extends Activity {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		public View getView(int position, View row, ViewGroup parent) {
+			if (row == null)
 
-			View row = inflater.inflate(R.layout.activity_group_list_item,
-					parent, false);
+			{
+				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			TextView tv = (TextView) row
-					.findViewById(R.id.activityGroupListTextView);
-			Log.i(TAG, "id :" + items.get(position).getId());
-			tv.setText(items.get(position).getName());
+				row = inflater.inflate(R.layout.activity_group_list_item,
+						parent, false);
 
+				TextView tv = (TextView) row
+						.findViewById(R.id.activityGroupListTextView);
+				Log.i(TAG, "id :" + items.get(position).getId());
+				tv.setText(items.get(position).getName());
+			}
 			return row;
+		}
+	}
+
+	public static class CreateGroupDialog extends DialogFragment {
+
+		private Button buttonSave, buttonCancel;
+		private EditText editTextGroupName;
+		private GroupListActivity activity;
+		public CreateGroupDialog() {
+
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View view = inflater.inflate(R.layout.fragment_add_new_group,
+					container);
+			buttonSave = (Button) view
+					.findViewById(R.id.activityAddNewGroupSaveButton);
+			buttonCancel = (Button) view
+					.findViewById(R.id.activityAddNewGroupCancelButton);
+			editTextGroupName = (EditText) view
+					.findViewById(R.id.editTextGroupName);
+
+			buttonSave.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+
+					String groupName = editTextGroupName.getText().toString();
+					if (!groupName.equals(""))
+
+					{
+						activity=(GroupListActivity) getActivity();
+						Group group = new Group();
+						group.setName(groupName);
+						group = activity.dataSource.createGroup(group);
+
+					
+						activity.refreshListView();
+						dismiss();
+					}
+
+					else {
+
+						Toast.makeText(((GroupListActivity) getActivity()),
+								Commons.pleaseEnterNameGroup,
+								Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
+
+			buttonCancel.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+
+					dismiss();
+
+				}
+			});
+
+			getDialog().setTitle("Hello");
+
+			return view;
 		}
 	}
 

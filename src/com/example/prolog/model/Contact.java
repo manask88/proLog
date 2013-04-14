@@ -16,8 +16,16 @@ public class Contact {
 	private long contactManagerId;
 	private HashMap<String, Object> custom_fields;
 	private Bitmap photo;
+	private boolean selected;
+    public boolean isSelected() {
+		return selected;
+	}
 
-    /**
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	/**
      * get all the customer field value pairs in a HashMap format
      * @return
      */

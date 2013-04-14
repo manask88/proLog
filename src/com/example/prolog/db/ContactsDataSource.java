@@ -189,6 +189,13 @@ public class ContactsDataSource {
 
 	}
 
+	public void deleteGroupContactsByGroupIdAndContactId(long groupId, long  contactId) {
+		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID + "=?",
+				new String[] { Long.toString(groupId),Long.toString(contactId) });
+	}
+	
+	
 	public void deleteGroupContactsByGroupId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
 				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?",
@@ -497,7 +504,36 @@ public class ContactsDataSource {
 		return contacts;
 
 	}
+	
+	
 
+	public GroupContact findGroupContactbyGroupIdAndContactId(long groupId, long  contactId) {
+
+		GroupContact groupContact = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
+				allColumnsGroupContacts, ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID + "=?",
+				new String[] { Long.toString(groupId),Long.toString(contactId) }, null, null, null);
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows on findGroupContactbyGroupIdAndContactId");
+		
+		if (cursor != null) {
+
+			if (cursor.moveToFirst()) {
+				Log.i(TAG, "foind something rows on findGroupContactbyGroupIdAndContactId");
+
+				groupContact = new GroupContact();
+				groupContact.setContactId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID)));
+
+				groupContact.setGroupId(cursor.getLong(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID)));
+
+			}
+			cursor.close();
+		}
+
+		return groupContact;
+
+	}
 	public Group findGroupbyId(long id) {
 
 		Group group = null;
@@ -660,6 +696,31 @@ public class ContactsDataSource {
 		}
 		cursor.close();
 		return contacts;
+
+	}
+
+	public void createGroupContacts_r(long groupId, long contactId) {
+		
+		if (findGroupContactbyGroupIdAndContactId(groupId,contactId)==null)
+			{createGroupContacts(groupId,contactId);
+			
+			Log.i(TAG, "null on createGroupContacts_r");
+
+			}
+		
+		Log.i(TAG, "not null on createGroupContacts_r");
+
+		
+	}
+
+	public void deleteGroupContacts_r(long groupId, long contactId) {
+
+		if (findGroupContactbyGroupIdAndContactId(groupId,contactId)!=null)
+			{deleteGroupContactsByGroupIdAndContactId(groupId, contactId);
+			Log.i(TAG, "not null on deleteGroupContacts_r");
+			
+			}
+		Log.i(TAG, "null on deleteGroupContacts_r");
 
 	}
 

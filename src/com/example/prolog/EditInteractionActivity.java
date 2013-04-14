@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditInteractionActivity extends Activity {
 
@@ -41,6 +42,8 @@ public class EditInteractionActivity extends Activity {
 		setTitle("New Interaction");
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
+		setContentView(R.layout.activity_new_interacion);
+
 		datasource = new ContactsDataSource(context);
 		
 
@@ -48,11 +51,35 @@ public class EditInteractionActivity extends Activity {
 		interactionId = b.getLong("interactionId");
 		contactId = b.getLong("contactId");
 
+		buttonSave = (Button) findViewById(
+				R.id.newInteractionActivityButtonSave);
+		buttonCancel = (Button) findViewById(
+				R.id.newInteractionActivityButtonCancel);
+		
+		
+		buttonSave.setOnClickListener(new View.OnClickListener(){
+			
+			public void onClick(View v) {
+				Toast.makeText(context, "not saving yet", Toast.LENGTH_SHORT).show();
+				finish();
+				
+			}
+		});
+		
+		
+buttonCancel.setOnClickListener(new View.OnClickListener(){
+			
+			public void onClick(View v) {
+				
+				finish();
+				
+			}
+		});
+		
 		
 		interactionContacts = new ArrayList<Contact>();
 		
 
-		setContentView(R.layout.activity_new_interacion);
 		
 		otherParticipants = (TextView) findViewById(R.id.newInteractionActivityOtherParticipants);
 

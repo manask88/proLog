@@ -21,8 +21,7 @@
         <activity android:name="com.example.prolog.MainActivity" >
         </activity>
         <activity
-            android:name="com.example.prolog.SyncActivity"
-            android:launchMode="singleInstance" >
+            android:name="com.example.prolog.SyncActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

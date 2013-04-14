@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Contact;
+import com.example.prolog.model.TypeValue;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,7 +41,7 @@ public class ContactListGroupAddContactActivity extends Activity {
 	private ArrayList<Contact> contactsSearchResult;
 	private SearchView searchView;
 	private ListView lv;
-	private Button buttonAdd;
+	private Button buttonAdd, buttonCancel, buttonSave;
 	private TextView textView;
 	public static final String TAG = ContactListGroupAddContactActivity.class
 			.getSimpleName();
@@ -49,7 +51,7 @@ public class ContactListGroupAddContactActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setTitle("Contacts");
-		setContentView(R.layout.activity_contact_list);
+		setContentView(R.layout.activity_contact_list_with_checkbox);
 
 		Log.i(TAG, "started ContactListGroupAddContactActivity");
 		datasource = new ContactsDataSource(this);
@@ -61,6 +63,18 @@ public class ContactListGroupAddContactActivity extends Activity {
 
 		Bundle b = getIntent().getExtras();
 		groupId = b.getLong("groupId");
+
+		buttonSave = (Button) findViewById(R.id.buttonSave);
+
+		buttonCancel = (Button) findViewById(R.id.buttonCancel);
+
+		buttonCancel.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	@Override
@@ -71,42 +85,51 @@ public class ContactListGroupAddContactActivity extends Activity {
 
 		contacts = datasource.findAllContacts();
 		contactsCurrentGroup = datasource.findContactsbyGroupId(groupId);
-		contactsSearchResult = new ArrayList<Contact>();
-		boolean found = false;
-		
-		
-		//TODO this can make it slow as this is very ineficient
+
+		// TODO this can make it slow as this is very ineficient
 		for (int i = 0; i < contacts.size(); i++) {
-			found = false;
 			for (int j = 0; j < contactsCurrentGroup.size(); j++) {
 
-				if (contacts.get(i).getId() == contactsCurrentGroup.get(j)
-						.getId()) {
-					found = true;
+				Contact contact = contacts.get(i);
+				if (contact.getId() == contactsCurrentGroup.get(j).getId()) {
+					contact.setSelected(true);
+					contacts.set(i, contact);
 					break;
 
 				}
 
 			}
 
-			if (!found)
-				contactsSearchResult.add(contacts.get(i));
-
 		}
 
+		contactsSearchResult = new ArrayList<Contact>();
+
+		for (Contact contact : contacts) {
+			contactsSearchResult.add(contact);
+		}
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
-		lv.setAdapter(new ContactListAdapter(this,
+		lv.setAdapter(new ContactListAdapterWithCheckBox(this,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 
-				datasource.createGroupContacts(groupId, contactsSearchResult
-						.get(position).getId());
-				finish();
+				if (checkBox.isChecked()) {
+					contactsSearchResult.get(position).setSelected(false);
+					checkBox.setChecked(false);
+				} else {
+					contactsSearchResult.get(position).setSelected(true);
+					checkBox.setChecked(true);
+
+				}
+				/*
+				 * datasource.createGroupContacts(groupId, contactsSearchResult
+				 * .get(position).getId());
+				 */
 
 			}
 
@@ -148,6 +171,25 @@ public class ContactListGroupAddContactActivity extends Activity {
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(context, AddNewContactActivity.class));
+			}
+		});
+
+		buttonSave.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				for (Contact contact : contactsSearchResult) {
+					if (contact.isSelected()) {
+						datasource.createGroupContacts_r(groupId,
+								contact.getId());
+					} else
+						datasource.deleteGroupContacts_r(groupId,
+								contact.getId());
+				}
+
+				finish();
+
 			}
 		});
 	}
