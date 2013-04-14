@@ -30,11 +30,11 @@ import android.widget.Toast;
 
 public class ViewFullInteractionActivity extends Activity {
 
-	private EditText etDate;
+	private TextView textViewDate,textViewType,textViewLocation,textViewNotes,textViewEvent;
 	private ImageButton imageButtonEdit, imagebuttonDelete;
+	CheckBox checkBoxFollowUp;
 	private ContactsDataSource datasource;
 	private Context context = this;
-	private Button buttonCancel, buttonSelect;
 	private ArrayList<Contact> interactionContacts;
 	private TextView otherParticipants;
 	private Interaction interaction;
@@ -44,7 +44,7 @@ public class ViewFullInteractionActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setTitle("New Interaction");
+		setTitle("ProLog");
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
 		datasource = new ContactsDataSource(context);
@@ -57,7 +57,7 @@ public class ViewFullInteractionActivity extends Activity {
 
 		setContentView(R.layout.activity_view_full_interaction);
 
-		otherParticipants = (TextView) findViewById(R.id.newInteractionActivityOtherParticipants);
+		otherParticipants = (TextView) findViewById(R.id.textViewOtherParticipants);
 		imageButtonEdit = (ImageButton) findViewById(R.id.imageButtonEdit);
 		imageButtonEdit.setOnClickListener(new View.OnClickListener() {
 
@@ -77,13 +77,18 @@ public class ViewFullInteractionActivity extends Activity {
 		imagebuttonDelete.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				DialogFragment newFragment = MyAlertDialogFragment
-						.newInstance(interactionId);
+						.newInstance(interactionId,contactId);
 				newFragment.show(getFragmentManager(), "dialog");
 
 			}
 		});
 
-		etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
+		textViewDate = (TextView) findViewById(R.id.textViewDate);
+		textViewType = (TextView) findViewById(R.id.textViewType);
+		textViewLocation = (TextView) findViewById(R.id.textViewLocation);
+		textViewEvent = (TextView) findViewById(R.id.textViewEvent);
+		textViewNotes = (TextView) findViewById(R.id.textViewNotes);
+		checkBoxFollowUp = (CheckBox) findViewById(R.id.checkBoxFollowUp);
 
 	}
 
@@ -95,8 +100,12 @@ public class ViewFullInteractionActivity extends Activity {
 		Log.i(TAG, "onResume");
 
 		interaction = datasource.findInteractionbyId(interactionId);
-		etDate.setText(interaction.getDate());
-
+		textViewDate.setText(interaction.getDate());
+		textViewType.setText(interaction.getType());
+		textViewLocation.setText(interaction.getLocation());
+		textViewEvent.setText(interaction.getEvent());
+		textViewNotes.setText(interaction.getNotes());
+		checkBoxFollowUp.setChecked(interaction.isFollowUp());
 		interactionContacts = datasource
 				.findContactsbyInteractionId(interaction.getId());
 
@@ -136,10 +145,11 @@ public class ViewFullInteractionActivity extends Activity {
 
 	public static class MyAlertDialogFragment extends DialogFragment {
 
-		public static MyAlertDialogFragment newInstance(long interactionId) {
+		public static MyAlertDialogFragment newInstance(long interactionId,long contactId) {
 			MyAlertDialogFragment frag = new MyAlertDialogFragment();
 			Bundle args = new Bundle();
 			args.putLong("interactionId", interactionId);
+			args.putLong("contactId", contactId);
 			frag.setArguments(args);
 			return frag;
 		}
@@ -147,7 +157,7 @@ public class ViewFullInteractionActivity extends Activity {
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			final long interactionId = getArguments().getLong("interactionId");
-
+			final long contactId = getArguments().getLong("contactId");
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					getActivity())
 					.setIcon(android.R.drawable.ic_dialog_alert)
@@ -160,25 +170,13 @@ public class ViewFullInteractionActivity extends Activity {
 							ContactsDataSource datasource = new ContactsDataSource(
 									getActivity());
 							;
-							// datasource.open();
-							// TODO should also delete the groups in which the
-							// contact is in
-							// and anything else?
-							/*
-							 * datasource.deleteInteractionsByContactId(contactId
-							 * ); datasource
-							 * .deleteGroupContactsByContactId(contactId);
-							 * datasource.deleteContactById(contactId);
-							 * datasource.close();
-							 */
-							Toast.makeText(getActivity(), "not deleting yet",
-									Toast.LENGTH_SHORT).show();
+							 datasource.open();
+							
 
+							datasource.deleteInteractionContactsByInteractionIdAndContactId(interactionId, contactId);
+							
 							getActivity().finish();
-							/*
-							 * startActivity(new Intent(getActivity(),
-							 * ContactListActivity.class));
-							 */
+							/*only deleting relationship interaction contact, not the interaction itself*/
 
 						}
 					});

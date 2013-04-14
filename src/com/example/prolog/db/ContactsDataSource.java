@@ -41,6 +41,10 @@ public class ContactsDataSource {
 	private static final String[] allColumnsInteractions = {
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
+			ContactsDBOpenHelper.COLUMN_INTERACTIONS_LOCATION,
+			ContactsDBOpenHelper.COLUMN_INTERACTIONS_EVENT,
+			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TYPE,
+			ContactsDBOpenHelper.COLUMN_INTERACTIONS_FOLLOWUP,
 			ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT };
 
 	private static final String[] allColumnsGroups = {
@@ -85,20 +89,14 @@ public class ContactsDataSource {
 
 	}
 	
-	public Interaction createInteraction(Interaction interaction) {
-		ContentValues values = new ContentValues();
 
 	
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
-				interaction.getDate());
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT,
-				interaction.getText());
-
-		long insertid = database.insert(
-				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, values);
+	public Interaction createInteraction(Interaction interaction) {
+	long insertid = database.insert(
+				ContactsDBOpenHelper.TABLE_INTERACTIONS, null, setContentValuesForInteraction(interaction));
 		interaction.setId(insertid);
 		Log.i(TAG, "Returned Interaction- " + interaction.getId()
-				+ " text: " + interaction.getText());
+				+ " text: " + interaction.getNotes());
 		return interaction;
 
 	}
@@ -194,7 +192,7 @@ public class ContactsDataSource {
 				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_CONTACT_ID + "=?",
 				new String[] { Long.toString(groupId),Long.toString(contactId) });
 	}
-	public void deleteInteractionContactsByGroupIdAndContactId(long interactionId, long  contactId) {
+	public void deleteInteractionContactsByInteractionIdAndContactId(long interactionId, long  contactId) {
 		database.delete(ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS,
 				ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID + "=?" + " and "+ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID + "=?",
 				new String[] { Long.toString(interactionId),Long.toString(contactId) });
@@ -282,11 +280,9 @@ public class ContactsDataSource {
 	}
 
 	public Interaction updateInteractionByInteractionId(Interaction interaction) {
-		ContentValues values = new ContentValues();
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE, interaction.getDate());
-		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT, interaction.getText());
+	
 
-		database.update(ContactsDBOpenHelper.TABLE_INTERACTIONS, values,
+		database.update(ContactsDBOpenHelper.TABLE_INTERACTIONS, setContentValuesForInteraction(interaction),
 				ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID + "=?",
 				new String[] { Long.toString(interaction.getId()) });
 
@@ -430,6 +426,7 @@ public class ContactsDataSource {
 
 		return interactionContacts;
 	}
+
 
 	private ArrayList<InteractionContact> findInteractionIdsbyContactId(long contactId) {
 		ArrayList<InteractionContact> contactInteractions = new ArrayList<InteractionContact>();
@@ -608,11 +605,18 @@ public class ContactsDataSource {
 				interaction.setDate(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE)));
 
-				interaction.setText(cursor.getString(cursor
+				interaction.setNotes(cursor.getString(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT)));
 				interaction.setId(cursor.getLong(cursor
 						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID)));
-				//TODO BOOLEAN FIELD
+				interaction.setLocation(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_LOCATION)));
+				interaction.setEvent(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_EVENT)));
+				interaction.setType(cursor.getString(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TYPE)));
+				interaction.setFollowUp(cursor.getInt(cursor
+						.getColumnIndex(ContactsDBOpenHelper.COLUMN_INTERACTIONS_FOLLOWUP))==1?true:false);
 			}
 			cursor.close();
 		}
@@ -775,7 +779,7 @@ public class ContactsDataSource {
 	public void deleteInteractionContacts_r(long interactionId, long contactId) {
 
 		if (findInteractionContactbyInteractionIdAndContactId(interactionId,contactId)!=null)
-			{deleteInteractionContactsByGroupIdAndContactId(interactionId, contactId);
+			{deleteInteractionContactsByInteractionIdAndContactId(interactionId, contactId);
 			Log.i(TAG, "not null on deleteInteractionContacts_r");
 			
 			}
@@ -784,6 +788,26 @@ public class ContactsDataSource {
 	}
 
 	
+	ContentValues setContentValuesForInteraction (   Interaction interaction  ){
+		ContentValues values = new ContentValues();
 
+		
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_DATE,
+				interaction.getDate());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TEXT,
+				interaction.getNotes());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_LOCATION,
+				interaction.getLocation());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_EVENT,
+				interaction.getEvent());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_TYPE,
+				interaction.getType());
+		values.put(ContactsDBOpenHelper.COLUMN_INTERACTIONS_FOLLOWUP,
+				interaction.isFollowUp()?1:0);
+	
+		
+		return values;
+		
+	}
 	
 }

@@ -152,66 +152,8 @@ public class SyncActivity extends Activity {
 		buttonSync.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 			
-				
-				if (true) {
-					Log.i(TAG, "0 is checked");
-
-					datasource.open();
-
-					Contact contact = null;
-					/*
-					 * for (Contact cont : contactsList)
-					 * 
-					 * { contact = queryDetailsForContactEntry(cont
-					 * .getContactManagerId());
-					 * contact.setHome_phone(queryAllPhoneNumbersForContact
-					 * (contact .getContactManagerId()));
-					 * contact.setWork_phone("another test"); ; Log.i(LOGTAG,
-					 * "got this phone number :" + contact.getHome_phone());
-					 * createContact(contact); }
-					 */
-					for (ExpandListChild contactChild : contacts) {
-						if (contactChild.isChecked()) {
-							contact = queryDetailsForContactEntry(contactChild
-									.getId());
-							contact.setHome_phone(queryAllPhoneNumbersForContact(contactChild
-									.getId()));
-							ArrayList<TypeValue> mails = queryAllEmailsForContact(contactChild
-									.getId());
-							if (mails != null)
-								contact.setEmail(mails.get(0).getValue());
-							contact.setWork_phone("another test");
-							createContact(contact);
-						}
-					}
-
-				}
-
-				if (true) {
-
-					new QueryContactInformationAsyncTask(activity)
-							.execute(contactsLinkedIn);
-
-					/*
-					 * for (ExpandListChild contactChild : contactsLinkedIn) {
-					 * if (contactChild.isChecked()) { Log.i(LOGTAG,
-					 * "trying to get Linkedin contact with id: " +
-					 * contactChild.getLinkedInId() + contactChild.getName());
-					 * // contactTemp=new Contact(); //
-					 * queryDetailsForContactLinkedIn
-					 * (contactChild.getLinkedInId(),accessToken);
-					 * 
-					 * new QueryContactInformationAsyncTask(activity)
-					 * .execute(contactChild.getLinkedInId(), accessToken); } }
-					 */
-				}
-
-				
-				/*  if (progressDialog != null && progressDialog.isShowing()) {
-			            progressDialog.dismiss();
-			        }
-				*/
-				//startActivity(new Intent(context, MainActivity.class));
+				new QueryContactInformationAsyncTask(activity)
+				.execute(contactsLinkedIn,contacts);
 			}
 		});
 	}
@@ -299,7 +241,7 @@ public class SyncActivity extends Activity {
 	}
 
 	/* creates contact in internal DB */
-	private void createContact(Contact contact) {
+	protected void createContact(Contact contact) {
 		contact = datasource.createContact(contact);
 
 	}
@@ -410,7 +352,7 @@ public class SyncActivity extends Activity {
 			return null;
 	}
 
-	private Contact queryDetailsForContactEntry(long contactId) {
+	protected Contact queryDetailsForContactEntry(long contactId) {
 		Log.i(TAG, "queryDetailsForContactEntry");
 		final String[] projection = new String[] { Contacts.DISPLAY_NAME, // the
 				// name
@@ -495,6 +437,7 @@ public class SyncActivity extends Activity {
 		
 		
 		gru1.setItems(contacts);
+		gru1.setChecked(false);
 		list2 = new ArrayList<ExpandListChild>();
 
 		ExpandListGroup gru2 = new ExpandListGroup();
@@ -514,6 +457,7 @@ public class SyncActivity extends Activity {
 		
 		Collections.sort(contactsLinkedIn, new ContactsChildCompareByName());
 		gru2.setItems(contactsLinkedIn);
+		gru2.setChecked(true);
 		// gru2.setItems(list2);
 		// gru1.setItems(list2);
 		list.add(gru1);

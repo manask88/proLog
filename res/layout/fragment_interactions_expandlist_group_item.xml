@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="55dip"
     android:background="@color/grey"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical" >
+     >
 
 
-       <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-      
-        android:src="@android:drawable/arrow_down_float" />
-
+     
     
     <TextView
         android:id="@+id/tvGroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+        android:layout_alignParentLeft="true"
         android:textSize="17dip" />
 
+  <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+        android:src="@android:drawable/arrow_down_float" />
+    
 
-
-</LinearLayout>
+</RelativeLayout>

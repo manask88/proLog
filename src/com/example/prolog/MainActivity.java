@@ -29,7 +29,9 @@ public class MainActivity extends Activity {
 		addNewContactBtn = (ImageButton) findViewById(R.id.add_new_contact);
 		addNewContactBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(context,AddContactActivity.class));
+				
+				startActivity(new Intent(context,AddNewContactActivity.class));
+				//startActivity(new Intent(context,AddContactActivity.class));
 			}
 		});
 		

@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="55dip"
     android:background="@color/grey"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
 
       <CheckBox
@@ -17,7 +17,7 @@
     
     <TextView
         android:id="@+id/tvGroup"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="55dip"
         android:layout_marginRight="15dp"
         android:textColor="@color/black"

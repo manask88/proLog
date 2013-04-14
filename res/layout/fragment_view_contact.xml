@@ -54,7 +54,6 @@
                         android:id="@+id/textViewName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
                         android:textColor="@color/white" />
                 </TableRow>
 
@@ -72,7 +71,6 @@
                         android:id="@+id/textViewTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
                         android:textColor="@color/white" />
                 </TableRow>
 
@@ -90,7 +88,6 @@
                         android:id="@+id/textViewContactCompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
                         android:textColor="@color/white" />
                 </TableRow>
             </TableLayout>
@@ -129,7 +126,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twentydp"
                 android:autoLink="phone"
-                android:text="TextView"
                 android:textColor="@color/white" />
         </TableRow>
 
@@ -154,7 +150,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twentydp"
                 android:autoLink="email"
-                android:text="TextView"
                 android:textColor="@color/white" />
         </TableRow>
 
@@ -179,7 +174,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/twentydp"
                 android:autoLink="map"
-                android:text="TextView"
                 android:textColor="@color/white" />
         </TableRow>
     </TableLayout>

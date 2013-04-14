@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 public class EditInteractionActivity extends Activity {
 
-	private EditText etDate;
 	private Button buttonSave;
 	private ContactsDataSource datasource;
 	private Context context = this;
@@ -34,6 +33,12 @@ public class EditInteractionActivity extends Activity {
 	private TextView otherParticipants;
 	private Interaction interaction;
 	private long interactionId, contactId;
+	CheckBox checkBoxFollowUp;
+	EditText editTextNotes;
+	EditText editTextEvent;
+	EditText editTextLocation;
+	EditText editTextType;
+	EditText editTextDate;
 	public final static String TAG = EditInteractionActivity.class
 			.getSimpleName();
 
@@ -50,14 +55,44 @@ public class EditInteractionActivity extends Activity {
 		interactionId = b.getLong("interactionId");
 		contactId = b.getLong("contactId");
 
-		buttonSave = (Button) findViewById(R.id.newInteractionActivityButtonSave);
-		buttonCancel = (Button) findViewById(R.id.newInteractionActivityButtonCancel);
+		buttonSave = (Button) findViewById(R.id.buttonSave);
+		buttonCancel = (Button) findViewById(R.id.buttonCancel);
+		checkBoxFollowUp = (CheckBox) findViewById(R.id.checkBoxFollowUp);
+		editTextNotes = (EditText) findViewById(R.id.editTextNotes);
+		editTextEvent = (EditText) findViewById(R.id.editTextEvent);
+		editTextLocation = (EditText) findViewById(R.id.editTextLocation);
+		editTextType = (EditText) findViewById(R.id.editTextType);
+		editTextDate = (EditText) findViewById(R.id.editTextDate);
+		
+		
+		editTextDate.setOnClickListener(new View.OnClickListener() {
 
+			public void onClick(View v) {
+				editTextDate = (EditText) findViewById(R.id.editTextDate);
+				DatePickerFragment newFragment = new DatePickerFragment()
+						.setEditText(editTextDate);
+
+				newFragment.show(getFragmentManager(), "datePicker");
+			}
+		});
+
+		
+		
+		
+		
+		
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				Toast.makeText(context, "not saving yet", Toast.LENGTH_SHORT)
-						.show();
+
+				interaction.setDate(editTextDate.getText().toString());
+				interaction.setNotes(editTextNotes.getText().toString());
+				interaction.setEvent(editTextEvent.getText().toString());
+				interaction.setLocation(editTextLocation.getText().toString());
+				interaction.setType(editTextType.getText().toString());
+				interaction.setFollowUp(checkBoxFollowUp.isChecked());
+				interaction.setId(interactionId);
+				datasource.updateInteractionByInteractionId(interaction);
 				finish();
 
 			}
@@ -74,11 +109,9 @@ public class EditInteractionActivity extends Activity {
 
 		interactionContacts = new ArrayList<Contact>();
 
-		otherParticipants = (TextView) findViewById(R.id.newInteractionActivityOtherParticipants);
+		otherParticipants = (TextView) findViewById(R.id.textViewOtherParticipants);
 
-		etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
-
-		buttonSelect = (Button) findViewById(R.id.newInteractionActivitybuttonSelect);
+		buttonSelect = (Button) findViewById(R.id.buttonSelect);
 		buttonSelect.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -103,7 +136,12 @@ public class EditInteractionActivity extends Activity {
 
 		Log.i(TAG, "interactionId: " + interactionId);
 		interaction = datasource.findInteractionbyId(interactionId);
-		etDate.setText(interaction.getDate());
+		checkBoxFollowUp.setChecked(interaction.isFollowUp());
+		editTextNotes.setText(interaction.getNotes());
+		editTextEvent.setText(interaction.getEvent());
+		editTextLocation.setText(interaction.getLocation());
+		editTextType.setText(interaction.getType());
+		editTextDate.setText(interaction.getDate());
 
 		otherParticipants.setText("Empty");
 

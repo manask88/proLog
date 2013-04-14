@@ -45,7 +45,7 @@ public class NewInteractionActivity extends Activity {
 		datasource.open();
 
 		interaction = new Interaction();
-
+		interactionContacts = new ArrayList<Contact>();
 		Bundle b = getIntent().getExtras();
 		contactId = b.getLong("contactId");
 
@@ -54,9 +54,9 @@ public class NewInteractionActivity extends Activity {
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);
-		otherParticipants = (TextView) findViewById(R.id.newInteractionActivityOtherParticipants);
+		otherParticipants = (TextView) findViewById(R.id.textViewOtherParticipants);
 
-		buttonSelect = (Button) findViewById(R.id.newInteractionActivitybuttonSelect);
+		buttonSelect = (Button) findViewById(R.id.buttonSelect);
 		buttonSelect.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -70,12 +70,12 @@ public class NewInteractionActivity extends Activity {
 			}
 		});
 
-		etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
+		etDate = (EditText) findViewById(R.id.editTextDate);
 		etDate.setText((month + 1) + "/" + day + "/" + year);
 		etDate.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				etDate = (EditText) findViewById(R.id.newInteractionActivityEditTextDate);
+				etDate = (EditText) findViewById(R.id.editTextDate);
 				DatePickerFragment newFragment = new DatePickerFragment()
 						.setEditText(etDate);
 
@@ -83,16 +83,24 @@ public class NewInteractionActivity extends Activity {
 			}
 		});
 
-		buttonSave = (Button) findViewById(R.id.newInteractionActivityButtonSave);
+		buttonSave = (Button) findViewById(R.id.buttonSave);
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 
-				CheckBox cbFollowUp = (CheckBox) findViewById(R.id.newInteractionActivityCheckBoxFollowUp);
-				EditText etText = (EditText) findViewById(R.id.newInteractionActivityEditTextText);
-
+				CheckBox cbFollowUp = (CheckBox) findViewById(R.id.checkBoxFollowUp);
+				EditText editTextNotes = (EditText) findViewById(R.id.editTextNotes);
+				EditText editTextEvent = (EditText) findViewById(R.id.editTextEvent);
+				EditText editTextLocation = (EditText) findViewById(R.id.editTextLocation);
+				EditText editTextType = (EditText) findViewById(R.id.editTextType);
 				interaction.setDate(etDate.getText().toString());
-				interaction.setText(etText.getText().toString());
+				interaction.setNotes(editTextNotes.getText().toString());
+				interaction.setEvent(editTextEvent.getText().toString());
+				interaction.setLocation(editTextLocation.getText().toString());
+				interaction.setType(editTextType.getText().toString());
+				interaction.setFollowUp(cbFollowUp.isChecked());
+				
+				
 				interaction = datasource.createInteraction(interaction);
 				datasource.createInteractionContacts(interaction.getId(),
 						contactId);
@@ -111,7 +119,7 @@ public class NewInteractionActivity extends Activity {
 			}
 		});
 
-		buttonCancel = (Button) findViewById(R.id.newInteractionActivityButtonCancel);
+		buttonCancel = (Button) findViewById(R.id.buttonCancel);
 		buttonCancel.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {

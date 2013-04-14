@@ -121,6 +121,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 		TextView tv = (TextView) view.findViewById(R.id.tvGroup);
 		tv.setText(group.getName());
 		CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+		checkBox.setChecked(group.isChecked());
 		checkBox.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
 				

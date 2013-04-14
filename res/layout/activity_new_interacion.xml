@@ -17,7 +17,7 @@
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/newInteractionActivityType"
+            android:id="@+id/editTextType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".20"
@@ -26,7 +26,7 @@
         </EditText>
 
         <EditText
-            android:id="@+id/newInteractionActivityEditTextDate"
+            android:id="@+id/editTextDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/tendp"
@@ -37,7 +37,7 @@
         </EditText>
 
         <CheckBox
-            android:id="@+id/newInteractionActivityCheckBoxFollowUp"
+            android:id="@+id/checkBoxFollowUp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
@@ -53,7 +53,7 @@
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/newInteractionActivityLocation"
+            android:id="@+id/editTextLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
@@ -62,7 +62,7 @@
         </EditText>
 
         <EditText
-            android:id="@+id/newInteractionActivityEvent"
+            android:id="@+id/editTextEvent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/tendp"
@@ -87,7 +87,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/newInteractionActivityOtherParticipants"
+            android:id="@+id/textViewOtherParticipants"
             style="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/newInteractionActivitybuttonSelect"
+            android:id="@+id/buttonSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/select"
@@ -119,7 +119,7 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/newInteractionActivityTextViewNote"
+            android:id="@+id/textViewNote"
             style="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/newInteractionActivityEditTextText"
+            android:id="@+id/editTextNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -146,7 +146,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/newInteractionActivityButtonSave"
+        android:id="@+id/buttonSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -155,7 +155,7 @@
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/newInteractionActivityButtonCancel"
+        android:id="@+id/buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

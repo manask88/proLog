@@ -7,9 +7,9 @@ import android.util.Log;
 
 public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
-	private static final String LOGTAG = "EXPLORECA";
+	private static final String LOGTAG = ContactsDBOpenHelper.class.getSimpleName();
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 6; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 7; /* change it whenever making changes on db scheleton*/
 	
 	
 	
@@ -38,6 +38,11 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_INTERACTIONS_ID = "interactionId";
 	public static final String COLUMN_INTERACTIONS_DATE = "date";
 	public static final String COLUMN_INTERACTIONS_TEXT = "text";
+	public static final String COLUMN_INTERACTIONS_LOCATION = "location";
+	public static final String COLUMN_INTERACTIONS_EVENT = "event";
+	public static final String COLUMN_INTERACTIONS_TYPE= "type";
+	public static final String COLUMN_INTERACTIONS_FOLLOWUP = "followUp";
+
 
 	public static final String TABLE_GROUPS = "groups";
 	public static final String COLUMN_GROUPS_ID = "groupId";
@@ -70,6 +75,10 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			"CREATE TABLE IF NOT EXISTS " + TABLE_INTERACTIONS + " ( " +
 			COLUMN_INTERACTIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COLUMN_INTERACTIONS_DATE + " TEXT, " +
+			COLUMN_INTERACTIONS_LOCATION + " TEXT, " +
+			COLUMN_INTERACTIONS_EVENT + " TEXT, " +
+			COLUMN_INTERACTIONS_TYPE + " TEXT, " +
+			COLUMN_INTERACTIONS_FOLLOWUP + " INTEGER, " +
 			COLUMN_INTERACTIONS_TEXT + " TEXT" +
 			")";
 	

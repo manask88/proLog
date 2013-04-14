@@ -110,7 +110,7 @@ public class ViewInteractionFragment extends Fragment {
 				gru1.setExpandListChildFragmentInteractions(interaction);
 				gru1.setId(interaction.getId());
 				list.add(gru1);
-				Log.i(LOGTAG, interaction.getText());
+				Log.i(LOGTAG, interaction.getNotes());
 			}
 
 		

@@ -24,7 +24,7 @@ public class ExpandListGroupFragmentInteractions {
 	public void setExpandListChildFragmentInteractions(Interaction interaction) {
 		
 		expandListChildFragmentInteractions=new ExpandListChildFragmentInteractions();
-		expandListChildFragmentInteractions.setName(interaction.getText());
+		expandListChildFragmentInteractions.setName(interaction.getNotes());
 		expandListChildFragmentInteractions.setTag("tag1");
 
 	}
