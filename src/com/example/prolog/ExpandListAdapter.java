@@ -18,6 +18,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 
 	private Context context;
 	private ArrayList<ExpandListGroup> groups;
+	private ExpandListAdapter expandListAdapter = this;
 
 	public ExpandListAdapter(Context context, ArrayList<ExpandListGroup> groups) {
 		this.context = context;
@@ -49,7 +50,6 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 			boolean isLastChild, View view, ViewGroup parent) {
 		final ExpandListChild child = (ExpandListChild) getChild(groupPosition,
 				childPosition);
-		
 
 		if (view == null) {
 			LayoutInflater infalInflater = (LayoutInflater) context
@@ -58,28 +58,30 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 		}
 		TextView tv = (TextView) view.findViewById(R.id.tvChild);
 		tv.setText(child.getName());
-		//tv.setTag(child.getTag());
+		// tv.setTag(child.getTag());
 
 		CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 		checkBox.setChecked(child.isChecked());
 		checkBox.setOnClickListener(new View.OnClickListener() {
 
-
 			@Override
 			public void onClick(View arg0) {
-				
-				
-				if (child.isChecked())
-				{child.setChecked(false);}
-				else
-					{child.setChecked(true);}				
-				/*child.setName("child position"+childPosition);
-				List<ExpandListChild> chList = groups.get(groupPosition).getItems();
-				chList.set(childPosition, child);
-				ExpandListGroup expandListGroup =  groups.get(groupPosition);
-				expandListGroup.setItems(chList);
-				//groups.set(groupPosition,new ExpandListGroup());
-				groups.set(groupPosition,expandListGroup);*/
+
+				if (child.isChecked()) {
+					child.setChecked(false);
+				} else {
+					child.setChecked(true);
+				}
+				/*
+				 * child.setName("child position"+childPosition);
+				 * List<ExpandListChild> chList =
+				 * groups.get(groupPosition).getItems();
+				 * chList.set(childPosition, child); ExpandListGroup
+				 * expandListGroup = groups.get(groupPosition);
+				 * expandListGroup.setItems(chList);
+				 * //groups.set(groupPosition,new ExpandListGroup());
+				 * groups.set(groupPosition,expandListGroup);
+				 */
 			}
 		});
 		return view;
@@ -119,12 +121,22 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 		TextView tv = (TextView) view.findViewById(R.id.tvGroup);
 		tv.setText(group.getName());
 		CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				group.setChecked(isChecked);
+		checkBox.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				
+				if (group.isChecked())
+				group.setChecked(false);
+				else
+					group.setChecked(true);
+				
+				for (ExpandListChild child : group.getItems())
+					child.setChecked(group.isChecked());
+				notifyDataSetChanged();
 
 			}
+			
+		
+			
 		});
 		// TODO Auto-generated method stub
 		return view;

@@ -29,6 +29,7 @@ import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Entity;
 import android.content.Intent;
@@ -50,8 +51,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class SyncActivity extends Activity {
 
@@ -92,6 +96,7 @@ public class SyncActivity extends Activity {
 	private Button buttonSync;
 	Activity activity = this;
 	LinkedInAccessToken accessToken;
+	
 	private Context context = this;
 	ContactsDataSource datasource;
 	Contact contactTemp;
@@ -146,8 +151,9 @@ public class SyncActivity extends Activity {
 		buttonSync = (Button) findViewById(R.id.buttonSyncSync);
 		buttonSync.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
-				if (ExpListItems.get(0).isChecked()) {
+			
+				
+				if (true) {
 					Log.i(TAG, "0 is checked");
 
 					datasource.open();
@@ -181,7 +187,7 @@ public class SyncActivity extends Activity {
 
 				}
 
-				if (ExpListItems.get(1).isChecked()) {
+				if (true) {
 
 					new QueryContactInformationAsyncTask(activity)
 							.execute(contactsLinkedIn);
@@ -200,7 +206,12 @@ public class SyncActivity extends Activity {
 					 */
 				}
 
-				startActivity(new Intent(context, MainActivity.class));
+				
+				/*  if (progressDialog != null && progressDialog.isShowing()) {
+			            progressDialog.dismiss();
+			        }
+				*/
+				//startActivity(new Intent(context, MainActivity.class));
 			}
 		});
 	}

@@ -5,6 +5,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ public class MyTabActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		setTitle("proLog");
 		super.onCreate(savedInstanceState);
-
+	
 		Bundle b = getIntent().getExtras();
 		contactId = b.getLong("contactId");
 		Log.i(LOGTAG,"Contact id: "+ contactId );

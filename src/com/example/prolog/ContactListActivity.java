@@ -117,6 +117,7 @@ public class ContactListActivity extends Activity {
 
 				lv.setAdapter(new ContactListAdapter(ContactListActivity.this,
 						R.id.activityContactListTextView, contactsSearchResult));
+			
 				return true;
 			}
 

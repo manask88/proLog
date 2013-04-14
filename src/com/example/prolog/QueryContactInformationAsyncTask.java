@@ -29,6 +29,7 @@ import com.google.code.linkedinapi.client.oauth.LinkedInAccessToken;
 import com.google.code.linkedinapi.schema.Person;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -39,7 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class QueryContactInformationAsyncTask extends
-		AsyncTask<ArrayList<ExpandListChild>, Contact, Contact> {
+		AsyncTask<ArrayList<ExpandListChild>, Integer, Contact> {
 
 	private Context context;
 	private Activity activity;
@@ -47,10 +48,11 @@ public class QueryContactInformationAsyncTask extends
 	private String out;
 	private String imageURL, id;
 	private String accessToken;
+	private int progressInt,total;
 	private static final String TAG = QueryContactInformationAsyncTask.class
 			.getSimpleName();
 	private ContactsDataSource datasource;
-
+	ProgressDialog progressDialog;
 	/**
 	 * @param context
 	 * 
@@ -62,13 +64,27 @@ public class QueryContactInformationAsyncTask extends
 	}
 
 	@Override
+	protected void onPreExecute() {
+		// statusText.setText("Opening a server socket");
+		Log.i(TAG, "onPreExecute");
+		progressDialog = new ProgressDialog(context);
+		progressDialog.setTitle("Synchronizing");
+		progressDialog.setMessage("pelase wait");
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		progressDialog.setIndeterminate(false);
+		
+		progressDialog.show();
+		progressInt=0;
+	}
+	@Override
 	protected Contact doInBackground(
 			ArrayList<ExpandListChild>... contactsLinkedIn) {
 		Log.i(TAG, "getContactDetails");
-
+	
 		Contact contact;
 		datasource = new ContactsDataSource(context);
 		datasource.open();
+		total=contactsLinkedIn[0].size();
 		for (ExpandListChild contactChild : contactsLinkedIn[0]) {
 			if (contactChild.isChecked()) {
 				Log.i(TAG, "trying to get Linkedin contact with id: "
@@ -86,8 +102,9 @@ public class QueryContactInformationAsyncTask extends
 				contact.setTitle(contactChild.getTitle());
 				contact.setName(contactChild.getName());
 				datasource.createContact(contact);
-
+				this.publishProgress(progressInt++);
 			}
+			
 		}
 		datasource.close();
 		Log.i(TAG, "done working on brackground");
@@ -101,8 +118,9 @@ public class QueryContactInformationAsyncTask extends
 	 */
 	@Override
 	protected void onPostExecute(Contact contact) {
-		Log.e(TAG, "onPostExecute");
-
+		Log.i(TAG, "onPostExecute");
+		progressDialog.dismiss();
+		context.startActivity(new Intent(context, MainActivity.class));
 	}
 
 	/*
@@ -110,11 +128,7 @@ public class QueryContactInformationAsyncTask extends
 	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
-	@Override
-	protected void onPreExecute() {
-		// statusText.setText("Opening a server socket");
-		Log.i(TAG, "onPreExecute");
-	}
+
 
 	public static byte[] urlToImageBLOB(String url) throws IOException {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -130,7 +144,11 @@ public class QueryContactInformationAsyncTask extends
 	}
 
 
-
+	protected void onProgressUpdate(Integer... progress) {
+		int percentage=(100*progress[0])/total;
+        progressDialog.setProgress(percentage);
+        progressDialog.show();
+    }
 	public static Bitmap getImageFromURL(String url) throws IOException {
 		return Commons.getImageFromBlob(urlToImageBLOB(url));
 	}
