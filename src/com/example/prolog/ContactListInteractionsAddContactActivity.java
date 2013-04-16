@@ -38,6 +38,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 	private Context context = this;
 	private ContactsDataSource datasource;
 	private ArrayList<Long> contactIds;
+	private long[] contactIdsArray;
 
 	private ArrayList<Contact> contacts, currentContacts;
 	private ArrayList<Contact> contactsSearchResult;
@@ -47,7 +48,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 	private TextView textView;
 	public static final String TAG = ContactListInteractionsAddContactActivity.class
 			.getSimpleName();
-	private long interactionId;
+	private long interactionId,contactId;
 	public String callingActivity;
 
 	@Override
@@ -64,11 +65,8 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 		lv = (ListView) findViewById(android.R.id.list);
 		buttonAdd = (Button) findViewById(R.id.buttonAdd);
 
-		Bundle b = getIntent().getExtras();
-		interactionId = b.getLong("interactionId");
 		Log.i(TAG, "interactionId: " + interactionId);
 
-		callingActivity = b.getString(Commons.callingActivity);
 		buttonSave = (Button) findViewById(R.id.buttonSave);
 
 		buttonCancel = (Button) findViewById(R.id.buttonCancel);
@@ -90,6 +88,12 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 		datasource.open();
 
 		contacts = datasource.findAllContacts();
+		Bundle b = getIntent().getExtras();
+		callingActivity = b.getString(Commons.callingActivity);
+
+		interactionId = b.getLong("interactionId");
+		contactId= b.getLong("contactId");
+		contactIdsArray = b.getLongArray("contactIds");
 
 		if (interactionId >= 0)
 
@@ -113,10 +117,32 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 
 			}
 		}
+		if (contactIdsArray != null) {
+
+			// TODO this can make it slow as this is very ineficient
+
+			for (int i = 0; i < contacts.size(); i++) {
+				for (int j = 0; j < contactIdsArray.length; j++) {
+
+					Contact contact = contacts.get(i);
+					
+				
+					if (contact.getId() == contactIdsArray[j]) {
+						contact.setSelected(true);
+						contacts.set(i, contact);
+						break;
+
+					}
+
+				}
+
+			}
+
+		}
 		contactsSearchResult = new ArrayList<Contact>();
 
 		for (Contact contact : contacts) {
-
+			if (contact.getId()!=contactId)
 			contactsSearchResult.add(contact);
 		}
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
@@ -189,22 +215,23 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 
 				if (callingActivity.equals(NewInteractionActivity.TAG)) {
 
-					contactIds = new ArrayList<Long>();
+					int i = 0;
 					for (Contact contact : contactsSearchResult) {
 						if (contact.isSelected()) {
-
-							contactIds.add(contact.getId());
+							i++;
+						}
+					}
+					
+					contactIdsArray = new long[i];
+					i = 0;
+					for (Contact contact : contactsSearchResult) {
+						if (contact.isSelected()) {
+							contactIdsArray[i]=contact.getId();
+							i++;
 						}
 					}
 
-					long[] contactIdsArray = new long[contactIds.size()];
-					int i = 0;
-
-					for (long id : contactIds) {
-
-						contactIdsArray[i] = id;
-						i++;
-					}
+				
 
 					intent = new Intent(context, NewInteractionActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -214,7 +241,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 
 				else {
 
-					for (Contact contact : contactsSearchResult)
+					/*for (Contact contact : contactsSearchResult)
 						if (contact.isSelected())
 							datasource.createInteractionContacts_r(
 									interactionId, contact.getId());
@@ -223,8 +250,25 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 							datasource.deleteInteractionContacts_r(
 									interactionId, contact.getId());
 						}
-
+*/
+					int i = 0;
+					for (Contact contact : contactsSearchResult) {
+						if (contact.isSelected()) {
+							i++;
+						}
+					}
+					
+					contactIdsArray = new long[i];
+					i = 0;
+					for (Contact contact : contactsSearchResult) {
+						if (contact.isSelected()) {
+							contactIdsArray[i]=contact.getId();
+							i++;
+						}
+					}
 					intent = new Intent(context, EditInteractionActivity.class);
+					intent.putExtra("contactIds", contactIdsArray);
+
 				}
 
 				intent.putExtra("interactionId", interactionId);

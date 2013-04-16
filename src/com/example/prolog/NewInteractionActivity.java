@@ -29,8 +29,8 @@ public class NewInteractionActivity extends Activity {
 	private ContactsDataSource datasource;
 	private Context context = this;
 	private Button buttonCancel, buttonSelect;
-	private ArrayList<Contact> interactionContacts;
 	private long contactId;
+	private long[] contactIds;
 	private TextView otherParticipants;
 	private Interaction interaction;
 	public final static String TAG = NewInteractionActivity.class
@@ -45,7 +45,6 @@ public class NewInteractionActivity extends Activity {
 		datasource.open();
 
 		interaction = new Interaction();
-		interactionContacts = new ArrayList<Contact>();
 		Bundle b = getIntent().getExtras();
 		contactId = b.getLong("contactId");
 
@@ -65,6 +64,9 @@ public class NewInteractionActivity extends Activity {
 						ContactListInteractionsAddContactActivity.class);
 				i.putExtra(Commons.callingActivity, TAG);
 				i.putExtra("interactionId", (long) -1);
+				i.putExtra("contactId", contactId);
+				if (contactIds != null)
+					i.putExtra("contactIds", contactIds);
 				startActivity(i);
 
 			}
@@ -99,17 +101,18 @@ public class NewInteractionActivity extends Activity {
 				interaction.setLocation(editTextLocation.getText().toString());
 				interaction.setType(editTextType.getText().toString());
 				interaction.setFollowUp(cbFollowUp.isChecked());
-				
-				
+
 				interaction = datasource.createInteraction(interaction);
 				datasource.createInteractionContacts(interaction.getId(),
 						contactId);
 
-				for (Contact contact : interactionContacts)
+				if (contactIds != null)
 
 				{
-					datasource.createInteractionContacts(interaction.getId(),
-							contact.getId());
+					for (int i = 0; i < contactIds.length; i++) {
+						datasource.createInteractionContacts(
+								interaction.getId(), contactIds[i]);
+					}
 				}
 
 				Intent i = new Intent(context, MyTabActivity.class);
@@ -161,27 +164,38 @@ public class NewInteractionActivity extends Activity {
 		if (calledActivity != null
 				&& calledActivity
 						.equals(ContactListInteractionsAddContactActivity.TAG)) {
-			long[] contactIds = b.getLongArray("contactIds");
-			interactionContacts = new ArrayList<Contact>();
+			contactIds = b.getLongArray("contactIds");
 
-			for (int i = 0; i < contactIds.length; i++)
-				interactionContacts.add(datasource
-						.findContactbyId(contactIds[i]));
-
-			if (interactionContacts.size() > 0)
-				otherParticipants.setText("");
-			else
+			if (contactIds == null || contactIds.length <= 0)
 				otherParticipants.setText("Empty");
+			else {
+				otherParticipants.setText("");
+				for (int i = 0; i < contactIds.length; i++) {
+					Contact contact = datasource.findContactbyId(contactIds[i]);
 
-			for (Contact contact : interactionContacts)
-
-			{
-
-				otherParticipants.setText(otherParticipants.getText()
-						.toString() + " " + contact.getName());
-				Log.i(TAG, "other contacts" + contact.getName());
+					if (contact != null) {
+						otherParticipants.setText(otherParticipants.getText()
+								.toString() + " " + contact.getName());
+					}
+				}
 
 			}
+
+			/*
+			 * if (interactionContacts.size() > 0)
+			 * otherParticipants.setText(""); else
+			 * otherParticipants.setText("Empty");
+			 * 
+			 * for (Contact contact : interactionContacts)
+			 * 
+			 * {
+			 * 
+			 * otherParticipants.setText(otherParticipants.getText() .toString()
+			 * + " " + contact.getName()); Log.i(TAG, "other contacts" +
+			 * contact.getName());
+			 * 
+			 * }
+			 */
 		}
 
 	}

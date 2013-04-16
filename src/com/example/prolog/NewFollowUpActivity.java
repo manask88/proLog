@@ -1,12 +1,16 @@
 package com.example.prolog;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.provider.CalendarContract.Events;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +52,7 @@ public class NewFollowUpActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Uri eventsUri;
+				/*Uri eventsUri;
 				if (android.os.Build.VERSION.SDK_INT <= 7) {
 
 					eventsUri = Uri.parse("content://calendar/events");
@@ -84,6 +88,31 @@ public class NewFollowUpActivity extends Activity {
 				event.put("hasAlarm", 1); // 0 for false, 1 for true
 				event.put("duration", "P3600S");
 				Uri url = getContentResolver().insert(eventsUri, event);
+				*/
+				/*
+				Intent intent = new Intent(Intent.ACTION_EDIT );
+				intent.setType("vnd.android.cursor.item/event");
+				intent.putExtra(Events.TITLE, "Learn Android");
+				intent.putExtra(Events.EVENT_LOCATION, "Home suit home");
+				intent.putExtra(Events.DESCRIPTION, "Download Examples");
+
+				// Setting dates
+				GregorianCalendar calDate = new GregorianCalendar(2013, 04, 15);
+				intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+				  calDate.getTimeInMillis());
+				intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+				  calDate.getTimeInMillis());
+
+				// Make it a full day event
+				intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+
+				// Make it a recurring Event
+				intent.putExtra(Events.RRULE, "FREQ=WEEKLY;COUNT=11;WKST=SU;BYDAY=TU,TH");
+
+				// Making it private and shown as busy
+				intent.putExtra(Events.ACCESS_LEVEL, Events.ACCESS_PRIVATE);
+				intent.putExtra(Events.AVAILABILITY, Events.AVAILABILITY_BUSY); 
+				startActivity(intent); */
 			}
 		});
 	}

@@ -198,6 +198,13 @@ public class ContactsDataSource {
 				new String[] { Long.toString(interactionId),Long.toString(contactId) });
 	}
 	
+	
+	public void deleteInteractionContactsByContactId( long  contactId) {
+		database.delete(ContactsDBOpenHelper.TABLE_INTERACTION_CONTACTS,ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID + "=?",
+				new String[] {Long.toString(contactId) });
+	}
+	
+	
 	public void deleteGroupContactsByGroupId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_GROUP_CONTACTS,
 				ContactsDBOpenHelper.COLUMN_GROUP_CONTACTS_GROUP_ID + "=?",
@@ -210,18 +217,9 @@ public class ContactsDataSource {
 				new String[] { Long.toString(id) });
 	}
 
-	/*
-	public void deleteInteractionsByContactId(long id) {
-		database.delete(ContactsDBOpenHelper.TABLE_INTERACTIONS,
-				ContactsDBOpenHelper.COLUMN_INTERACTIONS_CONTACT_ID + "=?",
-				new String[] { Long.toString(id) });
-	}
-*/
 	
-	public void deleteInteractionsByContactId(long id) {
 	
-	}
-	
+
 	public void deleteInteractionByInteractionId(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_INTERACTIONS,
 				ContactsDBOpenHelper.COLUMN_INTERACTIONS_ID + "=?",
@@ -810,4 +808,16 @@ public class ContactsDataSource {
 		
 	}
 	
+	
+	public void deleteContactCompletely(long contactId ){
+		deleteInteractionContactsByContactId(contactId);
+		deleteGroupContactsByContactId(contactId);
+		deleteContactById(contactId);
+		
+	}
+	
+	public void deleteGroupCompletely(long groupId ){
+		deleteGroupContactsByGroupId(groupId);
+		deleteGroupById(groupId);
+	}
 }

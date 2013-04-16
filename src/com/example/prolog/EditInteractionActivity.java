@@ -29,10 +29,11 @@ public class EditInteractionActivity extends Activity {
 	private ContactsDataSource datasource;
 	private Context context = this;
 	private Button buttonCancel, buttonSelect;
-	private ArrayList<Contact> interactionContacts;
 	private TextView otherParticipants;
 	private Interaction interaction;
 	private long interactionId, contactId;
+	private long[] contactIds;
+
 	CheckBox checkBoxFollowUp;
 	EditText editTextNotes;
 	EditText editTextEvent;
@@ -54,6 +55,20 @@ public class EditInteractionActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		interactionId = b.getLong("interactionId");
 		contactId = b.getLong("contactId");
+		datasource.open();
+
+		ArrayList<Contact> contacts = datasource
+				.findContactsbyInteractionId(interactionId);
+
+		contactIds = new long[contacts.size()];
+		int i = 0;
+		for (Contact contact : contacts) {
+
+			if (contact.getId() != contactId) {
+				contactIds[i] = contact.getId();
+				i++;
+			}
+		}
 
 		buttonSave = (Button) findViewById(R.id.buttonSave);
 		buttonCancel = (Button) findViewById(R.id.buttonCancel);
@@ -63,8 +78,7 @@ public class EditInteractionActivity extends Activity {
 		editTextLocation = (EditText) findViewById(R.id.editTextLocation);
 		editTextType = (EditText) findViewById(R.id.editTextType);
 		editTextDate = (EditText) findViewById(R.id.editTextDate);
-		
-		
+
 		editTextDate.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -76,11 +90,6 @@ public class EditInteractionActivity extends Activity {
 			}
 		});
 
-		
-		
-		
-		
-		
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -93,6 +102,25 @@ public class EditInteractionActivity extends Activity {
 				interaction.setFollowUp(checkBoxFollowUp.isChecked());
 				interaction.setId(interactionId);
 				datasource.updateInteractionByInteractionId(interaction);
+
+				if (contactIds != null)
+
+				{
+					for (Contact contact : datasource.findAllContacts()) {
+
+						for (int i = 0; i < contactIds.length; i++) {
+							if (contactIds[i] == contact.getId() || contact.getId()==contactId) {
+								datasource.createInteractionContacts_r(
+										interactionId, contact.getId());
+								break;
+							} else {
+								datasource.deleteInteractionContacts_r(
+										interactionId, contact.getId());
+							}
+						}
+					}
+				}
+
 				finish();
 
 			}
@@ -107,8 +135,6 @@ public class EditInteractionActivity extends Activity {
 			}
 		});
 
-		interactionContacts = new ArrayList<Contact>();
-
 		otherParticipants = (TextView) findViewById(R.id.textViewOtherParticipants);
 
 		buttonSelect = (Button) findViewById(R.id.buttonSelect);
@@ -119,11 +145,28 @@ public class EditInteractionActivity extends Activity {
 				Intent i = new Intent(context,
 						ContactListInteractionsAddContactActivity.class);
 				i.putExtra("interactionId", interaction.getId());
+				i.putExtra("contactId", contactId);
+				if (contactIds != null)
+					i.putExtra("contactIds", contactIds);
 				i.putExtra("callingActivity", TAG);
 				startActivity(i);
 
 			}
 		});
+
+		/*
+		 * for (Contact contact : interactionContacts)
+		 * 
+		 * {
+		 * 
+		 * Contact contactData = datasource.findContactbyId(contact.getId()); if
+		 * (contactData != null && contactData.getId() != contactId) {
+		 * otherParticipants.setText(otherParticipants.getText() .toString() +
+		 * " " + contact.getName()); Log.i(TAG, "other contacts" +
+		 * contact.getName()); }
+		 * 
+		 * }
+		 */
 
 	}
 
@@ -143,28 +186,41 @@ public class EditInteractionActivity extends Activity {
 		editTextType.setText(interaction.getType());
 		editTextDate.setText(interaction.getDate());
 
-		otherParticipants.setText("Empty");
+		// otherParticipants.setText("Empty");
 
-		interactionContacts = datasource
-				.findContactsbyInteractionId(interaction.getId());
-
-		if (interactionContacts.size() > 1)
-			otherParticipants.setText("");
-		else
+		/*
+		 * if (interactionContacts.size() > 1) otherParticipants.setText("");
+		 * else otherParticipants.setText("Empty");
+		 */
+		if (contactIds == null || contactIds.length <= 0)
 			otherParticipants.setText("Empty");
+		else {
+			otherParticipants.setText("");
+			for (int i = 0; i < contactIds.length; i++) {
+				Log.i(TAG, "contact 1Id " + contactIds[i]);
+				Contact contact = datasource.findContactbyId(contactIds[i]);
 
-		for (Contact contact : interactionContacts)
+				if (contact != null) {
+					Log.i(TAG, "contact 2Id " + contact.getId());
+					String s1 = otherParticipants.getText().toString();
+					String s2 = contact.getName();
+					otherParticipants.setText(s1 + " " + s2);
+				}
 
-		{
-
-			Contact contactData = datasource.findContactbyId(contact.getId());
-			if (contactData != null && contactData.getId() != contactId) {
-				otherParticipants.setText(otherParticipants.getText()
-						.toString() + " " + contact.getName());
-				Log.i(TAG, "other contacts" + contact.getName());
 			}
 
 		}
+
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+
+		datasource.open();
+
+		Bundle b = intent.getExtras();
+
+		contactIds = b.getLongArray("contactIds");
 
 	}
 

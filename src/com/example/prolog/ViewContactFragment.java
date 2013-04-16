@@ -202,10 +202,7 @@ public class ViewContactFragment extends Fragment {
 							// TODO should also delete the groups in which the
 							// contact is in
 							// and anything else?
-							datasource.deleteInteractionsByContactId(contactId);
-							datasource
-									.deleteGroupContactsByContactId(contactId);
-							datasource.deleteContactById(contactId);
+							datasource.deleteContactCompletely(contactId);
 							datasource.close();
 							getActivity().finish();
 							startActivity(new Intent(getActivity(),

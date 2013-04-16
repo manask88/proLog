@@ -195,7 +195,7 @@ public class ViewGroupActivity extends Activity {
 	}
 
 	private void deleteGroup(long groupId) {
-		datasource.deleteGroupById(groupId);
+		datasource.deleteGroupCompletely(groupId);
 		finish();
 	}
 
