@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,6 +103,9 @@ public class ViewContactFragment extends Fragment {
                 tvFielValue.setTextColor(Color.WHITE);              
                 tvFielValue.setEms(10);
                 
+                // Make text type specific
+                Linkify.addLinks(tvFielValue, Linkify.EMAIL_ADDRESSES|Linkify.MAP_ADDRESSES | Linkify.PHONE_NUMBERS | Linkify.WEB_URLS);
+                
                 // create a new row for label and edit text field
                 TableRow.LayoutParams tparams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);                    
                 TableRow tr = new TableRow(ViewContactFragment.this.getActivity());
@@ -127,6 +131,12 @@ public class ViewContactFragment extends Fragment {
 		tvPhone.setText(contact.getHome_phone());
 		tvEmail.setText(contact.getEmail());
 		tvLocation.setText(contact.getLocation());
+		
+		// Make text type specific
+        Linkify.addLinks(tvPhone, Linkify.PHONE_NUMBERS);
+        Linkify.addLinks(tvEmail, Linkify.EMAIL_ADDRESSES);
+        Linkify.addLinks(tvLocation, Linkify.MAP_ADDRESSES);
+		
 
 		imagebuttonEdit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
