@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.prolog.Commons;
 import com.example.prolog.model.Contact;
+import com.example.prolog.model.FollowUp;
 import com.example.prolog.model.Group;
 import com.example.prolog.model.GroupContact;
 import com.example.prolog.model.Interaction;
@@ -172,6 +173,21 @@ public class ContactsDataSource {
 
 	}
 
+	public FollowUp createFollowUp(FollowUp followUp) {
+		ContentValues values = new ContentValues();
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID, followUp.getContactId());
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_TITLE, followUp.getTitle());
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_NOTES, followUp.getNotes());
+
+
+		long insertid = database.insert(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
+				null, values);
+		followUp.setId(insertid);
+		Log.i(TAG, "FollowUp created with id " + followUp.getId());
+		return followUp;
+
+	}
+	
 	public void deleteContactById(long id) {
 		database.delete(ContactsDBOpenHelper.TABLE_CONTACTS,
 				ContactsDBOpenHelper.COLUMN_ID + "=?",

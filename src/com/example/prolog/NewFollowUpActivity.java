@@ -1,6 +1,9 @@
 package com.example.prolog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -11,6 +14,7 @@ import android.provider.CalendarContract.Events;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -23,26 +27,34 @@ public class NewFollowUpActivity extends Activity {
 	private String frequency;
 	private Button datePickerButton;
 	private EditText editText1;
-
+	int year ;
+	int month;
+	int day;
+	RadioButton radioButtonDay,radioButtonWeek,radioButtonMonth;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setTitle("New Follow Up");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_follow_up);
 		final Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int day = c.get(Calendar.DAY_OF_MONTH);
+		year = c.get(Calendar.YEAR);
+		month = c.get(Calendar.MONTH);
+		day = c.get(Calendar.DAY_OF_MONTH);
 		editText1 = (EditText) findViewById(R.id.newFollowUpActivityDateEditText);
-		editText1.setText((month + 1) + "/" + day + "/" + year);
+		
+		radioButtonDay=(RadioButton) findViewById(R.id.radioButtonDay);
+		radioButtonWeek=(RadioButton) findViewById(R.id.radioButtonWeek);
+		radioButtonMonth=(RadioButton) findViewById(R.id.radioButtonMonth);
+
+		//editText1.setText((month + 1) + "/" + day + "/" + year);
 		datePickerButton = (Button) findViewById(R.id.NewFollowUpActivityDatePicker);
 		datePickerButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 
-				DatePickerFragment newFragment = new DatePickerFragment()
-						.setEditText(editText1);
-				newFragment.show(getFragmentManager(), "datePicker");
+				radioButtonDay.setChecked(false);
+				radioButtonWeek.setChecked(false);
+				radioButtonMonth.setChecked(false);
 			}
 		});
 
@@ -120,16 +132,47 @@ public class NewFollowUpActivity extends Activity {
 	public void onRadioButtonClicked(View view) {
 		frequency = new String();
 		boolean checked = ((RadioButton) view).isChecked();
-
+		Date date= new Date();
 		// Check which radio button was clicked
+	date.setDate(day);
+	date.setMonth(month);
+	date.setYear(year);
+	
+	Calendar c = Calendar.getInstance();
+		
 		switch (view.getId()) {
-		case R.id.newFollowUpActivityRadioButton2:
+		case R.id.radioButtonDay:
 			if (checked)
-				frequency = "WEEKLY";
+			{		
+			//date.
+			c.add(Calendar.DAY_OF_MONTH, 1);
+			int month = c.get(Calendar.MONTH);
+			editText1.setText( month+1+ "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR) );
+			}
+			
 			break;
-		case R.id.newFollowUpActivityRadioButton3:
+		
+		case R.id.radioButtonWeek:
 			if (checked)
-				frequency = "MONTHLY";
+			{		frequency = "WEEKLY";
+			//date.
+			c.add(Calendar.DAY_OF_MONTH, 7);
+			int month = c.get(Calendar.MONTH);
+			editText1.setText( month+1+ "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR) );
+			}
+			
+			break;
+		case R.id.radioButtonMonth:
+			if (checked)
+			{	frequency = "MONTHLY";
+			date.setMonth(date.getMonth()+1);
+		
+			c.add(Calendar.MONTH, 1);
+			int month = c.get(Calendar.MONTH);
+			editText1.setText( month+1+ "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR) );
+			
+			
+			}
 			break;
 		}
 	}

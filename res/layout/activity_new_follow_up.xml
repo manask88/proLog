@@ -89,14 +89,19 @@
 
 
 <TableRow>
-   <RadioGroup android:id="@+id/newFollowUpActivityGrp">
+   <RadioGroup android:id="@+id/radioGroup">
         <RadioButton
-            android:id="@+id/newFollowUpActivityRadioButton2"
+            android:id="@+id/radioButtonDay"
+            android:text="@string/oneday"
+            android:textColor="@color/white"
+           	android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/radioButtonWeek"
             android:text="@string/oneweek"
             android:textColor="@color/white"
            	android:onClick="onRadioButtonClicked"/>
          <RadioButton
-            android:id="@+id/newFollowUpActivityRadioButton3"  
+            android:id="@+id/radioButtonMonth"  
             android:text="@string/onemonth"
             android:textColor="@color/white"
             android:onClick="onRadioButtonClicked"

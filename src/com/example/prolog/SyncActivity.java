@@ -24,6 +24,7 @@ import com.google.code.linkedinapi.client.oauth.LinkedInRequestToken;
 import com.google.code.linkedinapi.schema.Connections;
 import com.google.code.linkedinapi.schema.Person;
 
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -34,6 +35,7 @@ import android.content.Context;
 import android.content.Entity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -105,6 +107,28 @@ public class SyncActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
+		
+		
+        startService(new Intent(this,NotificationService.class));
+
+		
+		final SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
+		boolean isFirstTime=prefs.getBoolean("isFirstTime", true);
+		
+		if (!isFirstTime)
+		{
+			
+			startActivity(new Intent(context, MainActivity.class));
+			finish();
+			
+		}
+		else
+		{
+			Editor edit=prefs.edit();
+			edit.putBoolean("isFirstTime", false);
+			edit.commit();
+			
+		}
 		setContentView(R.layout.activity_sync);
 		datasource = new ContactsDataSource(this);
 		datasource.open();

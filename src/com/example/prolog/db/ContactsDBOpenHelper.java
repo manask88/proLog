@@ -9,7 +9,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = ContactsDBOpenHelper.class.getSimpleName();
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 7; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 8; /* change it whenever making changes on db scheleton*/
 	
 	
 	
@@ -56,7 +56,16 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_INTERACTION_CONTACTS_CONTACT_ID = "contactId";
 	public static final String COLUMN_INTERACTION_CONTACTS_INTERACTION_ID = "interactionId";
 
+	public static final String TABLE_FOLLOW_UPS = "followUps";
+	public static final String COLUMN_FOLLOW_UPS_ID = "followUpId";
+	public static final String COLUMN_FOLLOW_UPS_CONTACT_ID = "contactId";
+	public static final String COLUMN_FOLLOW_UPS_TITLE = "title";
+	public static final String COLUMN_FOLLOW_UPS_NOTES = "notes";
 
+	
+	
+
+	
 	
 	private static final String TABLE_CREATE =
 			"CREATE TABLE IF NOT EXISTS " + TABLE_CONTACTS + " ( " +
@@ -101,6 +110,15 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			COLUMN_INTERACTION_CONTACTS_INTERACTION_ID + " INTEGER " +
 			")";
 	
+	private static final String TABLE_CREATE_FOLLOW_UPS =
+			"CREATE TABLE IF NOT EXISTS " + TABLE_FOLLOW_UPS + " ( " +
+			COLUMN_FOLLOW_UPS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			COLUMN_FOLLOW_UPS_CONTACT_ID + " INTEGER, " +
+			COLUMN_FOLLOW_UPS_TITLE + " TEXT, " +
+			COLUMN_FOLLOW_UPS_NOTES + " TEXT " +
+			")";
+	
+	
 	public ContactsDBOpenHelper(Context context) {
 		
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -113,6 +131,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 		db.execSQL(TABLE_CREATE_GROUPS);
 		db.execSQL(TABLE_CREATE_GROUP_CONTACTS);
 		db.execSQL(TABLE_CREATE_INTERACTION_CONTACTS);
+		db.execSQL(TABLE_CREATE_FOLLOW_UPS);
+
 		Log.i(LOGTAG, "Tables have been created");
 	}
 
@@ -123,6 +143,8 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUP_CONTACTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INTERACTION_CONTACTS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOLLOW_UPS);
+
 		onCreate(db);
 
 	}
