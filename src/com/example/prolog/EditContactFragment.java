@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,12 +45,20 @@ public class EditContactFragment extends Fragment {
 	QuickContactBadge quickContactBadge;
 	public static final String TAG = EditContactFragment.class.getSimpleName();
 
-	
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+	    super.onHiddenChanged(hidden);
+		Log.i(TAG, "onHiddenChanged");
+
+	    FragmentManager fmi = getFragmentManager();
+		
+		fmi.popBackStack();
+	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		
+		Log.i(TAG, "onActivityCreated");
 		final HashMap<Integer, Integer> customFieldIDs = new HashMap<Integer, Integer>();
 		
 
@@ -182,9 +191,9 @@ public class EditContactFragment extends Fragment {
 					viewContactFragment.setArguments(b);
 					FragmentManager fmi = getFragmentManager();
 					/*
-					 * FragmentTransaction ftu = fmi.beginTransaction();
-					 * ftu.replace(android.R.id.content, viewContactFragment)
-					 * .addToBackStack(null).commit();
+					  FragmentTransaction ftu = fmi.beginTransaction();
+					  ftu.replace(android.R.id.content, viewContactFragment)
+					  .addToBackStack(null).commit();
 					 */
 					fmi.popBackStack();
 				} else {
@@ -279,6 +288,8 @@ public class EditContactFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		Log.i(TAG, "onResume");
+
 		datasource.open();
 	}
 
@@ -286,13 +297,15 @@ public class EditContactFragment extends Fragment {
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		Log.i(TAG, "onPause");
+	
 		datasource.close();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		Log.i(TAG, "onCreateView");
 		return (RelativeLayout) inflater.inflate(
 				R.layout.activity_add_new_contact, container, false);
 	}

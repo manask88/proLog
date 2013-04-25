@@ -18,6 +18,7 @@ public class Commons {
 	public final static String callingActivity="callingActivity";
 	public final static String FOLLOWUP_ID="followUpId";
 	public final static String CONTACT_ID="contactId";
+	public final static String INTERACTION_ID="interactionId";
 
 	public static Bitmap getImageFromBlob(byte[] blob) {
 		return BitmapFactory.decodeByteArray(blob, 0, blob.length);

@@ -32,10 +32,24 @@ public class NewInteractionFragment extends Fragment {
 	private EditText etDate;
 	private Button buttonSave;
 	private ContactsDataSource datasource;
-	private Context context = getActivity();
+	private Context context;
 	private Button buttonCancel, buttonSelect;
 	private long contactId;
 	private long[] contactIds;
+	public long[] getContactIds() {
+		return contactIds;
+	}
+
+
+
+
+
+
+
+	public void setContactIds(long[] contactIds) {
+		this.contactIds = contactIds;
+	}
+
 	private TextView otherParticipants;
 	private Interaction interaction;
 	public final static String TAG = NewInteractionFragment.class
@@ -57,12 +71,11 @@ public class NewInteractionFragment extends Fragment {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		//setTitle("New Interaction");
-		super.onCreate(savedInstanceState);
+		super.onActivityCreated(savedInstanceState);
+		context = getActivity();
 		Log.i(TAG, "onCreate");
 		datasource = new ContactsDataSource(context);
 		datasource.open();
-
 		interaction = new Interaction();
 		
 		contactId = getArguments().getLong("contactId");
@@ -77,8 +90,16 @@ public class NewInteractionFragment extends Fragment {
 		buttonSelect.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
+				
+				ContactListPickerFragment newFragment = new ContactListPickerFragment();
+				newFragment.setContext(context);
+				newFragment.setContactId(contactId);
+				newFragment.setOtherContacts(contactIds);
+				newFragment.setOtherParticipantsTextView(otherParticipants);
+				newFragment.setTargetFragment(NewInteractionFragment.this,0);
+		newFragment.show(getFragmentManager(), "datePicker");
 
-				Intent i = new Intent(context,
+				/*Intent i = new Intent(context,
 						ContactListInteractionsAddContactActivity.class);
 				i.putExtra(Commons.callingActivity, TAG);
 				i.putExtra("interactionId", (long) -1);
@@ -86,7 +107,7 @@ public class NewInteractionFragment extends Fragment {
 				if (contactIds != null)
 					i.putExtra("contactIds", contactIds);
 				startActivity(i);
-
+*/
 			}
 		});
 
@@ -151,14 +172,7 @@ public class NewInteractionFragment extends Fragment {
 		});
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
 
-		datasource.open();
-		Log.i(TAG, "onResume");
-
-	}
 
 	@Override
 	public void onPause() {

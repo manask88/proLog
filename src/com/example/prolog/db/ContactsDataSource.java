@@ -72,12 +72,24 @@ public class ContactsDataSource {
 
 	}
 
+	public void openRead() {
+		Log.i(TAG, "Database opened");
+		database = dbhelper.getReadableDatabase();
+		
+
+	}
+	public void openWrite() {
+		Log.i(TAG, "Database opened");
+		database = dbhelper.getWritableDatabase();
+		
+
+	}
 	public void open() {
 		Log.i(TAG, "Database opened");
 		database = dbhelper.getWritableDatabase();
+		
 
 	}
-
 	public void close() {
 		Log.i(TAG, "Database closed");
 		dbhelper.close();

@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -106,11 +108,24 @@ public class ExpandListAdapterFragmentInteractions extends BaseExpandableListAda
 				Activity activity=(Activity) context;
 				Bundle b = 	activity.getIntent().getExtras();
 				long contactId = b.getLong("contactId");
-				
+				/*
 				Intent i = new Intent(context, ViewFullInteractionActivity.class);
 				i.putExtra("interactionId",group.getId());
 				i.putExtra("contactId",	contactId);
 				context.startActivity(i);
+				*/
+				
+				 b = new Bundle();
+				 b.putLong("interactionId", group.getId());
+				b.putLong(Commons.CONTACT_ID, contactId);
+				ViewFullInteractionFragment viewFullInteractionFragment = new ViewFullInteractionFragment();
+				viewFullInteractionFragment.setArguments(b);
+				FragmentManager fmi = activity.getFragmentManager();
+				FragmentTransaction ftu = fmi.beginTransaction();
+				ftu.replace(android.R.id.content, viewFullInteractionFragment)
+						.addToBackStack(null).commit();
+				
+				
 			}
 		});
 		return view;

@@ -6,6 +6,8 @@ import com.example.prolog.db.ContactsDataSource;
 import com.example.prolog.model.Interaction;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,10 +44,23 @@ public class ViewInteractionFragment extends Fragment {
 			public void onClick(View v) {
 				Intent i = new Intent(getActivity().getBaseContext(),
 						NewInteractionActivity.class);
-				long contatcId = getArguments().getLong("contactId");
+				long contactId = getArguments().getLong("contactId");
 				
-				i.putExtra("contactId", contatcId);
-				startActivity(i);
+				/*i.putExtra("contactId", contatcId);
+				startActivity(i);*/
+				
+				
+				
+				Bundle b = new Bundle();
+				b.putLong(Commons.CONTACT_ID, contactId);
+				NewInteractionFragment newInteractionFragment = new NewInteractionFragment();
+				newInteractionFragment.setArguments(b);
+				FragmentManager fmi = getFragmentManager();
+				FragmentTransaction ftu = fmi.beginTransaction();
+				ftu.replace(android.R.id.content, newInteractionFragment)
+						.addToBackStack(null).commit();
+				
+				
 			}
 		});
 
@@ -72,7 +87,7 @@ public class ViewInteractionFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		datasource.open();
+		datasource.openRead();
 		expListItems = SetStandardGroups();
 		expAdapter = new ExpandListAdapterFragmentInteractions(getActivity(),
 				expListItems);

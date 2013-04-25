@@ -56,12 +56,13 @@ public class NewFollowUpFragment extends Fragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 
+		
 		contactId = getArguments().getLong("contactId");
 
 		datasource = new ContactsDataSource(getActivity());
 		datasource.open();
-		super.onCreate(savedInstanceState);
 		final Calendar c = Calendar.getInstance();
 		year = c.get(Calendar.YEAR);
 		month = c.get(Calendar.MONTH);
