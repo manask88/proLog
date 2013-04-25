@@ -9,7 +9,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 
 	private static final String LOGTAG = ContactsDBOpenHelper.class.getSimpleName();
 	private static final String DATABASE_NAME = "prolog.db";
-	private static final int DATABASE_VERSION = 8; /* change it whenever making changes on db scheleton*/
+	private static final int DATABASE_VERSION = 9; /* change it whenever making changes on db scheleton*/
 	
 	
 	
@@ -61,7 +61,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_FOLLOW_UPS_CONTACT_ID = "contactId";
 	public static final String COLUMN_FOLLOW_UPS_TITLE = "title";
 	public static final String COLUMN_FOLLOW_UPS_NOTES = "notes";
-
+	public static final String COLUMN_FOLLOW_UPS_DATE = "date";
 	
 	
 
@@ -115,6 +115,7 @@ public class ContactsDBOpenHelper extends SQLiteOpenHelper {
 			COLUMN_FOLLOW_UPS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 			COLUMN_FOLLOW_UPS_CONTACT_ID + " INTEGER, " +
 			COLUMN_FOLLOW_UPS_TITLE + " TEXT, " +
+			COLUMN_FOLLOW_UPS_DATE + " TEXT, " + 
 			COLUMN_FOLLOW_UPS_NOTES + " TEXT " +
 			")";
 	

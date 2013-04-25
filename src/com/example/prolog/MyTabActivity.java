@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 public class MyTabActivity extends Activity {
 
 	
-	public static final String LOGTAG=MyTabActivity.class.getSimpleName();
+	public static final String TAG=MyTabActivity.class.getSimpleName();
 	public long contactId;
+	ActionBar actionBar;
+	int tabId;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setTitle("proLog");
@@ -22,9 +25,9 @@ public class MyTabActivity extends Activity {
 	
 		Bundle b = getIntent().getExtras();
 		contactId = b.getLong("contactId");
-		Log.i(LOGTAG,"Contact id: "+ contactId );
+		Log.i(TAG,"Contact id: "+ contactId );
 		
-		ActionBar actionBar = getActionBar();
+		actionBar = getActionBar();
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -48,14 +51,64 @@ public class MyTabActivity extends Activity {
 		tab = actionBar.newTab();
 		tab.setText(label3);
 		TabListener<ViewFollowUpFragment> tl3 = new TabListener<ViewFollowUpFragment>(this,
-				label2, ViewFollowUpFragment.class);
+				label3, ViewFollowUpFragment.class);
 		tab.setTabListener(tl3);
 		actionBar.addTab(tab);
-
+		
+		
+		
+		
+		
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		Log.i(TAG,"onActivityResult");
+
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Bundle  b = getIntent().getExtras();
+		Log.i(TAG,"onResume");
+		Log.i(TAG,"followUpId: "+ b.getLong(Commons.FOLLOWUP_ID) );
+		Log.i(TAG,"contactId: "+ b.getLong(Commons.CONTACT_ID) );
+
+		
+		
+		tabId = b.getInt(Commons.TAB_ID);
+		Log.i(TAG,"tabId:"+tabId);
+		switch(tabId)
+		{
+		case Commons.TAB_ID_FOLLOWUP_DETAIL: 
+		
+			
+			String label3 = getResources().getString(R.string.tab_label_3);
+			Tab tab = actionBar.newTab();
+			tab.setText(label3);
+			TabListener<ViewFollowUpDetailsFragment> tl3 = new TabListener<ViewFollowUpDetailsFragment>(this,
+					label3, ViewFollowUpDetailsFragment.class);
+			tab.setTabListener(tl3);
+			actionBar.removeTabAt(2);
+			actionBar.addTab(tab, 2, true);
+		 //actionBar.setSelectedNavigationItem(2);
 	
-	
+		 
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 	private class TabListener<T extends Fragment> implements
 			ActionBar.TabListener {
 		private Fragment mFragment;
@@ -87,6 +140,15 @@ public class MyTabActivity extends Activity {
 				Bundle b = new Bundle(); 
 				b.putLong("contactId", contactId); 
 		       // mFragment.setArguments(args); 
+				
+				switch (tabId)
+				{
+				case Commons.TAB_ID_FOLLOWUP_DETAIL:
+					
+					b.putLong(Commons.FOLLOWUP_ID, getIntent().getExtras().getLong(Commons.FOLLOWUP_ID)); 
+					Log.i(TAG,"followUpId: "+ getIntent().getExtras().getLong(Commons.FOLLOWUP_ID) );
+				}
+				
 				mFragment = Fragment.instantiate(mActivity, mClass.getName(),b);
 			
 			//mFragment = Fragment.instantiate(mActivity, mClass.getName(), (Bundle) tab.getTag());

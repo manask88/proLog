@@ -1,5 +1,12 @@
 package com.example.prolog;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import com.example.prolog.db.ContactsDataSource;
+import com.example.prolog.model.Contact;
+import com.example.prolog.model.FollowUp;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +22,8 @@ import android.widget.Toast;
 
 public class NotificationService extends Service{
 
+	
+
 	private  Notifier notifier;
 	static final String TAG=NotificationService.class.getSimpleName();
 
@@ -28,6 +37,7 @@ public class NotificationService extends Service{
 		Toast.makeText(this,"Service created at " + "asdsd", Toast.LENGTH_LONG).show();
 		
 		
+
 		
 		
 		
@@ -35,12 +45,7 @@ public class NotificationService extends Service{
 		
 		
 	}
-	private void showNotification() {
-
-
-		
-		
-		    }
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
@@ -62,10 +67,18 @@ public class NotificationService extends Service{
 	private class Notifier extends Thread {
 
 		Context context;
-
+		private ContactsDataSource datasource;
+		private ArrayList<FollowUp> followUps;
+		final Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH)+1;
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		
+		
+		
 		public Notifier(Context context) {
-this.context=context;
-			
+			this.context=context;
+			datasource=new ContactsDataSource(context);	
 		}
 
 		public void run() {
@@ -75,30 +88,52 @@ this.context=context;
 		while (true)
 		{
 			
+			datasource.open();
 			
 			
-			Intent intent = new Intent(context, MainActivity.class);
-			PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
+			followUps=datasource.findFollowUpsbyDate(month + "/" + day + "/" + year);
+			
+			
+			for (FollowUp followUp:followUps)
+			{
+			
+			Contact contact=datasource.findContactbyId(followUp.getContactId());
+				
+			Intent intent = new Intent(context, MyTabActivity.class);
+			intent.putExtra(Commons.TAB_ID, Commons.TAB_ID_FOLLOWUP_DETAIL);
+			intent.putExtra(Commons.FOLLOWUP_ID, followUp.getId());
+			intent.putExtra(Commons.CONTACT_ID, contact.getId());
+			//intent.putExtra(Commons.FOLLOWUP_ID, followUp.getId());
+			PendingIntent pIntent = PendingIntent.getActivity(context, Long.valueOf(followUp.getId()).intValue(), intent, 0);
 
 			// Build notification
 			// Actions are just fake
-			Notification noti = new Notification.Builder(context)
-			        .setContentTitle("New mail from " + "test@gmail.com")
+			/*Notification noti = new Notification.Builder(context)
+			        .setContentTitle("Follow Up  id:"+followUp.getId()+" -" +  "today"+followUp.getTitle())
 			        .setContentText("Subject")
 			        .setSmallIcon(R.drawable.face)
 			        .setContentIntent(pIntent)
 			        .addAction(R.drawable.face, "Call", pIntent)
 			        .addAction(R.drawable.face, "More", pIntent)
-			        .addAction(R.drawable.face, "And more", pIntent).build();
-			    
-			  
+			        .addAction(R.drawable.face, "And more", pIntent).build();*/
+			String contentTitle="Follow Up due: "+followUp.getTitle();
+			String contentText= "Contact:"+contact.getName();
+	        Notification notifyDetails = new Notification(R.drawable.face, "New Alert!", System.currentTimeMillis());
+	        notifyDetails.setLatestEventInfo(getApplicationContext(), contentTitle, contentText, pIntent);
+
+			
 			NotificationManager notificationManager = 
 			  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 			// Hide the notification after its selected
-			noti.flags |= Notification.FLAG_AUTO_CANCEL;
+			notifyDetails.flags |= Notification.FLAG_AUTO_CANCEL;
 
-			notificationManager.notify(0, noti); 
+			notificationManager.notify(Long.valueOf(followUp.getId()).intValue(), notifyDetails); 
+			
+			
+			
+			}
+			
 			
 			try {
 				Thread.sleep(1000);
@@ -106,6 +141,9 @@ this.context=context;
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+			
 			
 		}	
 		

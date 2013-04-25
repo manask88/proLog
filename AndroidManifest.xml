@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="16" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="14" />
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
@@ -76,7 +76,7 @@
         </activity>
         <activity android:name="com.example.prolog.ContactListInteractionsAddContactActivity" >
         </activity>
-        <activity android:name="com.example.prolog.NewFollowUpActivity" >
+        <activity android:name="com.example.prolog.NewFollowUpFragment" >
         </activity>
         <activity android:name="com.example.prolog.ViewFullInteractionActivity" >
         </activity>

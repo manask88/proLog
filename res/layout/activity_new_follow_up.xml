@@ -1,4 +1,4 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +7,13 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".NewFollowUpActivity" >
+    tools:context=".NewInteracionActivity" >
+
+
+<TableLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <TableRow
         android:id="@+id/tableRow1"
@@ -30,7 +36,7 @@
         android:layout_height="wrap_content" >
 
         <EditText
-            android:id="@+id/newFollowUpActivityEditTextTitle"
+            android:id="@+id/editTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -59,7 +65,7 @@
     <LinearLayout >
     
         <EditText
-            android:id="@+id/newFollowUpActivityDateEditText"
+            android:id="@+id/editTextDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -69,15 +75,7 @@
             android:inputType="date"
             android:width="@dimen/hundredten" />
 
-        <Button
-            android:id="@+id/NewFollowUpActivityDatePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/fifty"
-            android:layout_marginRight="@dimen/twentydp"
-            android:text="@string/pick_date"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+    
     
 </LinearLayout>
     <TableRow
@@ -94,17 +92,17 @@
             android:id="@+id/radioButtonDay"
             android:text="@string/oneday"
             android:textColor="@color/white"
-           	android:onClick="onRadioButtonClicked"/>
+           	/>
         <RadioButton
             android:id="@+id/radioButtonWeek"
             android:text="@string/oneweek"
             android:textColor="@color/white"
-           	android:onClick="onRadioButtonClicked"/>
+           	/>
          <RadioButton
             android:id="@+id/radioButtonMonth"  
             android:text="@string/onemonth"
             android:textColor="@color/white"
-            android:onClick="onRadioButtonClicked"
+            
            />
 </RadioGroup>
 </TableRow>
@@ -126,7 +124,7 @@
     </TableRow>
 
         <EditText
-            android:id="@+id/newFollowUpActivityEditTextText"
+            android:id="@+id/editTextNotes"
             style="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,7 +137,7 @@
             android:textAlignment="textStart" />
 
         <Button
-            android:id="@+id/newFollowUpActivitySaveButton"
+            android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -150,7 +148,7 @@
             android:textColor="@color/white" />
         
         <Button
-            android:id="@+id/newFollowUpActivityCancelButton"
+            android:id="@+id/buttonCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -161,3 +159,4 @@
             android:textColor="@color/white" />
 
 </TableLayout>
+</RelativeLayout>

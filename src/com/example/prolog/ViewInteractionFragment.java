@@ -33,7 +33,7 @@ public class ViewInteractionFragment extends Fragment {
 
 		super.onActivityCreated(savedInstanceState);
 		datasource = new ContactsDataSource(getActivity());
-		expandList = (ExpandableListView) getView().findViewById(
+		expandList  = (ExpandableListView) getView().findViewById(
 				R.id.fragmentInteractionsExpList);
 
 		buttonAdd = (Button) getView().findViewById(

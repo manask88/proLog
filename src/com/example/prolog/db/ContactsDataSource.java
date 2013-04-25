@@ -59,6 +59,14 @@ public class ContactsDataSource {
 	private static final String[] allColumnsInteractionContacts = {
 		ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_CONTACT_ID,
 		ContactsDBOpenHelper.COLUMN_INTERACTION_CONTACTS_INTERACTION_ID };
+	
+	private static final String[] allColumnsFollowUps = {
+		ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_ID,
+		ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID,
+		ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_TITLE,
+		ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_NOTES,	
+		ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_DATE
+	};
 	public ContactsDataSource(Context context) {
 		dbhelper = new ContactsDBOpenHelper(context);
 
@@ -178,7 +186,7 @@ public class ContactsDataSource {
 		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID, followUp.getContactId());
 		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_TITLE, followUp.getTitle());
 		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_NOTES, followUp.getNotes());
-
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_DATE, followUp.getDate());
 
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
 				null, values);
@@ -639,6 +647,103 @@ public class ContactsDataSource {
 
 	}
 
+	public FollowUp findFollowUpbyContactId(long contactId) {
+
+		FollowUp followUp = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
+				allColumnsFollowUps, ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID + "=?",
+				new String[] { Long.toString(contactId) }, null, null, null);
+
+		if (cursor != null) {
+
+			if (cursor.moveToFirst()) {
+
+				followUp = setFollowUpfromCursor(cursor);
+
+			}
+			cursor.close();
+		}
+
+		return followUp;
+
+	}
+
+	public ArrayList<FollowUp> findFollowUpsbyDate(String date) {
+		ArrayList<FollowUp> followUps = new ArrayList<FollowUp>();
+		FollowUp followUp = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
+				allColumnsFollowUps, ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_DATE + "=?",
+				new String[] { date }, null, null, null);
+
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
+
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				followUp = setFollowUpfromCursor(cursor);
+				
+
+				followUps.add(followUp);
+
+			}
+
+		}
+		cursor.close();
+		Log.i(TAG, "Filled" + followUps.size() + " followUps in arraylist");
+
+		return followUps;
+
+	}
+
+	public FollowUp findFollowUpbyId(long id) {
+
+		FollowUp followUp = null;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
+				allColumnsFollowUps, ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_ID + "=?",
+				new String[] { Long.toString(id) }, null, null, null);
+
+		if (cursor != null) {
+
+			if (cursor.moveToFirst()) {
+
+				followUp = setFollowUpfromCursor(cursor);
+
+			}
+			cursor.close();
+		}
+
+		return followUp;
+
+	}
+	
+	public ArrayList<FollowUp> findFollowUpsbyContactId(long contactId) {
+		ArrayList<FollowUp> followUps = new ArrayList<FollowUp>();
+		FollowUp followUp;
+		Cursor cursor = database.query(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
+				allColumnsFollowUps, ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID + "=?", new String[] { Long.toString(contactId) }, null, null, null);
+
+		Log.i(TAG, "Returned" + cursor.getCount() + " rows");
+
+		if (cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				followUp = setFollowUpfromCursor(cursor);
+				
+
+				followUps.add(followUp);
+
+			}
+
+		}
+		cursor.close();
+		Log.i(TAG, "Filled" + followUps.size() + " followUps in arraylist");
+
+	
+		return followUps;
+
+	}
+	
+	
+	
+	
 	public Contact findContactbyId(long id) {
 
 		Contact contact = null;
@@ -824,7 +929,22 @@ public class ContactsDataSource {
 		
 	}
 	
-	
+	private FollowUp setFollowUpfromCursor (Cursor cursor){
+		FollowUp	followUp = new FollowUp();
+		
+		followUp.setDate(cursor.getString(cursor
+				.getColumnIndex(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_DATE)));
+		followUp.setTitle(cursor.getString(cursor
+				.getColumnIndex(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_TITLE)));
+		followUp.setNotes(cursor.getString(cursor
+				.getColumnIndex(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_NOTES)));
+		followUp.setId(cursor.getLong(cursor
+				.getColumnIndex(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_ID)));
+		followUp.setContactId(cursor.getLong(cursor
+				.getColumnIndex(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID)));
+		
+		return followUp;
+	}
 	public void deleteContactCompletely(long contactId ){
 		deleteInteractionContactsByContactId(contactId);
 		deleteGroupContactsByContactId(contactId);
