@@ -86,7 +86,7 @@ public class NotificationService extends Service{
 		
 		
 		//while (true)
-		{
+			{
 			
 			datasource.open();
 			

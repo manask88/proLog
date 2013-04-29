@@ -32,7 +32,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ContactListNewInteractionActivity extends Activity {
+public class ContactListNewInteractionOrFollowUpActivity extends Activity {
 	private Context context = this;
 	private ContactsDataSource datasource;
 	private ArrayList<Contact> contacts;
@@ -40,7 +40,7 @@ public class ContactListNewInteractionActivity extends Activity {
 	private SearchView searchView;
 	private ListView lv;
 	private TextView textView;
-	public static final String TAG = ContactListNewInteractionActivity.class
+	public static final String TAG = ContactListNewInteractionOrFollowUpActivity.class
 			.getSimpleName();
 	private long groupId;
 
@@ -85,10 +85,17 @@ public class ContactListNewInteractionActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-							
-				Intent i = new Intent(context,NewInteractionActivity.class);
-				i.putExtra("contactId", contactsSearchResult.get(position).getId());
-				startActivity(i);
+				int next_action_id=getIntent().getExtras().getInt(Commons.NEXT_ACTION);		
+				//Intent i = new Intent(context,NewInteractionActivity.class);
+				Intent intent = new Intent(context, MyTabActivity.class);
+				intent.putExtra(Commons.CONTACT_ID, contactsSearchResult.get(position).getId());
+				
+				if (next_action_id==Commons.NEXT_ACTION_NEW_INTERACTION)
+				intent.putExtra(Commons.TAB_ID, Commons.TAB_ID_ADD_INTERACTION);
+				if (next_action_id==Commons.NEXT_ACTION_NEW_FOLLOW_UP)
+				intent.putExtra(Commons.TAB_ID, Commons.TAB_ID_NEW_FOLLOW_UP);
+
+				startActivity(intent);
 				finish();
 
 			}
@@ -120,7 +127,7 @@ public class ContactListNewInteractionActivity extends Activity {
 				
 				
 				lv.setAdapter(new ContactListAdapter(
-						ContactListNewInteractionActivity.this,
+						ContactListNewInteractionOrFollowUpActivity.this,
 						R.id.activityContactListTextView, contactsSearchResult));
 				return true;
 			}

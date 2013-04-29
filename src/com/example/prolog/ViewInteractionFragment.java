@@ -42,8 +42,8 @@ public class ViewInteractionFragment extends Fragment {
 				R.id.fragmentInteractionsAddButton);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent i = new Intent(getActivity().getBaseContext(),
-						NewInteractionActivity.class);
+				/*Intent i = new Intent(getActivity().getBaseContext(),
+						NewInteractionActivity.class);*/
 				long contactId = getArguments().getLong("contactId");
 				
 				/*i.putExtra("contactId", contatcId);

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
-	private ImageButton addNewContactBtn, addNewInteractionBtn;
+	private ImageButton addNewContactBtn, addNewInteractionBtn, addFollowUpBtn;
 	private ImageButton viewContactListBtn;
 	private ImageButton viewGroupListBtn;
 	private Context context = this;
@@ -23,9 +23,30 @@ public class MainActivity extends Activity {
 		
 		addNewInteractionBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(context,ContactListNewInteractionActivity.class));
+				
+				Intent intent = new Intent(context,ContactListNewInteractionOrFollowUpActivity.class);
+				intent.putExtra(Commons.NEXT_ACTION,Commons.NEXT_ACTION_NEW_INTERACTION);
+				startActivity(intent);
+			
+				
+				
 			}
 		});
+		
+		addFollowUpBtn = (ImageButton) findViewById(R.id.buttonFollowUp);
+		addFollowUpBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				
+				Intent intent = new Intent(context,ContactListNewInteractionOrFollowUpActivity.class);
+				intent.putExtra(Commons.NEXT_ACTION,Commons.NEXT_ACTION_NEW_FOLLOW_UP);
+				startActivity(intent);
+			
+				
+				
+			}
+		});
+		
+		
 		addNewContactBtn = (ImageButton) findViewById(R.id.add_new_contact);
 		addNewContactBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

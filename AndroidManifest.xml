@@ -54,7 +54,7 @@
         </activity>
         <activity android:name="com.example.prolog.ContactViewActivity" >
         </activity>
-        <activity android:name="com.example.prolog.ContactListNewInteractionActivity" >
+        <activity android:name="com.example.prolog.ContactListNewInteractionOrFollowUpActivity" >
         </activity>
         <activity android:name="com.example.prolog.ContactListActivity" >
         </activity>

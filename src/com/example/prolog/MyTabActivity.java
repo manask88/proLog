@@ -77,8 +77,10 @@ public class MyTabActivity extends Activity {
 		Log.i(TAG,"followUpId: "+ b.getLong(Commons.FOLLOWUP_ID) );
 		Log.i(TAG,"contactId: "+ b.getLong(Commons.CONTACT_ID) );
 
-		
-		
+		String label3 = getResources().getString(R.string.tab_label_3);
+		String label2 = getResources().getString(R.string.tab_label_2);
+
+		Tab tab = actionBar.newTab();
 		tabId = b.getInt(Commons.TAB_ID);
 		Log.i(TAG,"tabId:"+tabId);
 		switch(tabId)
@@ -86,17 +88,35 @@ public class MyTabActivity extends Activity {
 		case Commons.TAB_ID_FOLLOWUP_DETAIL: 
 		
 			
-			String label3 = getResources().getString(R.string.tab_label_3);
-			Tab tab = actionBar.newTab();
+			tab = actionBar.newTab();
 			tab.setText(label3);
 			TabListener<ViewFollowUpDetailsFragment> tl3 = new TabListener<ViewFollowUpDetailsFragment>(this,
 					label3, ViewFollowUpDetailsFragment.class);
 			tab.setTabListener(tl3);
 			actionBar.removeTabAt(2);
 			actionBar.addTab(tab, 2, true);
+			break;
 		 //actionBar.setSelectedNavigationItem(2);
-	
-		 
+		case Commons.TAB_ID_NEW_FOLLOW_UP: 
+		
+			
+			tab.setText(label3);
+			TabListener<NewFollowUpFragment> tl3_new_follow_up = new TabListener<NewFollowUpFragment>(this,
+					label3, NewFollowUpFragment.class);
+			tab.setTabListener(tl3_new_follow_up);
+			actionBar.removeTabAt(2);
+			actionBar.addTab(tab, 2, true);
+			break;
+		case Commons.TAB_ID_ADD_INTERACTION: 
+			
+			tab.setText(label2);
+			TabListener<NewInteractionFragment> tl2 = new TabListener<NewInteractionFragment>(this,
+					label2, NewInteractionFragment.class);
+			tab.setTabListener(tl2);
+			actionBar.removeTabAt(1);
+			actionBar.addTab(tab, 1, true);
+			break;
+			
 		}
 		
 		
@@ -147,6 +167,13 @@ public class MyTabActivity extends Activity {
 					
 					b.putLong(Commons.FOLLOWUP_ID, getIntent().getExtras().getLong(Commons.FOLLOWUP_ID)); 
 					Log.i(TAG,"followUpId: "+ getIntent().getExtras().getLong(Commons.FOLLOWUP_ID) );
+					break;
+				case Commons.TAB_ID_ADD_INTERACTION:	
+					b.putLong(Commons.CONTACT_ID, getIntent().getExtras().getLong(Commons.CONTACT_ID)); 
+					break;
+				case Commons.TAB_ID_NEW_FOLLOW_UP:	
+					b.putLong(Commons.CONTACT_ID, getIntent().getExtras().getLong(Commons.CONTACT_ID)); 
+					break;
 				}
 				
 				mFragment = Fragment.instantiate(mActivity, mClass.getName(),b);

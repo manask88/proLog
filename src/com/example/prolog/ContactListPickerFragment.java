@@ -242,7 +242,7 @@ public class ContactListPickerFragment extends DialogFragment {
 				 */
 
 				if (contactIdsArray == null || contactIdsArray.length <= 0) {
-					otherParticipantsTextView.setText("Empty");
+					otherParticipantsTextView.setText(" Empty");
 
 				} else {
 					otherParticipantsTextView.setText("");
