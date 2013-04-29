@@ -9,119 +9,106 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".NewInteracionActivity" >
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-<TableLayout 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/newFollowUpActivityTitle"
+        <TableRow
+            android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/newfollowup"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" >
 
-    </TableRow>
+            <TextView
+                android:id="@+id/newFollowUpActivityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/newfollowup"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white" />
+        </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <EditText
-            android:id="@+id/editTextTitle"
+        <TableRow
+            android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/Title"
-            android:textColor="@color/white" >
+            android:layout_height="wrap_content" >
 
-            <requestFocus />
-        </EditText>
+            <EditText
+                android:id="@+id/editTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="@string/Title" >
+            </EditText>
+        </TableRow>
 
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/newFollowUpActivityTextViewDate"
+        <TableRow
+            android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Date"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" >
 
-    </TableRow>
+            <TextView
+                android:id="@+id/newFollowUpActivityTextViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Date"
+                android:textColor="@color/white" />
+        </TableRow>
 
-    <LinearLayout >
-    
-        <EditText
-            android:id="@+id/editTextDate"
+        <LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="left"
+                android:hint="@string/Date"
+                android:inputType="date"
+                android:width="@dimen/hundredten" />
+        </LinearLayout>
+
+        <TableRow
+            android:id="@+id/tableRow4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:ems="10"
-            android:gravity="left"
-            android:hint="@string/Date"
-            android:inputType="date"
-            android:width="@dimen/hundredten" />
+            android:layout_height="wrap_content" >
+        </TableRow>
 
-    
-    
-</LinearLayout>
-    <TableRow
-        android:id="@+id/tableRow4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        <TableRow>
 
-    </TableRow>
+            <RadioGroup android:id="@+id/radioGroup" >
 
+                <RadioButton
+                    android:id="@+id/radioButtonDay"
+                    android:text="@string/oneday"
+                    android:textColor="@color/white" />
 
-<TableRow>
-   <RadioGroup android:id="@+id/radioGroup">
-        <RadioButton
-            android:id="@+id/radioButtonDay"
-            android:text="@string/oneday"
-            android:textColor="@color/white"
-           	/>
-        <RadioButton
-            android:id="@+id/radioButtonWeek"
-            android:text="@string/oneweek"
-            android:textColor="@color/white"
-           	/>
-         <RadioButton
-            android:id="@+id/radioButtonMonth"  
-            android:text="@string/onemonth"
-            android:textColor="@color/white"
-            
-           />
-</RadioGroup>
-</TableRow>
-    
+                <RadioButton
+                    android:id="@+id/radioButtonWeek"
+                    android:text="@string/oneweek"
+                    android:textColor="@color/white" />
 
-    <TableRow
-        android:id="@+id/tableRow8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+                <RadioButton
+                    android:id="@+id/radioButtonMonth"
+                    android:text="@string/onemonth"
+                    android:textColor="@color/white" />
+            </RadioGroup>
+        </TableRow>
 
-        <TextView
-            android:id="@+id/textView3"
+        <TableRow
+            android:id="@+id/tableRow8"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/note"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" >
 
-    </TableRow>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/note"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white" />
+        </TableRow>
 
         <EditText
             android:id="@+id/editTextNotes"
@@ -135,28 +122,24 @@
             android:inputType="textMultiLine"
             android:minHeight="70dp"
             android:textAlignment="textStart" />
+    </TableLayout>
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/fifty"
-            android:layout_marginRight="@dimen/fifty"
-            android:layout_marginTop="@dimen/fivedp"
-            android:text="@string/save"
-            android:textColor="@color/white" />
-        
-        <Button
-            android:id="@+id/buttonCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/fifty"
-            android:layout_marginRight="@dimen/fifty"
-            android:layout_marginTop="@dimen/fivedp"
-            android:text="@string/Cancel"
-            android:textColor="@color/white" />
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/save"
+        android:textColor="@color/white" />
 
-</TableLayout>
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/Cancel"
+        android:textColor="@color/white" />
+
 </RelativeLayout>

@@ -181,50 +181,6 @@ public class NewInteractionFragment extends Fragment {
 		datasource.close();
 	}
 
-	//@Override
-	public void onNewIntent(Intent intent) {
-		Log.i(TAG, "onNewIntent");
-		datasource.open();
-		Bundle b = intent.getExtras();
-		String calledActivity = b.getString("calledActivity");
-
-		if (calledActivity != null
-				&& calledActivity
-						.equals(ContactListInteractionsAddContactActivity.TAG)) {
-			contactIds = b.getLongArray("contactIds");
-
-			if (contactIds == null || contactIds.length <= 0)
-				otherParticipants.setText("Empty");
-			else {
-				otherParticipants.setText("");
-				for (int i = 0; i < contactIds.length; i++) {
-					Contact contact = datasource.findContactbyId(contactIds[i]);
-
-					if (contact != null) {
-						otherParticipants.setText(otherParticipants.getText()
-								.toString() + " " + contact.getName());
-					}
-				}
-
-			}
-
-			/*
-			 * if (interactionContacts.size() > 0)
-			 * otherParticipants.setText(""); else
-			 * otherParticipants.setText("Empty");
-			 * 
-			 * for (Contact contact : interactionContacts)
-			 * 
-			 * {
-			 * 
-			 * otherParticipants.setText(otherParticipants.getText() .toString()
-			 * + " " + contact.getName()); Log.i(TAG, "other contacts" +
-			 * contact.getName());
-			 * 
-			 * }
-			 */
-		}
-
-	}
+	
 
 }

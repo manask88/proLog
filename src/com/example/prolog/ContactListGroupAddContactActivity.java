@@ -41,7 +41,7 @@ public class ContactListGroupAddContactActivity extends Activity {
 	private ArrayList<Contact> contactsSearchResult;
 	private SearchView searchView;
 	private ListView lv;
-	private Button buttonAdd, buttonCancel, buttonSave;
+	private Button  buttonCancel, buttonSave;
 	private TextView textView;
 	public static final String TAG = ContactListGroupAddContactActivity.class
 			.getSimpleName();
@@ -59,7 +59,6 @@ public class ContactListGroupAddContactActivity extends Activity {
 		textView.setText("Contacts");
 		searchView = (SearchView) findViewById(R.id.searchView);
 		lv = (ListView) findViewById(android.R.id.list);
-		buttonAdd = (Button) findViewById(R.id.buttonAdd);
 
 		Bundle b = getIntent().getExtras();
 		groupId = b.getLong("groupId");
@@ -109,6 +108,11 @@ public class ContactListGroupAddContactActivity extends Activity {
 		}
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
+		
+
+		TextView empty = (TextView) findViewById(R.id.empty);
+	
+		lv.setEmptyView(empty);
 		lv.setAdapter(new ContactListAdapterWithCheckBox(this,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
@@ -168,11 +172,7 @@ public class ContactListGroupAddContactActivity extends Activity {
 			}
 		});
 
-		buttonAdd.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context, AddNewContactActivity.class));
-			}
-		});
+		
 
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 

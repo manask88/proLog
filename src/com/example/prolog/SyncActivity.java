@@ -96,6 +96,7 @@ public class SyncActivity extends Activity {
 	private ExpandableListView ExpandList;
 	private Button buttonSkip;
 	private Button buttonSync;
+	private boolean isLinkedInAuthenticated=false;
 	Activity activity = this;
 	LinkedInAccessToken accessToken;
 	
@@ -150,25 +151,7 @@ public class SyncActivity extends Activity {
 		StrictMode.setThreadPolicy(policy);
 		Log.i(TAG, "1 is checked");
 
-		final SharedPreferences pref = getSharedPreferences(OAUTH_PREF,
-				MODE_PRIVATE);
-		final String token = pref.getString(PREF_TOKEN, null);
-		final String tokenSecret = pref.getString(PREF_TOKENSECRET, null);
 		
-		
-		try {
-			if (token == null || tokenSecret == null) {
-				authenticationStart();
-			} else {
-				accessToken = new LinkedInAccessToken(token, tokenSecret);
-				// showCurrentUser(accessToken);
-				showConnections(accessToken);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Log.e(TAG, e.getMessage());
-		}
-		// linkedIn ends
 		 
 		 
 		
@@ -247,6 +230,34 @@ public class SyncActivity extends Activity {
 		ExpAdapter = new ExpandListAdapter(SyncActivity.this, ExpListItems);
 
 		ExpandList.setAdapter(ExpAdapter);
+		ExpandList.setOnGroupClickListener(new OnGroupClickListener(){
+
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View view,
+					int groupPosition, long id) {
+			if 	(groupPosition==1 && !isLinkedInAuthenticated)
+			{	final SharedPreferences pref = getSharedPreferences(OAUTH_PREF,
+						MODE_PRIVATE);
+				final String token = pref.getString(PREF_TOKEN, null);
+				final String tokenSecret = pref.getString(PREF_TOKENSECRET, null);
+				
+				
+				try {
+					if (token == null || tokenSecret == null) {
+						authenticationStart();
+					} else {
+						accessToken = new LinkedInAccessToken(token, tokenSecret);
+						// showCurrentUser(accessToken);
+						showConnections(accessToken);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Log.e(TAG, e.getMessage());
+				}
+			}
+				// linkedIn ends				
+				return false;
+			}});
 	}
 
 	@Override
@@ -502,7 +513,12 @@ public class SyncActivity extends Activity {
 	}
 
 	void finishAuthenticate(final Uri uri) {
+		
+		isLinkedInAuthenticated=true;
+
+		
 		new Thread() {
+			
 			@Override
 			public void run() {
 				Looper.prepare();

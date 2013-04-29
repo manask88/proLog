@@ -33,12 +33,11 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ContactListPickerFragment extends DialogFragment {
 
-	private EditText editText1;
 	private ArrayList<Contact> contacts, currentContacts;
 	private ArrayList<Contact> contactsSearchResult;
 	private long[] contactIdsArray;
 	private ContactsDataSource datasource;
-	private Button buttonAdd, buttonCancel, buttonSave;
+	private Button buttonCancel, buttonSave;
 	private TextView textView, otherParticipantsTextView;
 	private ListView lv;
 	private SearchView searchView;
@@ -89,7 +88,6 @@ public class ContactListPickerFragment extends DialogFragment {
 		textView.setText("Contacts");
 		searchView = (SearchView) view.findViewById(R.id.searchView);
 		lv = (ListView) view.findViewById(android.R.id.list);
-		buttonAdd = (Button) view.findViewById(R.id.buttonAdd);
 
 		// Log.i(TAG, "interactionId: " + interactionId);
 
@@ -160,6 +158,10 @@ public class ContactListPickerFragment extends DialogFragment {
 		}
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
 
+		TextView empty = (TextView) view.findViewById(R.id.empty);
+
+		lv.setEmptyView(empty);
+
 		lv.setAdapter(new ContactListAdapterWithCheckBox(context,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
@@ -209,12 +211,6 @@ public class ContactListPickerFragment extends DialogFragment {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				return true;
-			}
-		});
-
-		buttonAdd.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context, AddNewContactActivity.class));
 			}
 		});
 

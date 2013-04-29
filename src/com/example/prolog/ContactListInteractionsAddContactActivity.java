@@ -44,7 +44,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 	private ArrayList<Contact> contactsSearchResult;
 	private SearchView searchView;
 	private ListView lv;
-	private Button buttonAdd, buttonCancel, buttonSave;
+	private Button  buttonCancel, buttonSave;
 	private TextView textView;
 	public static final String TAG = ContactListInteractionsAddContactActivity.class
 			.getSimpleName();
@@ -62,8 +62,11 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 		textView = (TextView) findViewById(R.id.textView);
 		textView.setText("Contacts");
 		searchView = (SearchView) findViewById(R.id.searchView);
+		
+		
+		
+		
 		lv = (ListView) findViewById(android.R.id.list);
-		buttonAdd = (Button) findViewById(R.id.buttonAdd);
 
 		Log.i(TAG, "interactionId: " + interactionId);
 
@@ -146,7 +149,9 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 			contactsSearchResult.add(contact);
 		}
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
-
+		TextView empty = (TextView) findViewById(R.id.empty);
+		
+		lv.setEmptyView(empty);
 		lv.setAdapter(new ContactListAdapterWithCheckBox(this,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
@@ -200,11 +205,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 			}
 		});
 
-		buttonAdd.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context, AddNewContactActivity.class));
-			}
-		});
+		
 
 		buttonSave.setOnClickListener(new View.OnClickListener() {
 
@@ -213,7 +214,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 
 				Intent intent;
 
-				if (callingActivity.equals(NewInteractionActivity.TAG)) {
+				{
 
 					int i = 0;
 					for (Contact contact : contactsSearchResult) {
@@ -239,37 +240,7 @@ public class ContactListInteractionsAddContactActivity extends Activity {
 
 				}
 
-				else {
-
-					/*for (Contact contact : contactsSearchResult)
-						if (contact.isSelected())
-							datasource.createInteractionContacts_r(
-									interactionId, contact.getId());
-						else {
-
-							datasource.deleteInteractionContacts_r(
-									interactionId, contact.getId());
-						}
-*/
-					int i = 0;
-					for (Contact contact : contactsSearchResult) {
-						if (contact.isSelected()) {
-							i++;
-						}
-					}
-					
-					contactIdsArray = new long[i];
-					i = 0;
-					for (Contact contact : contactsSearchResult) {
-						if (contact.isSelected()) {
-							contactIdsArray[i]=contact.getId();
-							i++;
-						}
-					}
-					intent = new Intent(context, EditInteractionActivity.class);
-					intent.putExtra("contactIds", contactIdsArray);
-
-				}
+				
 
 				intent.putExtra("interactionId", interactionId);
 				intent.putExtra("calledActivity", TAG);

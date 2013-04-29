@@ -39,7 +39,6 @@ public class ContactListNewInteractionActivity extends Activity {
 	private ArrayList<Contact> contactsSearchResult;
 	private SearchView searchView;
 	private ListView lv;
-	private Button buttonAdd;
 	private TextView textView;
 	public static final String TAG = ContactListNewInteractionActivity.class
 			.getSimpleName();
@@ -49,7 +48,7 @@ public class ContactListNewInteractionActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setTitle("Contacts");
-		setContentView(R.layout.activity_contact_list);
+		setContentView(R.layout.activity_contact_list_new_interaction);
 
 		Log.i(TAG, "started ContactListGroupAddContactActivity");
 		datasource = new ContactsDataSource(this);
@@ -57,7 +56,6 @@ public class ContactListNewInteractionActivity extends Activity {
 		textView.setText("Contacts");
 		searchView = (SearchView) findViewById(R.id.searchView);
 		lv = (ListView) findViewById(android.R.id.list);
-		buttonAdd = (Button) findViewById(R.id.buttonAdd);
 
 	}
 
@@ -76,7 +74,9 @@ public class ContactListNewInteractionActivity extends Activity {
 		}
 
 		Collections.sort(contactsSearchResult, new ContactsCompareByName());
-
+		TextView empty = (TextView) findViewById(R.id.empty);
+		
+		lv.setEmptyView(empty);
 		lv.setAdapter(new ContactListAdapter(this,
 				R.id.activityContactListTextView, contactsSearchResult));
 		lv.setOnItemClickListener(new OnItemClickListener() {
@@ -116,6 +116,9 @@ public class ContactListNewInteractionActivity extends Activity {
 				Collections.sort(contactsSearchResult,
 						new ContactsCompareByName());
 
+				
+				
+				
 				lv.setAdapter(new ContactListAdapter(
 						ContactListNewInteractionActivity.this,
 						R.id.activityContactListTextView, contactsSearchResult));
@@ -128,11 +131,7 @@ public class ContactListNewInteractionActivity extends Activity {
 			}
 		});
 
-		buttonAdd.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(context, AddNewContactActivity.class));
-			}
-		});
+		
 	}
 
 	@Override

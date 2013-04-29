@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="164dp"
             android:layout_marginTop="20dp"
-            android:background="@color/grey"
+            android:background="@color/black"
             android:orientation="vertical" >
 
             <TextView
@@ -45,9 +45,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey"
-                    android:orientation="vertical"
-                    android:layout_weight=".33" >
+                    android:layout_weight=".33"
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
                     <ImageButton
                         android:id="@+id/add_new_contact"
@@ -55,12 +55,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:background="@color/black"
+                        android:src="@drawable/addnewcontact" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        
+                         android:gravity="center"
                         android:text="@string/addNew"
                         android:textColor="@color/white"
                         android:textSize="15sp" 
@@ -71,7 +72,6 @@
               	<LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey"
                     android:orientation="vertical"
                     android:layout_weight=".33" >
 
@@ -81,11 +81,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:background="@color/black"
+                        android:src="@drawable/viewlist" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                         android:gravity="center"
                         android:text="@string/viewList"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -94,7 +96,6 @@
 				<LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey"
                     android:orientation="vertical"
                     android:layout_weight=".33" >
 
@@ -104,11 +105,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:background="@color/black"
+                        android:src="@drawable/viewgroup" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                         android:gravity="center"
                         android:text="@string/viewGroups"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -124,7 +127,6 @@
             android:layout_width="match_parent"
             android:layout_height="164dp"
             android:layout_marginTop="20dp"
-            android:background="@color/grey"
             android:orientation="vertical" >
 
             <TextView
@@ -142,7 +144,6 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey"
                     android:orientation="vertical"
                     android:layout_weight=".5" >
 
@@ -152,12 +153,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:background="@color/black"
+                        android:src="@drawable/addnewinteraction" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        
+                         android:gravity="center"
                         android:text="@string/addNew"
                         android:textColor="@color/white"
                         android:textSize="15sp" 
@@ -168,7 +170,6 @@
               	<LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey"
                     android:orientation="vertical"
                     android:layout_weight=".5" >
 
@@ -177,12 +178,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginRight="12dp"
-                        android:src="@android:drawable/ic_input_add" />
+                        android:background="@color/black"
+                        android:src="@drawable/followup" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/followUps"
+                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
