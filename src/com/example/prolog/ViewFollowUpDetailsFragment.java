@@ -37,6 +37,8 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 
 	ContactsDataSource datasource;
 	Contact contact;
+	private ImageButton imageButtonEdit, imageButtonDelete;
+
 	public final static String TAG = ViewFollowUpDetailsFragment.class.getSimpleName();
 	long followUpId;
 	TextView textViewTitle, textViewNotes, textViewDate;
@@ -65,7 +67,11 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 		textViewNotes.setText(followUp.getNotes());
 		textViewDate.setText(followUp.getDate());
 
-		
+		 imageButtonEdit = (ImageButton) getActivity().findViewById(
+				R.id.imageButtonEdit);
+		 imageButtonDelete = (ImageButton) getActivity()
+				.findViewById(R.id.imageButtonDelete);
+
 
 		/*
 		ImageButton imagebuttonEdit = (ImageButton) getActivity().findViewById(
@@ -112,6 +118,30 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		datasource.open();
+		
+		
+		imageButtonEdit.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Bundle b = new Bundle();
+				b.putLong(Commons.FOLLOWUP_ID, followUpId);
+				EditFollowUpFragment editFollowUpFragment = new EditFollowUpFragment();
+				editFollowUpFragment.setArguments(b);
+				FragmentManager fmi = getFragmentManager();
+				FragmentTransaction ftu = fmi.beginTransaction();
+				ftu.replace(android.R.id.content, editFollowUpFragment)
+						.addToBackStack(null).commit();
+			}
+		});
+
+		imageButtonDelete.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				DialogFragment newFragment = MyAlertDialogFragment
+						.newInstance(followUpId);
+				newFragment.show(getFragmentManager(), "dialog");
+
+			}
+		});
+		
 	}
 
 	@Override
@@ -131,37 +161,37 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 
 	public static class MyAlertDialogFragment extends DialogFragment {
 
-		public static MyAlertDialogFragment newInstance(long contactId) {
+		public static MyAlertDialogFragment newInstance(long followUpId) {
 			MyAlertDialogFragment frag = new MyAlertDialogFragment();
 			Bundle args = new Bundle();
-			args.putLong("contactId", contactId);
+			args.putLong(Commons.FOLLOWUP_ID, followUpId);
 			frag.setArguments(args);
 			return frag;
 		}
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			final long contactId = getArguments().getLong("contactId");
+			final long followUpId = getArguments().getLong(Commons.FOLLOWUP_ID);
 
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					getActivity()).setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("Are you sure you want to delete this contact??");
+					.setTitle("Are you sure you want to delete this Follow Up?");
 			alertDialogBuilder.setPositiveButton(R.string.OK,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							ContactsDataSource datasource = new ContactsDataSource(
 									getActivity());
-							;
+							
 							datasource.open();
-							// TODO should also delete the groups in which the
-							// contact is in
-							// and anything else?
-							datasource.deleteContactCompletely(contactId);
+						
+							datasource.deleteFollowUpById(followUpId);
 							datasource.close();
-							getActivity().finish();
+							FragmentManager fmi = getFragmentManager();
+							fmi.popBackStack();
+							/*getActivity().finish();
 							startActivity(new Intent(getActivity(),
-									ContactListActivity.class));
+									ContactListActivity.class));*/
 
 						}
 					});

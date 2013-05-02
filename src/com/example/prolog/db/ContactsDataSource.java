@@ -194,11 +194,7 @@ public class ContactsDataSource {
 	}
 
 	public FollowUp createFollowUp(FollowUp followUp) {
-		ContentValues values = new ContentValues();
-		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID, followUp.getContactId());
-		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_TITLE, followUp.getTitle());
-		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_NOTES, followUp.getNotes());
-		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_DATE, followUp.getDate());
+		ContentValues values =  setContentValuesForFollowUp (followUp);
 
 		long insertid = database.insert(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
 				null, values);
@@ -206,6 +202,15 @@ public class ContactsDataSource {
 		Log.i(TAG, "FollowUp created with id " + followUp.getId());
 		return followUp;
 
+	}
+	
+	
+
+	
+	public void deleteFollowUpById(long id) {
+		database.delete(ContactsDBOpenHelper.TABLE_FOLLOW_UPS,
+				ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_ID + "=?",
+				new String[] { Long.toString(id) });
 	}
 	
 	public void deleteContactById(long id) {
@@ -300,6 +305,8 @@ public class ContactsDataSource {
 
 	}
 
+	
+	
 	public Group updateGroup(Group group) {
 		ContentValues values = new ContentValues();
 		values.put(ContactsDBOpenHelper.COLUMN_GROUPS_NAME, group.getName());
@@ -324,6 +331,15 @@ public class ContactsDataSource {
 		return interaction;
 	}
 
+	
+	public FollowUp updateFollowUp(FollowUp followUp) {
+		database.update(ContactsDBOpenHelper.TABLE_FOLLOW_UPS, setContentValuesForFollowUp(followUp),
+				ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_ID + "=?",
+				new String[] { Long.toString(followUp.getId()) });
+		Log.i(TAG, "Updated followUp with id " + followUp.getId());
+		return followUp;
+
+	}
 	
 
 	public ArrayList<Group> findAllGroups() {
@@ -940,7 +956,19 @@ public class ContactsDataSource {
 		return values;
 		
 	}
+	ContentValues setContentValuesForFollowUp (   FollowUp followUp){
+		ContentValues values = new ContentValues();
+
+		
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_CONTACT_ID, followUp.getContactId());
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_TITLE, followUp.getTitle());
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_NOTES, followUp.getNotes());
+		values.put(ContactsDBOpenHelper.COLUMN_FOLLOW_UPS_DATE, followUp.getDate());
 	
+		
+		return values;
+		
+	}
 	private FollowUp setFollowUpfromCursor (Cursor cursor){
 		FollowUp	followUp = new FollowUp();
 		

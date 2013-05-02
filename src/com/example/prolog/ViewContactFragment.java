@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ViewContactFragment extends Fragment {
+    ImageButton imagebuttonEdit,imagebuttonDelete;
 
 	ContactsDataSource datasource;
 	Contact contact;
@@ -119,10 +120,9 @@ public class ViewContactFragment extends Fragment {
             }
             
         }
-		
-		ImageButton imagebuttonEdit = (ImageButton) getActivity().findViewById(
+		 imagebuttonEdit = (ImageButton) getActivity().findViewById(
 				R.id.imageButtonEdit);
-		ImageButton imagebuttonDelete = (ImageButton) getActivity()
+		 imagebuttonDelete = (ImageButton) getActivity()
 				.findViewById(R.id.imageButtonDelete);
 
 		tvName.setText(contact.getName());
@@ -138,6 +138,16 @@ public class ViewContactFragment extends Fragment {
         Linkify.addLinks(tvLocation, Linkify.MAP_ADDRESSES);
 		
 
+		
+
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		datasource.open();
+		
 		imagebuttonEdit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Bundle b = new Bundle();
@@ -159,14 +169,6 @@ public class ViewContactFragment extends Fragment {
 
 			}
 		});
-
-	}
-
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		datasource.open();
 	}
 
 	@Override
@@ -200,7 +202,7 @@ public class ViewContactFragment extends Fragment {
 
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					getActivity()).setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("Are you sure you want to delete this contact??");
+					.setTitle("Are you sure you want to delete this Contact?");
 			alertDialogBuilder.setPositiveButton(R.string.OK,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,

@@ -154,9 +154,9 @@ public class NewInteractionFragment extends Fragment {
 					}
 				}
 
-				Intent i = new Intent(context, MyTabActivity.class);
+				/*Intent i = new Intent(context, MyTabActivity.class);
 				i.putExtra("contactId", contactId);
-				startActivity(i);
+				startActivity(i);*/
 				FragmentManager fmi = getFragmentManager();
 				fmi.popBackStack();
 			}

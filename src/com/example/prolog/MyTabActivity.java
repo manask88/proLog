@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 public class MyTabActivity extends Activity {
@@ -18,6 +19,17 @@ public class MyTabActivity extends Activity {
 	public long contactId;
 	ActionBar actionBar;
 	int tabId;
+	
+	
+	/* @Override
+	 public boolean onKeyDown(int keyCode, KeyEvent event) {
+	        if (keyCode == KeyEvent.KEYCODE_BACK) {
+	            finish();
+	            return true;
+	        }
+	        return super.onKeyDown(keyCode, event);
+	 }
+	*/
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setTitle("proLog");

@@ -180,7 +180,7 @@ public class ViewFullInteractionFragment extends Fragment {
 					getActivity())
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setTitle(
-							"Are you sure you want to delete this interaction?");
+							"Are you sure you want to delete this Interaction?");
 			alertDialogBuilder.setPositiveButton(R.string.OK,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog,
@@ -193,7 +193,9 @@ public class ViewFullInteractionFragment extends Fragment {
 
 							datasource.deleteInteractionContactsByInteractionIdAndContactId(interactionId, contactId);
 							
-							getActivity().finish();
+							//getActivity().finish();
+							FragmentManager fmi = getFragmentManager();
+							fmi.popBackStack();
 							/*only deleting relationship interaction contact, not the interaction itself*/
 
 						}

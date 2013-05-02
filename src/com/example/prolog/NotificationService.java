@@ -34,7 +34,7 @@ public class NotificationService extends Service{
 		this.notifier=new Notifier(this);
 		this.notifier.start();
 		Log.d(TAG,"on Create");
-		Toast.makeText(this,"Service created at " + "asdsd", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this,"Service created at " + "asdsd", Toast.LENGTH_LONG).show();
 		
 		
 
@@ -116,9 +116,9 @@ public class NotificationService extends Service{
 			        .addAction(R.drawable.face, "Call", pIntent)
 			        .addAction(R.drawable.face, "More", pIntent)
 			        .addAction(R.drawable.face, "And more", pIntent).build();*/
-			String contentTitle="Follow Up due: "+followUp.getTitle();
-			String contentText= "Contact:"+contact.getName();
-	        Notification notifyDetails = new Notification(R.drawable.face, "New Alert!", System.currentTimeMillis());
+			String contentTitle="Follow Up due today: "+followUp.getTitle();
+			String contentText= "Contact: "+contact.getName();
+	        Notification notifyDetails = new Notification(R.drawable.ic_launcher, "proLog: New Notification", System.currentTimeMillis());
 	        notifyDetails.setLatestEventInfo(getApplicationContext(), contentTitle, contentText, pIntent);
 
 			
