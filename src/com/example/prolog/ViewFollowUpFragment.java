@@ -27,7 +27,9 @@ public class ViewFollowUpFragment extends Fragment {
 	private ContactsDataSource datasource;
 	private Button buttonAdd;
  private ArrayList<FollowUp> followUps;
-	private ListView listView;
+	private Fragment fragment=this;
+	
+ private ListView listView;
 	private long contactId;
 	private Context context;
 	@Override
@@ -52,7 +54,7 @@ public class ViewFollowUpFragment extends Fragment {
 				newFollowUpFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
 				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, newFollowUpFragment)
+				ftu.replace(android.R.id.content, newFollowUpFragment).detach(fragment)
 						.addToBackStack(null).commit();
 				
 							
@@ -104,7 +106,7 @@ public class ViewFollowUpFragment extends Fragment {
 				viewFollowUpDetailsFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
 				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, viewFollowUpDetailsFragment)
+				ftu.replace(android.R.id.content, viewFollowUpDetailsFragment).detach(fragment)
 						.addToBackStack(null).commit();
 				/*Intent i = new Intent(context, MyTabActivity.class);
 				i.putExtra("contactId", contactsSearchResult.get(position)

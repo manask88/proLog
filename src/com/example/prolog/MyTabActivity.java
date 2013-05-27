@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyTabActivity extends Activity {
@@ -29,7 +31,12 @@ public class MyTabActivity extends Activity {
 	        }
 	        return super.onKeyDown(keyCode, event);
 	 }
+	 
+	 
 	*/
+	
+
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setTitle("proLog");
@@ -45,7 +52,11 @@ public class MyTabActivity extends Activity {
 
 		String label1 = getResources().getString(R.string.tab_label_1);
 		Tab tab = actionBar.newTab();
+		/*tab.setCustomView(R.layout.tabs_bg);
+		((TextView)tab.getCustomView().findViewById(R.id.tabsText)).setText(label1);
+		*/
 		tab.setText(label1);
+		
 		TabListener<ViewContactFragment> tl = new TabListener<ViewContactFragment>(this,
 				label1, ViewContactFragment.class);
 		tab.setTabListener(tl);
@@ -53,6 +64,10 @@ public class MyTabActivity extends Activity {
 
 		String label2 = getResources().getString(R.string.tab_label_2);
 		tab = actionBar.newTab();
+		/*tab.setCustomView(R.layout.tabs_bg);
+
+		((TextView)tab.getCustomView().findViewById(R.id.tabsText)).setText(label2);
+*/
 		tab.setText(label2);
 		TabListener<ViewInteractionFragment> tl2 = new TabListener<ViewInteractionFragment>(this,
 				label2, ViewInteractionFragment.class);
@@ -61,6 +76,9 @@ public class MyTabActivity extends Activity {
 		
 		String label3 = getResources().getString(R.string.tab_label_3);
 		tab = actionBar.newTab();
+		/*tab.setCustomView(R.layout.tabs_bg);
+		((TextView)tab.getCustomView().findViewById(R.id.tabsText)).setText(label3);*/
+
 		tab.setText(label3);
 		TabListener<ViewFollowUpFragment> tl3 = new TabListener<ViewFollowUpFragment>(this,
 				label3, ViewFollowUpFragment.class);
@@ -166,7 +184,8 @@ public class MyTabActivity extends Activity {
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
 			// Check if the fragment is already initialized
-			if (mFragment == null) {
+			//if (mFragment == null) {
+			{
 				// If not, instantiate and add it to the activity
 				//tab.setTag(contactId);
 				Bundle b = new Bundle(); 
@@ -192,10 +211,10 @@ public class MyTabActivity extends Activity {
 			
 			//mFragment = Fragment.instantiate(mActivity, mClass.getName(), (Bundle) tab.getTag());
 				ft.add(android.R.id.content, mFragment, mTag);
-			} else {
+			} /*else {
 				// If it exists, simply attach it in order to show it
 				ft.attach(mFragment);
-			}
+			}*/
 		}
 
 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {

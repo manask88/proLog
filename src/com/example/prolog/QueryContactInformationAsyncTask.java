@@ -77,7 +77,7 @@ public class QueryContactInformationAsyncTask extends
 
 		progressDialog = new ProgressDialog(context);
 		progressDialog.setTitle("Synchronizing");
-		progressDialog.setMessage("pelase wait");
+		progressDialog.setMessage("Please wait");
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setIndeterminate(false);
 

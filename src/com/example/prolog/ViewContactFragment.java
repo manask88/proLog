@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 public class ViewContactFragment extends Fragment {
     ImageButton imagebuttonEdit,imagebuttonDelete;
+	private Fragment fragment=this;
 
 	ContactsDataSource datasource;
 	Contact contact;
@@ -156,7 +157,7 @@ public class ViewContactFragment extends Fragment {
 				editContactFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
 				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, editContactFragment)
+				ftu.replace(android.R.id.content, editContactFragment).detach(fragment)
 						.addToBackStack(null).commit();
 			}
 		});

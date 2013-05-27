@@ -29,7 +29,7 @@ public class ViewInteractionFragment extends Fragment {
 	private ExpandableListView expandList;
 	private ExpandListAdapterFragmentInteractions expAdapter;
 	private ArrayList<ExpandListGroupFragmentInteractions> expListItems;
-
+	private Fragment fragment=this;
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 
@@ -57,7 +57,7 @@ public class ViewInteractionFragment extends Fragment {
 				newInteractionFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
 				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, newInteractionFragment)
+				ftu.replace(android.R.id.content, newInteractionFragment).detach(fragment)
 						.addToBackStack(null).commit();
 				
 				

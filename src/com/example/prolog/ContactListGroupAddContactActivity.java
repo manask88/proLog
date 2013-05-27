@@ -149,10 +149,10 @@ public class ContactListGroupAddContactActivity extends Activity {
 				for (int i = 0; i < contacts.size(); i++) {
 					if (contacts.get(i).getName().toLowerCase()
 							.contains(newText.toString().toLowerCase())
-							|| contacts.get(i).getCompany().toLowerCase()
+						/*	|| contacts.get(i).getCompany().toLowerCase()
 									.contains(newText.toString().toLowerCase())
 							|| contacts.get(i).getTitle().toLowerCase()
-									.contains(newText.toString().toLowerCase())) {
+									.contains(newText.toString().toLowerCase())*/) {
 						contactsSearchResult.add(contacts.get(i));
 					}
 				}

@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ViewFollowUpDetailsFragment extends Fragment {
+	private Fragment fragment=this;
 
 	ContactsDataSource datasource;
 	Contact contact;
@@ -128,7 +129,7 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 				editFollowUpFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
 				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, editFollowUpFragment)
+				ftu.replace(android.R.id.content, editFollowUpFragment).detach(fragment)
 						.addToBackStack(null).commit();
 			}
 		});
@@ -150,6 +151,7 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 		super.onPause();
 		datasource.close();
 	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -187,11 +189,18 @@ public class ViewFollowUpDetailsFragment extends Fragment {
 						
 							datasource.deleteFollowUpById(followUpId);
 							datasource.close();
-							FragmentManager fmi = getFragmentManager();
-							fmi.popBackStack();
+							/*FragmentManager fmi = getActivity().getFragmentManager();
+							FragmentTransaction ftu = fmi.beginTransaction();
+							ViewFollowUpFragment viewFollowUpFragment = new ViewFollowUpFragment();
+
+							ftu.replace(android.R.id.content, viewFollowUpFragment)
+									.addToBackStack(null).commit();		*/					
 							/*getActivity().finish();
 							startActivity(new Intent(getActivity(),
 									ContactListActivity.class));*/
+							
+							FragmentManager fmi = getFragmentManager();
+							fmi.popBackStack();
 
 						}
 					});

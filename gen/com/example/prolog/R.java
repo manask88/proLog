@@ -45,7 +45,7 @@ public final class R {
         public static final int ExpList=0x7f0a0046;
         public static final int TextView01=0x7f0a0002;
         public static final int TextView02=0x7f0a0001;
-        public static final int action_settings=0x7f0a005e;
+        public static final int action_settings=0x7f0a0060;
         public static final int activityAddNewContactCancelButton=0x7f0a0018;
         public static final int activityAddNewContactSaveButton=0x7f0a0017;
         public static final int activityAddNewFieldButton=0x7f0a0019;
@@ -92,7 +92,7 @@ public final class R {
         public static final int linearLayout5=0x7f0a0043;
         public static final int linearLayout6=0x7f0a0045;
         public static final int mainLinearLayoutMain=0x7f0a002b;
-        public static final int menu_settings=0x7f0a005d;
+        public static final int menu_settings=0x7f0a005f;
         public static final int newFollowUpActivityTextViewDate=0x7f0a0032;
         public static final int newFollowUpActivityTitle=0x7f0a0031;
         public static final int quickContactBadge=0x7f0a0005;
@@ -112,6 +112,8 @@ public final class R {
         public static final int tableRow7=0x7f0a0014;
         public static final int tableRow8=0x7f0a000c;
         public static final int tableRow9=0x7f0a0054;
+        public static final int tabsLayout=0x7f0a005d;
+        public static final int tabsText=0x7f0a005e;
         public static final int textView=0x7f0a001a;
         public static final int textView1=0x7f0a0000;
         public static final int textView11=0x7f0a0015;
@@ -170,6 +172,7 @@ public final class R {
         public static final int fragment_view_followups_detail=0x7f030019;
         public static final int fragment_view_followups_item=0x7f03001a;
         public static final int fragment_view_interactions=0x7f03001b;
+        public static final int tabs_bg=0x7f03001c;
     }
     public static final class menu {
         public static final int activity_main=0x7f090000;
@@ -275,13 +278,11 @@ public final class R {
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
- API 11 theme customizations can go here. 
 
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 

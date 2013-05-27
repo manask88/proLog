@@ -39,6 +39,8 @@ public class ViewFullInteractionFragment extends Fragment {
 	private TextView textViewDate,textViewType,textViewLocation,textViewNotes,textViewEvent;
 	private ImageButton imageButtonEdit, imagebuttonDelete;
 	CheckBox checkBoxFollowUp;
+	private Fragment fragment=this;
+
 	private ContactsDataSource datasource;
 	private Context context;
 	private ArrayList<Contact> interactionContacts;
@@ -90,7 +92,7 @@ public class ViewFullInteractionFragment extends Fragment {
 				editInteractionFragment.setArguments(b);
 				FragmentManager fmi = getFragmentManager();
 				FragmentTransaction ftu = fmi.beginTransaction();
-				ftu.replace(android.R.id.content, editInteractionFragment)
+				ftu.replace(android.R.id.content, editInteractionFragment).detach(fragment)
 						.addToBackStack(null).commit();
 			}
 
